@@ -17,7 +17,7 @@ public class Player extends Entity {
 		this.defense = 5;
 		this.speed = 1;
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
-		this.equipment.put("armor", new Weapon(ItemID.LEATHER_ARMOR));
+		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.put(new Potion(ItemID.SMALL_POTION), 3);
 	}
 
@@ -91,9 +91,12 @@ public class Player extends Entity {
 		System.out.println(player);
 
 		Weapon weapon = new Weapon(ItemID.IRON_SWORD);
-
 		player.inventory.put(weapon, 1);
+		Armor armor = new Armor(ItemID.DIAMOND_ARMOR);
+		player.inventory.put(armor, 1);
+
 		player.equipItem(weapon);
+		player.equipItem(armor);
 		System.out.println(player);
 
 	}
