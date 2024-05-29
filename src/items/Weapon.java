@@ -4,7 +4,7 @@ public class Weapon extends Item {
 	public int attack;
 
 	public Weapon(ItemID itemId) {
-		super("", null);
+		super("", itemId, null);
 		this.id = itemId;
 		switch (itemId) {
 		case WOODEN_SWORD:

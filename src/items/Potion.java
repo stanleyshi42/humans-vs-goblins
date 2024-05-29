@@ -4,7 +4,7 @@ public class Potion extends Item {
 	public int healing;
 
 	public Potion(ItemID itemId) {
-		super("", null);
+		super("", itemId, null);
 		switch (itemId) {
 		case SMALL_POTION:
 			this.setName("Small Potion");
