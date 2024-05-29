@@ -4,13 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class InventoryPanel extends JPanel {
     final int tileSize = 16;
@@ -20,9 +25,6 @@ public class InventoryPanel extends JPanel {
     final int maxScreenColumns = 3;
     final int maxScreenRows = 3;
 
-    final int screenWidth = scaledTileSize*maxScreenColumns;
-    final int screenHeight = scaledTileSize*maxScreenRows;
-
     ArrayList<Tile> inventoryTiles = new ArrayList<>();
 
     InventoryPanel() {
@@ -31,33 +33,36 @@ public class InventoryPanel extends JPanel {
             inventoryTiles.add(new Tile(scaledTileSize));
         }
 
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(500, 400));
+        this.setSize(new Dimension(500, 400));
+        //this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true);
         this.setVisible(true);
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(new EmptyBorder(10,10,10,10));
 
+        JPanel titleCont = new JPanel();
+        titleCont.setSize(new Dimension(400, 100));
         JLabel title = new JLabel("INVENTORY");
-        this.add(title);
+        //titleCont.setBackground(Color.BLACK);
+        // title.setBackground(Color.BLACK);
+        title.setForeground(Color.BLACK);
+        title.setFont(new Font("Sans-serif", Font.BOLD, 36));
+        titleCont.add(title);
+        this.add(titleCont);
+
+        JPanel tileCont = new JPanel();
+        tileCont.setLayout(new GridLayout(3, 3, 10, 5));
+        //tileCont.setBackground(Color.BLACK);
+        tileCont.setSize(new Dimension(300, 100));
+        tileCont.setPreferredSize(new Dimension(400, 300));
 
         for(Tile t: inventoryTiles) {
-            this.add(t);
+            t.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            tileCont.add(t);
         }
+        this.add(tileCont);
 
     }
-
-    // @Override
-    // protected void paintComponent(Graphics g) {
-        
-    //     Graphics2D g2 = (Graphics2D)g;
-    //     for(int i = 0; i < inventoryTiles.size(); i++) {
-    //         int row = i/maxScreenColumns;
-    //         int column = i%maxScreenColumns;
-    //         g2.setColor(Color.WHITE);
-    //         g2.fillRect(column*scaledTileSize, row*scaledTileSize, scaledTileSize, scaledTileSize);
-    //         g2.setColor(Color.BLACK);
-    //         g2.fillRect(column*scaledTileSize+2, row*scaledTileSize+2, scaledTileSize-4, scaledTileSize-4);
-    //     }
-    // }
 
 }
