@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 /**
  * GamePanel
  */
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Runnable {
 
     final int tileSize = 16;
     final int scale = 3;
@@ -24,6 +24,7 @@ public class GamePanel extends JPanel {
     final int screenHeight = scaledTileSize*maxScreenRows;
     
     ArrayList<Tile> mapTiles = new ArrayList<>();
+    Thread gameThread;
 
     GamePanel() {
 
@@ -49,6 +50,22 @@ public class GamePanel extends JPanel {
             g2.setColor(Color.BLACK);
             g2.fillRect(column*scaledTileSize+2, row*scaledTileSize+2, scaledTileSize-4, scaledTileSize-4);
         }
+        g2.dispose();
     }
-    
+
+    public void startGameThread(){
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+    @Override
+    public void run() {
+        while(gameThread != null){
+            update();
+            repaint();
+        }
+    }
+
+    public void update(){
+        // Update here idk
+    }
 }
