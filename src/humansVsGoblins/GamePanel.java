@@ -1,5 +1,7 @@
 package humansVsGoblins;
 
+import entities.Player;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,11 +24,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int screenWidth = scaledTileSize*maxScreenColumns;
     final int screenHeight = scaledTileSize*maxScreenRows;
+    Player player = new Player();
     
     ArrayList<Tile> mapTiles = new ArrayList<>();
     Thread gameThread;
+    KeyHandler keyHandler = new KeyHandler();
 
-    GamePanel() {
+    public GamePanel() {
 
         for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
             mapTiles.add(new Tile(scaledTileSize));
@@ -36,6 +40,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setVisible(true);
+        this.addKeyListener(keyHandler);
+        this.setFocusable(true);
     }
 
     @Override
@@ -50,6 +56,8 @@ public class GamePanel extends JPanel implements Runnable {
             g2.setColor(Color.BLACK);
             g2.fillRect(column*scaledTileSize+2, row*scaledTileSize+2, scaledTileSize-4, scaledTileSize-4);
         }
+        g2.setColor(Color.BLUE);
+        g2.fillRect(player.getX(), player.getY(), scaledTileSize,scaledTileSize);
         g2.dispose();
     }
 
@@ -59,13 +67,35 @@ public class GamePanel extends JPanel implements Runnable {
     }
     @Override
     public void run() {
+        double drawInterval = (double) 1000000000 /30;
+        double nextDrawTime = System.nanoTime() + drawInterval;
         while(gameThread != null){
             update();
             repaint();
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime/1000000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += drawInterval;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void update(){
-        // Update here idk
+        if (keyHandler.upPressed){
+            player.setY(-5);
+        } else if (keyHandler.downPressed){
+            player.setY(5);
+        } else if (keyHandler.rightPressed){
+            player.setX(5);
+        } else if (keyHandler.leftPressed){
+            player.setX(-5);
+        }
     }
 }
