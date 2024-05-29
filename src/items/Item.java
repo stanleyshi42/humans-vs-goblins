@@ -8,11 +8,12 @@ public class Item {
 	protected ImageIcon sprite;
 
 	public Item() {
-		
+		this("", null, null);
 	}
 
-	public Item(String n, ImageIcon spr) {
+	public Item(String n, ItemID id, ImageIcon spr) {
 		this.name = n;
+		this.id = id;
 		this.sprite = spr;
 	}
 
