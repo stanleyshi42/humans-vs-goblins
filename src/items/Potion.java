@@ -4,19 +4,23 @@ public class Potion extends Item {
 	int healing;
 
 	public Potion(ItemID item) {
+		super("", null);
 		switch (item) {
 		case SMALL_POTION:
-			this.name = "Small Potion";
+			this.setName("Small Potion");
 			this.healing = 3;
 			// TODO set sprite
+			this.setSprite(null);
 			break;
 		case MEDIUM_POTION:
-			this.name = "Medium Potion";
+			this.setName("Medium Potion");
 			this.healing = 5;
+			this.setSprite(null);
 			break;
 		case LARGE_POTION:
-			this.name = "Large Potion";
+			this.setName("Large Potion");
 			this.healing = 8;
+			this.setSprite(null);
 			break;
 		default:
 			break;
