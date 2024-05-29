@@ -1,6 +1,7 @@
 package humansVsGoblins;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
@@ -18,10 +19,12 @@ public class InventorySlot extends JButton {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.BOTTOM);
+        this.setFont(new Font("Sans-serif", Font.BOLD, 16));
         this.setBackground(Color.WHITE);
         this.setVisible(true);
         this.setFocusable(false);
         itemInSlot = item;
+        
     }
 
     public void displayItem() {

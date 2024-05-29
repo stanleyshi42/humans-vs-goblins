@@ -31,6 +31,11 @@ public class Weapon extends Item {
 			//this.setSprite(diamondSword);
 			this.setSprite(null);
 			break;
+		case BROAD_SWORD:
+			this.setName("Broad Sword");
+			this.attack = 3;
+			ImageIcon broadSword = new ImageIcon("Resources/broadSword.png");
+			this.setSprite(broadSword);
 		default:
 			break;
 		}
