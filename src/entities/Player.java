@@ -4,9 +4,9 @@ import java.util.HashMap;
 import items.*;
 
 public class Player extends Entity {
-	int hp, attack, defense, speed;
-	HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
-	HashMap<Item, Integer> inventory = new HashMap<>();
+	public int hp, attack, defense, speed;
+	public HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
+	public HashMap<Item, Integer> inventory = new HashMap<>();
 
 	// Starting stats
 	public Player() {
@@ -19,6 +19,12 @@ public class Player extends Entity {
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
 		this.equipment.put("armor", new Weapon(ItemID.LEATHER_ARMOR));
 		this.inventory.put(new Potion(ItemID.SMALL_POTION), 3);
+	}
+
+	public void usePotion(Potion potion) {
+		if (inventory.containsKey(potion)) {
+			// TODO
+		}
 	}
 
 	// Equips an item from inventory and adjust player's stats
@@ -71,6 +77,25 @@ public class Player extends Entity {
 
 	public void setY(int y) {
 		this.y += y;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [hp=" + hp + ", attack=" + attack + ", defense=" + defense + ", speed=" + speed + ", equipment="
+				+ equipment.toString() + ", inventory=" + inventory + "]";
+	}
+
+	// TODO delete this debugging stuff
+	public static void main(String[] args) {
+		Player player = new Player();
+		System.out.println(player);
+
+		Weapon weapon = new Weapon(ItemID.IRON_SWORD);
+
+		player.inventory.put(weapon, 1);
+		player.equipItem(weapon);
+		System.out.println(player);
+
 	}
 
 }
