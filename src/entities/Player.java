@@ -33,6 +33,18 @@ public class Player extends Entity {
 		}
 	}
 
+	public void usePotion(ItemID potionId) {
+		Potion potion = new Potion(potionId);
+		for (Item i : inventory) {
+			System.out.println(i.getId() + " " + potionId);
+			if (i.getId() == potionId) {
+				restoreHp(potion.healing);
+				inventory.remove(i);
+				return;
+			}
+		}
+	}
+
 	public void restoreHp(int healing) {
 		curHp += healing;
 		if (curHp > maxHp)
@@ -112,8 +124,9 @@ public class Player extends Entity {
 		player.equipItem(weapon);
 		player.equipItem(armor);
 
-		player.curHp -= 9;
-		player.usePotion(potion);
+		player.curHp -= 10;
+		// player.usePotion(potion);
+		player.usePotion(ItemID.SMALL_POTION);
 
 		System.out.println(player);
 		System.out.print("Inventory: ");
