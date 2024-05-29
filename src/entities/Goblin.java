@@ -11,10 +11,4 @@ public class Goblin extends Entity {
 		this.defense = defense;
 	}
 
-	@Override
-	public void move() {
-		// TODO AI movement logic
-
-	}
-
 }
