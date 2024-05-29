@@ -46,13 +46,14 @@ public class InventoryPanel extends JPanel {
         weapon = new InventorySlot(scaledTileSize, player.getEquipment().get("weapon"));
         armor = new InventorySlot(scaledTileSize, player.getEquipment().get("armor"));
 
-        this.setPreferredSize(new Dimension(500, 700));
-        this.setSize(new Dimension(500, 700));
+        this.setPreferredSize(new Dimension(500, 800));
+        this.setSize(new Dimension(500, 800));
         this.setDoubleBuffered(true);
         this.setVisible(true);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10,10,10,10));
 
+        // INVENTORY TITLE
         JPanel titleCont = new JPanel();
         titleCont.setSize(new Dimension(400, 20));                      // 400 20
         JLabel title = new JLabel("INVENTORY");
@@ -61,8 +62,46 @@ public class InventoryPanel extends JPanel {
         titleCont.add(title);
         this.add(titleCont);
 
+        // PLAYER STATS
+        JPanel statsLabelCont = new JPanel();
+        statsLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
+        statsLabelCont.setSize(new Dimension(400, 60));
+        JLabel statsLabel = new JLabel("Stats:");
+        statsLabel.setForeground(Color.BLACK);
+        statsLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
+        statsLabelCont.add(statsLabel);
+        this.add(statsLabelCont);
+
+        JPanel statsContainer = new JPanel();
+        statsContainer.setSize(new Dimension(300, 100));                // 300 100
+        statsContainer.setLayout(new GridLayout(2, 2, 40, 5));
+        statsContainer.setPreferredSize(new Dimension(300, 100));
+
+        JLabel hpLabel = new JLabel("HP: "+player.getCurHp()+"/"+player.getMaxHp());
+        hpLabel.setFont(new Font("Sans-serif", Font.BOLD, 20));
+        hpLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        JLabel attackLabel = new JLabel("Attack: "+player.getAttack());
+        attackLabel.setFont(new Font("Sans-serif", Font.BOLD, 20));
+        attackLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        JLabel defenseLabel = new JLabel("Defense: "+player.getDefense());
+        defenseLabel.setFont(new Font("Sans-serif", Font.BOLD, 20));
+        defenseLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        JLabel speedLabel = new JLabel("Speed: "+player.getSpeed());
+        speedLabel.setFont(new Font("Sans-serif", Font.BOLD, 20));
+        speedLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        statsContainer.add(hpLabel);
+        statsContainer.add(attackLabel);
+        statsContainer.add(defenseLabel);
+        statsContainer.add(speedLabel);
+        this.add(statsContainer);
+
         this.add(Box.createRigidArea(new Dimension(40,20)));            // 40 40
 
+        // EQUIPMENT AREA
         JPanel equipLabelCont = new JPanel();
         equipLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
         equipLabelCont.setSize(new Dimension(400, 60));
@@ -78,13 +117,18 @@ public class InventoryPanel extends JPanel {
         equipContainer.setPreferredSize(new Dimension(400, 200));
 
         armor.displayItem();
+        armor.setIconTextGap(10);
+        armor.setFont(new Font("Sans-serif", Font.BOLD, 18));
         weapon.displayItem();
+        weapon.setIconTextGap(20);
+        weapon.setFont(new Font("Sans-serif", Font.BOLD, 18));
         equipContainer.add(armor);
         equipContainer.add(weapon);
         this.add(equipContainer);
 
-        this.add(Box.createRigidArea(new Dimension(40,20)));
+        this.add(Box.createRigidArea(new Dimension(40,20)));            // 40 20
 
+        // POUCH AREA
         JPanel pouchLabelCont = new JPanel();
         pouchLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
         pouchLabelCont.setSize(new Dimension(400, 60));

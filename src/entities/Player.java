@@ -18,7 +18,7 @@ public class Player extends Entity {
 		this.attack = 5;
 		this.defense = 2;
 		this.speed = 1;
-		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
+		this.equipment.put("weapon", new Weapon(ItemID.BROAD_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 	}
@@ -83,6 +83,26 @@ public class Player extends Entity {
 			curHp = 0;
         }
     }
+
+	public int getCurHp() {
+		return curHp;
+	}
+
+	public int getMaxHp() {
+		return maxHp;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getDefense() {
+		return defense;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
 
 	public int getX() {
 		return x;
