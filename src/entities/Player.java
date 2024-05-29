@@ -1,8 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
-
-import humansVsGoblins.Item;
+import items.Item;
 
 public class Player extends Entity {
 	int hp, attack, defense;
