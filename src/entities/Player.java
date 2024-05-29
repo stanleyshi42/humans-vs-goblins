@@ -16,9 +16,9 @@ public class Player extends Entity {
 		this.maxHp = 10;
 		this.curHp = this.maxHp;
 		this.attack = 5;
-		this.defense = 5;
+		this.defense = 2;
 		this.speed = 1;
-		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
+		this.equipment.put("weapon", new Weapon(ItemID.BROAD_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
@@ -87,6 +87,40 @@ public class Player extends Entity {
 		defense += newArmor.defense;
 	}
 
+
+	public void takeDamage(int damage) {
+        damage -= defense;
+        if (damage < 0) {
+            damage = 0; 
+        }
+
+        curHp -= damage;
+
+        if (curHp < 0) {
+            curHp = 0;
+        }
+    }
+
+	public int getCurHp() {
+		return curHp;
+	}
+
+	public int getMaxHp() {
+		return maxHp;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getDefense() {
+		return defense;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -102,6 +136,20 @@ public class Player extends Entity {
 	public void setY(int y) {
 		this.y += y;
 	}
+
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getHp() {
+		return curHp;
+	}
+
+	public int getDefense() {
+		return defense;
+	}
+
 
 	@Override
 	public String toString() {
