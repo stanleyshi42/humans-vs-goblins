@@ -44,8 +44,6 @@ public class InventoryPanel extends JPanel {
         JPanel titleCont = new JPanel();
         titleCont.setSize(new Dimension(400, 100));
         JLabel title = new JLabel("INVENTORY");
-        //titleCont.setBackground(Color.BLACK);
-        // title.setBackground(Color.BLACK);
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Sans-serif", Font.BOLD, 36));
         titleCont.add(title);
@@ -53,7 +51,6 @@ public class InventoryPanel extends JPanel {
 
         JPanel tileCont = new JPanel();
         tileCont.setLayout(new GridLayout(3, 3, 10, 5));
-        //tileCont.setBackground(Color.BLACK);
         tileCont.setSize(new Dimension(300, 100));
         tileCont.setPreferredSize(new Dimension(400, 300));
 
