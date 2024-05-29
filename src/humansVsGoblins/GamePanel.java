@@ -9,7 +9,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.GridLayout;
+
 
 /**
  * GamePanel
@@ -23,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxScreenColumns = 20;
     public final int maxScreenRows = 20;
 
+    final Dimension UNITSIZE = new Dimension(48,48);
+
     final int screenWidth = scaledTileSize*maxScreenColumns;
     final int screenHeight = scaledTileSize*maxScreenRows;
     Player player = new Player();
@@ -32,10 +38,22 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     TileResource tileResource = new TileResource(this);
 
+    JPanel selectedPanel = null;
+
     public GamePanel() {
 
         for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
             mapTiles.add(new Tile(scaledTileSize));
+        }
+
+        setLayout(new GridLayout(maxScreenRows,maxScreenColumns,1,1));
+        for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
+            JPanel panel = new JPanel();
+            String name = String.format("%d %d",
+                    i / maxScreenRows, i % maxScreenColumns);
+            panel.setName(name);
+            panel.setPreferredSize(UNITSIZE);
+            add(panel);
         }
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -44,7 +62,28 @@ public class GamePanel extends JPanel implements Runnable {
         this.setVisible(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JPanel panel = (JPanel) getComponentAt(e.getPoint());
+                if (panel == null || panel == GamePanel.this) {
+                    return;
+                }
+//                if (selectedPanel != null) {
+//                    player.setX(e.getX());
+//                    player.setY(e.getY());
+//                }
+                selectedPanel = panel;
+//                selectedPanel.add(new JLabel(selectedPanel.getName()));
+//                selectedPanel.revalidate();
+                player.setY(Integer.parseInt(selectedPanel.getName().split(" ")[0]) * 48);
+                player.setX(Integer.parseInt(selectedPanel.getName().split(" ")[1]) * 48);
+
+            }
+        });
+
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {

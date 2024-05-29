@@ -75,7 +75,7 @@ public class Player extends Entity {
 	}
 
 	public void setX(int x) {
-		this.x += x;
+		this.x = x;
 	}
 
 	public int getY() {
@@ -83,7 +83,7 @@ public class Player extends Entity {
 	}
 
 	public void setY(int y) {
-		this.y += y;
+		this.y = y;
 	}
 
 	@Override
