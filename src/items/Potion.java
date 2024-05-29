@@ -5,9 +5,9 @@ import javax.swing.ImageIcon;
 public class Potion extends Item {
 	public int healing;
 
-	public Potion(ItemID item) {
-		super("", null);
-		switch (item) {
+	public Potion(ItemID itemId) {
+		super("", itemId, null);
+		switch (itemId) {
 		case SMALL_POTION:
 			this.setName("Small Potion");
 			this.healing = 3;

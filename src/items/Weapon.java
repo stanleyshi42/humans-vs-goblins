@@ -6,16 +6,15 @@ public class Weapon extends Item {
 	public int attack;
 
 	public Weapon(ItemID itemId) {
-		super("", null);
+		super("", itemId, null);
 		this.id = itemId;
 		switch (itemId) {
 		case WOODEN_SWORD:
 			this.setName("Wooden Sword");
 			this.attack = 2;
 			// TODO set sprite
-			//ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
-			//this.setSprite(woodSword);
-			this.setSprite(null);
+			ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
+			this.setSprite(woodSword);
 			break;
 		case IRON_SWORD:
 			this.setName("Iron Sword");
