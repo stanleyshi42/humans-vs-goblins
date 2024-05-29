@@ -1,13 +1,9 @@
 package items;
 
-import javax.swing.ImageIcon;
-
-public class Weapon {
-	ImageIcon sprite;
-	String name;
+public class Weapon extends Item {
 	int attack;
 
-	public Weapon(Item item) {
+	public Weapon(ItemID item) {
 		switch (item) {
 		case WOODEN_SWORD:
 			this.name = "Wooden Sword";

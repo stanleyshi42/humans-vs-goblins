@@ -1,13 +1,9 @@
 package items;
 
-import javax.swing.ImageIcon;
-
-public class Potion {
-	ImageIcon sprite;
-	String name;
+public class Potion extends Item {
 	int healing;
 
-	public Potion(Item item) {
+	public Potion(ItemID item) {
 		switch (item) {
 		case SMALL_POTION:
 			this.name = "Small Potion";
