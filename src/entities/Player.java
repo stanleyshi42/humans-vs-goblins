@@ -77,10 +77,10 @@ public class Player extends Entity {
             damage = 0; 
         }
 
-        hp -= damage;
+        curHp -= damage;
 
-        if (hp < 0) {
-            hp = 0;
+        if (curHp < 0) {
+            curHp = 0;
         }
     }
 
@@ -126,7 +126,7 @@ public class Player extends Entity {
 	}
 
 	public int getHp() {
-		return hp;
+		return curHp;
 	}
 
 	public int getDefense() {
