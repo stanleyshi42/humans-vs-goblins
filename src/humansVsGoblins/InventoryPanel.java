@@ -25,12 +25,12 @@ public class InventoryPanel extends JPanel {
     final int maxScreenColumns = 3;
     final int maxScreenRows = 3;
 
-    ArrayList<Tile> inventoryTiles = new ArrayList<>();
+    ArrayList<InventorySlot> inventoryTiles = new ArrayList<>();
 
     InventoryPanel() {
 
         for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
-            inventoryTiles.add(new Tile(scaledTileSize));
+            inventoryTiles.add(new InventorySlot(scaledTileSize));
         }
 
         this.setPreferredSize(new Dimension(500, 400));
@@ -57,8 +57,7 @@ public class InventoryPanel extends JPanel {
         tileCont.setSize(new Dimension(300, 100));
         tileCont.setPreferredSize(new Dimension(400, 300));
 
-        for(Tile t: inventoryTiles) {
-            t.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        for(InventorySlot t: inventoryTiles) {
             tileCont.add(t);
         }
         this.add(tileCont);
