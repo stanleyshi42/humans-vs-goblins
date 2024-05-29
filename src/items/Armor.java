@@ -6,7 +6,7 @@ public class Armor extends Item {
 	public int defense;
 
 	public Armor(ItemID itemId) {
-		super("", null);
+		super("", itemId, null);
 		this.id = itemId;
 		switch (itemId) {
 		case LEATHER_ARMOR:
