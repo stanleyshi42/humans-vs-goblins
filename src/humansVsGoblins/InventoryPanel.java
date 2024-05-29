@@ -1,21 +1,19 @@
 package humansVsGoblins;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
+
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import items.Item;
 
 public class InventoryPanel extends JPanel {
     final int tileSize = 16;
@@ -29,8 +27,10 @@ public class InventoryPanel extends JPanel {
 
     InventoryPanel() {
 
-        for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
-            inventoryTiles.add(new InventorySlot(scaledTileSize));
+        ImageIcon sprite = new ImageIcon("Resources/player.png");
+        inventoryTiles.add(new InventorySlot(scaledTileSize, new Item("Player", sprite)));
+        for(int i = 1; i < maxScreenColumns*maxScreenRows; i++) {
+            inventoryTiles.add(new InventorySlot(scaledTileSize, null));
         }
 
         this.setPreferredSize(new Dimension(500, 400));
@@ -55,6 +55,7 @@ public class InventoryPanel extends JPanel {
         tileCont.setPreferredSize(new Dimension(400, 300));
 
         for(InventorySlot t: inventoryTiles) {
+            t.displayItem();
             tileCont.add(t);
         }
         this.add(tileCont);
