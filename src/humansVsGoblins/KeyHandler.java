@@ -1,55 +1,29 @@
 package humansVsGoblins;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import entities.Player;
 
-public class KeyHandler implements KeyListener {
-    public boolean upPressed, leftPressed, downPressed, rightPressed;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+public class KeyHandler extends MouseAdapter {
+    private JPanel selectedPanel;
+    private final JPanel gamePanel;
+    private final Player player;
+
+    public KeyHandler(JPanel gamePanel, Player player) {
+        this.gamePanel = gamePanel;
+        this.player = player;
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                leftPressed = true;
-                break;
-
-            case KeyEvent.VK_RIGHT:
-                rightPressed = true;
-                break;
-
-            case KeyEvent.VK_UP:
-                upPressed = true;
-                break;
-
-            case KeyEvent.VK_DOWN:
-                downPressed = true;
-                break;
+    public void mousePressed(MouseEvent e) {
+        JPanel panel = (JPanel) gamePanel.getComponentAt(e.getPoint());
+        if (panel == null || panel == gamePanel) {
+            return;
         }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-                leftPressed = false;
-                break;
-
-            case KeyEvent.VK_RIGHT:
-                rightPressed = false;
-                break;
-
-            case KeyEvent.VK_UP:
-                upPressed = false;
-                break;
-
-            case KeyEvent.VK_DOWN:
-                downPressed = false;
-                break;
-        }
-
+        selectedPanel = panel;
+        player.setY(Integer.parseInt(selectedPanel.getName().split(" ")[0]) * 48);
+        player.setX(Integer.parseInt(selectedPanel.getName().split(" ")[1]) * 48);
     }
 }
