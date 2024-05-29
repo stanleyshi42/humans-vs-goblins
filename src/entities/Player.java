@@ -1,18 +1,25 @@
 package entities;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import items.*;
+
+import javax.swing.*;
 
 public class Player extends Entity {
 	public int maxHp, curHp, attack, defense, speed;
 	public HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
 	public ArrayList<Item> inventory = new ArrayList<>();
 
+	ImageIcon icon;
+	Image image;
+
 	// Starting stats
 	public Player() {
 		this.x = 0;
 		this.y = 0;
+
 		this.maxHp = 10;
 		this.curHp = this.maxHp;
 		this.attack = 5;
@@ -23,6 +30,13 @@ public class Player extends Entity {
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.icon = new ImageIcon("Resources/player.png");
+		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
+				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
+	}
+
+	public void draw(Graphics2D g2){
+		g2.drawImage(image, this.x,this.y,48, 48, null);
 	}
 
 	// Use a potion to restore HP
@@ -119,18 +133,26 @@ public class Player extends Entity {
 	public int getX() {
 		return x;
 	}
+	public int getGX() {
+		return gX;
+	}
 
-	public void setX(int x) {
-		this.x += x;
+	public void setGridX(int x){
+		this.gX = x;
+		this.x = x * 48;
+	}
+	public void setGridY(int y){
+		this.gY = y;
+		this.y = y * 48;
 	}
 
 	public int getY() {
 		return y;
 	}
-
-	public void setY(int y) {
-		this.y += y;
+	public int getGY() {
+		return gY;
 	}
+
 
 	public int getHp() {
 		return curHp;
