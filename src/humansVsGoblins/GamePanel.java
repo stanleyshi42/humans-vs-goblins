@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setVisible(true);
         //this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.addMouseListener(new KeyHandler(this,player));
+        this.addMouseListener(new KeyHandler(this,player, tileResource));
 
     }
 
