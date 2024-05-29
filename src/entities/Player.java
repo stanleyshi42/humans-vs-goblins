@@ -5,6 +5,7 @@ import items.*;
 
 public class Player extends Entity {
 	int hp, attack, defense, speed;
+
 	HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
 	HashMap<Item, Integer> inventory = new HashMap<>();
 
@@ -14,7 +15,7 @@ public class Player extends Entity {
 		this.y = 0;
 		this.hp = 10;
 		this.attack = 5;
-		this.defense = 5;
+		this.defense = 2;
 		this.speed = 1;
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
 		this.equipment.put("armor", new Weapon(ItemID.LEATHER_ARMOR));
@@ -57,6 +58,19 @@ public class Player extends Entity {
 		defense += newArmor.defense;
 	}
 
+	public void takeDamage(int damage) {
+        damage -= defense;
+        if (damage < 0) {
+            damage = 0; 
+        }
+
+        hp -= damage;
+
+        if (hp < 0) {
+            hp = 0;
+        }
+    }
+
 	public int getX() {
 		return x;
 	}
@@ -72,5 +86,19 @@ public class Player extends Entity {
 	public void setY(int y) {
 		this.y += y;
 	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public int getDefense() {
+		return defense;
+	}
+
+
 
 }
