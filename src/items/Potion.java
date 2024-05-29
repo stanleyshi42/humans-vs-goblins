@@ -3,9 +3,9 @@ package items;
 public class Potion extends Item {
 	public int healing;
 
-	public Potion(ItemID item) {
+	public Potion(ItemID itemId) {
 		super("", null);
-		switch (item) {
+		switch (itemId) {
 		case SMALL_POTION:
 			this.setName("Small Potion");
 			this.healing = 3;

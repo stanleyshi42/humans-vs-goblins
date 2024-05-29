@@ -21,11 +21,16 @@ public class Player extends Entity {
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 	}
 
 	// Use a potion to restore HP
 	public void usePotion(Potion potion) {
-		// TODO
+		if (inventory.contains(potion)) {
+			restoreHp(potion.healing);
+			inventory.remove(potion);
+		}
 	}
 
 	public void restoreHp(int healing) {
@@ -98,16 +103,19 @@ public class Player extends Entity {
 		System.out.println(player);
 
 		Weapon weapon = new Weapon(ItemID.IRON_SWORD);
-		player.inventory.add(weapon);
 		Armor armor = new Armor(ItemID.DIAMOND_ARMOR);
+		Potion potion = new Potion(ItemID.SMALL_POTION);
+		player.inventory.add(weapon);
 		player.inventory.add(armor);
-		player.curHp -= 5;
-		player.usePotion(null);
+		player.inventory.add(potion);
 
 		player.equipItem(weapon);
 		player.equipItem(armor);
-		System.out.println(player);
 
+		player.curHp -= 9;
+		player.usePotion(potion);
+
+		System.out.println(player);
 		System.out.print("Inventory: ");
 		for (Item i : player.inventory) {
 			System.out.print(i.getName() + ", ");
