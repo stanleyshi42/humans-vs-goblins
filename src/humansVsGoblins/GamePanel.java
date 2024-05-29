@@ -71,8 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g;
         tileResource.draw(g2);
-        g2.setColor(Color.BLUE);
-        g2.fillRect(player.getX(), player.getY(), scaledTileSize,scaledTileSize);
+        player.draw(g2);
         g2.dispose();
     }
 
@@ -99,15 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update(){
-//        if (keyHandler.upPressed){
-//            player.setY(-5);
-//        } else if (keyHandler.downPressed){
-//            player.setY(5);
-//        } else if (keyHandler.rightPressed){
-//            player.setX(5);
-//        } else if (keyHandler.leftPressed){
-//            player.setX(-5);
-//        }
+
     }
 
     public Player getPlayer() {

@@ -1,13 +1,19 @@
 package entities;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import items.*;
+
+import javax.swing.*;
 
 public class Player extends Entity {
 	public int maxHp, curHp, attack, defense, speed;
 	public HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
 	public ArrayList<Item> inventory = new ArrayList<>();
+
+	ImageIcon icon;
+	Image image;
 
 	// Starting stats
 	public Player() {
@@ -21,6 +27,15 @@ public class Player extends Entity {
 		this.equipment.put("weapon", new Weapon(ItemID.BROAD_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.icon = new ImageIcon("Resources/player.png");
+		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
+				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
+	}
+
+	public void draw(Graphics2D g2){
+
+		g2.drawImage(image, this.x,this.y,48, 48, null);
+
 	}
 
 	// Use a potion to restore HP
