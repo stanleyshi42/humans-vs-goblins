@@ -5,7 +5,7 @@ import items.*;
 
 public class Player extends Entity {
 	int hp, attack, defense, speed;
-	Item equipment;
+	HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
 	HashMap<Item, Integer> inventory = new HashMap<>();
 
 	// Starting stats
@@ -16,8 +16,45 @@ public class Player extends Entity {
 		this.attack = 5;
 		this.defense = 5;
 		this.speed = 1;
-		this.inventory.put(new Weapon(ItemID.WOODEN_SWORD), 1);
-		this.inventory.put(new Potion(ItemID.SMALL_POTION), 2);
+		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
+		this.equipment.put("armor", new Weapon(ItemID.LEATHER_ARMOR));
+		this.inventory.put(new Potion(ItemID.SMALL_POTION), 3);
+	}
+
+	// Equips an item from inventory and adjust player's stats
+	public void equipItem(Item item) {
+		if (item instanceof Weapon) {
+			equipWeapon((Weapon) item);
+		} else if (item instanceof Armor) {
+			equipArmor((Armor) item);
+		}
+	}
+
+	private void equipWeapon(Weapon newWeapon) {
+		Weapon currentWeapon = (Weapon) equipment.get("weapon");
+
+		// Move the equipped item to inventory
+		inventory.put(currentWeapon, 1);
+		attack -= currentWeapon.attack;
+
+		// Equip the new item
+		equipment.put("weapon", newWeapon);
+		inventory.remove(newWeapon);
+		attack += newWeapon.attack;
+
+	}
+
+	private void equipArmor(Armor newArmor) {
+		Armor currentArmor = (Armor) equipment.get("armor");
+
+		// Move the equipped item to inventory
+		inventory.put(currentArmor, 1);
+		defense -= currentArmor.defense;
+
+		// Equip the new item
+		equipment.put("armor", newArmor);
+		inventory.remove(newArmor);
+		defense += newArmor.defense;
 	}
 
 	public int getX() {

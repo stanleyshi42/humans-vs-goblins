@@ -1,7 +1,7 @@
 package items;
 
 public class Weapon extends Item {
-	int attack;
+	public int attack;
 
 	public Weapon(ItemID item) {
 		super("", null);
