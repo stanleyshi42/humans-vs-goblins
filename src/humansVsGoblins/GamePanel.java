@@ -89,13 +89,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update(){
         if (keyHandler.upPressed){
-            player.setY(-4);
+            player.setY(-5);
         } else if (keyHandler.downPressed){
-            player.setY(4);
+            player.setY(5);
         } else if (keyHandler.rightPressed){
-            player.setX(4);
+            player.setX(5);
         } else if (keyHandler.leftPressed){
-            player.setX(-4);
+            player.setX(-5);
         }
     }
 }
