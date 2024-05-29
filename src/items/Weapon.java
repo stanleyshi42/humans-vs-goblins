@@ -13,9 +13,8 @@ public class Weapon extends Item {
 			this.setName("Wooden Sword");
 			this.attack = 2;
 			// TODO set sprite
-			//ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
-			//this.setSprite(woodSword);
-			this.setSprite(null);
+			ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
+			this.setSprite(woodSword);
 			break;
 		case IRON_SWORD:
 			this.setName("Iron Sword");

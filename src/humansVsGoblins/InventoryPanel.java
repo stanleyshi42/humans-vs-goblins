@@ -116,10 +116,10 @@ public class InventoryPanel extends JPanel {
         equipContainer.setLayout(new GridLayout(1, 3, 40, 5));
         equipContainer.setPreferredSize(new Dimension(400, 200));
 
-        armor.displayItem();
+        armor.displayMajorItem();
         armor.setIconTextGap(10);
         armor.setFont(new Font("Sans-serif", Font.BOLD, 18));
-        weapon.displayItem();
+        weapon.displayMajorItem();
         weapon.setIconTextGap(20);
         weapon.setFont(new Font("Sans-serif", Font.BOLD, 18));
         equipContainer.add(armor);
