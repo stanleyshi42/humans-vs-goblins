@@ -70,6 +70,14 @@ public class Player extends Entity {
 		defense += newArmor.defense;
 	}
 
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+
+	public HashMap<String, Item> getEquipment() {
+		return equipment;
+	}
+
 	public int getX() {
 		return x;
 	}

@@ -2,18 +2,19 @@ package humansVsGoblins;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import items.Item;
+import entities.Player;
 
 public class InventoryPanel extends JPanel {
     final int tileSize = 16;
@@ -23,42 +24,86 @@ public class InventoryPanel extends JPanel {
     final int maxScreenColumns = 3;
     final int maxScreenRows = 3;
 
-    ArrayList<InventorySlot> inventoryTiles = new ArrayList<>();
+    Player player;
+    InventorySlot weapon;
+    InventorySlot armor;
+    ArrayList<InventorySlot> pouchItems = new ArrayList<>();
 
-    InventoryPanel() {
+    InventoryPanel(Player p) {
 
-        ImageIcon sprite = new ImageIcon("Resources/player.png");
-        inventoryTiles.add(new InventorySlot(scaledTileSize, new Item("Player", sprite)));
-        for(int i = 1; i < maxScreenColumns*maxScreenRows; i++) {
-            inventoryTiles.add(new InventorySlot(scaledTileSize, null));
+        this.player = p;
+
+        // Grab all the items the player has in its inventory.
+        int i;
+        for(i=0; i < player.getInventory().size(); i++) {
+            pouchItems.add(new InventorySlot(scaledTileSize, player.getInventory().get(i)));
+        }
+        for(int j=i; j < maxScreenColumns*maxScreenRows; j++) {
+            pouchItems.add(new InventorySlot(scaledTileSize, null));
         }
 
-        this.setPreferredSize(new Dimension(500, 400));
-        this.setSize(new Dimension(500, 400));
-        //this.setBackground(Color.WHITE);
+        // Grab the armor and sword the player has equipped.
+        weapon = new InventorySlot(scaledTileSize, player.getEquipment().get("weapon"));
+        armor = new InventorySlot(scaledTileSize, player.getEquipment().get("armor"));
+
+        this.setPreferredSize(new Dimension(500, 700));
+        this.setSize(new Dimension(500, 700));
         this.setDoubleBuffered(true);
         this.setVisible(true);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10,10,10,10));
 
         JPanel titleCont = new JPanel();
-        titleCont.setSize(new Dimension(400, 100));
+        titleCont.setSize(new Dimension(400, 20));                      // 400 20
         JLabel title = new JLabel("INVENTORY");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Sans-serif", Font.BOLD, 36));
         titleCont.add(title);
         this.add(titleCont);
 
-        JPanel tileCont = new JPanel();
-        tileCont.setLayout(new GridLayout(3, 3, 10, 5));
-        tileCont.setSize(new Dimension(300, 100));
-        tileCont.setPreferredSize(new Dimension(400, 300));
+        this.add(Box.createRigidArea(new Dimension(40,20)));            // 40 40
 
-        for(InventorySlot t: inventoryTiles) {
+        JPanel equipLabelCont = new JPanel();
+        equipLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
+        equipLabelCont.setSize(new Dimension(400, 60));
+        JLabel equipLabel = new JLabel("Equipment:");
+        equipLabel.setForeground(Color.BLACK);
+        equipLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
+        equipLabelCont.add(equipLabel);
+        this.add(equipLabelCont);
+
+        JPanel equipContainer = new JPanel();
+        equipContainer.setSize(new Dimension(300, 200));                // 300 300
+        equipContainer.setLayout(new GridLayout(1, 3, 40, 5));
+        equipContainer.setPreferredSize(new Dimension(400, 200));
+
+        armor.displayItem();
+        weapon.displayItem();
+        equipContainer.add(armor);
+        equipContainer.add(weapon);
+        this.add(equipContainer);
+
+        this.add(Box.createRigidArea(new Dimension(40,20)));
+
+        JPanel pouchLabelCont = new JPanel();
+        pouchLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pouchLabelCont.setSize(new Dimension(400, 60));
+        JLabel pouchLabel = new JLabel("Pouch:");
+        pouchLabel.setForeground(Color.BLACK);
+        pouchLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
+        pouchLabelCont.add(pouchLabel);
+        this.add(pouchLabelCont);
+
+        JPanel pouchContainer = new JPanel();
+        pouchContainer.setLayout(new GridLayout(3, 3, 10, 5));
+        pouchContainer.setSize(new Dimension(300, 300));                 // 300 300
+        pouchContainer.setPreferredSize(new Dimension(300, 300));
+
+        for(InventorySlot t: pouchItems) {
             t.displayItem();
-            tileCont.add(t);
+            pouchContainer.add(t);
         }
-        this.add(tileCont);
+        this.add(pouchContainer);
 
     }
 

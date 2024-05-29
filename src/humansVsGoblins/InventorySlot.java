@@ -15,12 +15,9 @@ public class InventorySlot extends JButton {
     Item itemInSlot;
     
     InventorySlot(int scaledSize, Item item) {
-        //this.setSize(new Dimension(scaledSize, scaledSize));
-        //this.setPreferredSize(new Dimension(scaledSize, scaledSize));
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         this.setHorizontalTextPosition(SwingConstants.CENTER);
-        this.setVerticalTextPosition   ( SwingConstants.BOTTOM ) ;
-        //this.setVerticalAlignment      ( SwingConstants.TOP ) ;
+        this.setVerticalTextPosition(SwingConstants.BOTTOM);
         this.setBackground(Color.WHITE);
         this.setVisible(true);
         this.setFocusable(false);
@@ -31,10 +28,12 @@ public class InventorySlot extends JButton {
         if(itemInSlot == null) return;
 
         ImageIcon sprite = itemInSlot.getSprite();
-        Image unScaled = sprite.getImage();
-        Image scaledImg = unScaled.getScaledInstance(sprite.getIconWidth()*3,
-            sprite.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
-        this.setIcon(new ImageIcon(scaledImg));
+        if(sprite != null) {
+            Image unScaled = sprite.getImage();
+            Image scaledImg = unScaled.getScaledInstance(sprite.getIconWidth()*3,
+                sprite.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(scaledImg));
+        }
         this.setText(itemInSlot.getName());
     }
 }
