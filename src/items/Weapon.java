@@ -3,9 +3,10 @@ package items;
 public class Weapon extends Item {
 	public int attack;
 
-	public Weapon(ItemID item) {
+	public Weapon(ItemID itemId) {
 		super("", null);
-		switch (item) {
+		this.id = itemId;
+		switch (itemId) {
 		case WOODEN_SWORD:
 			this.setName("Wooden Sword");
 			this.attack = 2;

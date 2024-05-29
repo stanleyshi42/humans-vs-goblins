@@ -3,9 +3,10 @@ package items;
 public class Armor extends Item {
 	public int defense;
 
-	public Armor(ItemID item) {
+	public Armor(ItemID itemId) {
 		super("", null);
-		switch (item) {
+		this.id = itemId;
+		switch (itemId) {
 		case LEATHER_ARMOR:
 			this.name = "Leather Armor";
 			this.defense = 2;

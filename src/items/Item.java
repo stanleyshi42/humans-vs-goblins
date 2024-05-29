@@ -4,10 +4,11 @@ import javax.swing.ImageIcon;
 
 public class Item {
 	protected String name;
+	protected ItemID id;
 	protected ImageIcon sprite;
 
 	public Item() {
-
+		
 	}
 
 	public Item(String n, ImageIcon spr) {
@@ -29,6 +30,14 @@ public class Item {
 
 	public void setSprite(ImageIcon sprite) {
 		this.sprite = sprite;
+	}
+
+	public ItemID getId() {
+		return id;
+	}
+
+	public void setId(ItemID id) {
+		this.id = id;
 	}
 
 }
