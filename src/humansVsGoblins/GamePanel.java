@@ -1,6 +1,7 @@
 package humansVsGoblins;
 
 import entities.Player;
+import tile.TileResource;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 16;
     final int scale = 3;
 
-    final int scaledTileSize = tileSize * scale;
+    public final int scaledTileSize = tileSize * scale;
     final int maxScreenColumns = 20;
     final int maxScreenRows = 16;
 
@@ -29,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
     ArrayList<Tile> mapTiles = new ArrayList<>();
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+    TileResource tileResource = new TileResource(this);
 
     public GamePanel() {
 
@@ -48,14 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         
         Graphics2D g2 = (Graphics2D)g;
-        for(int i = 0; i < mapTiles.size(); i++) {
-            int row = i/maxScreenColumns;
-            int column = i%maxScreenColumns;
-            g2.setColor(Color.WHITE);
-            g2.fillRect(column*scaledTileSize, row*scaledTileSize, scaledTileSize, scaledTileSize);
-            g2.setColor(Color.BLACK);
-            g2.fillRect(column*scaledTileSize+2, row*scaledTileSize+2, scaledTileSize-4, scaledTileSize-4);
-        }
+        tileResource.draw(g2);
         g2.setColor(Color.BLUE);
         g2.fillRect(player.getX(), player.getY(), scaledTileSize,scaledTileSize);
         g2.dispose();
