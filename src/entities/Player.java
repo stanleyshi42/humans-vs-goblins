@@ -101,10 +101,6 @@ public class Player extends Entity {
         }
     }
 
-	public int getCurHp() {
-		return curHp;
-	}
-
 	public int getMaxHp() {
 		return maxHp;
 	}
@@ -137,17 +133,16 @@ public class Player extends Entity {
 		this.y += y;
 	}
 
-
-	public int getAttack() {
-		return attack;
-	}
-
 	public int getHp() {
 		return curHp;
 	}
 
-	public int getDefense() {
-		return defense;
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+
+	public HashMap<String, Item> getEquipment() {
+		return equipment;
 	}
 
 
