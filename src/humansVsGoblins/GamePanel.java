@@ -128,4 +128,8 @@ public class GamePanel extends JPanel implements Runnable {
             player.setX(-5);
         }
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
