@@ -12,6 +12,7 @@ public class Weapon {
 		case WOODEN_SWORD:
 			this.name = "Wooden Sword";
 			this.attack = 2;
+			// TODO set sprite
 			break;
 		case IRON_SWORD:
 			this.name = "Iron Sword";
