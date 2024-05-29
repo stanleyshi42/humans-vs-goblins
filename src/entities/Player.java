@@ -21,25 +21,40 @@ public class Player extends Entity {
 		this.inventory.put(new Potion(ItemID.SMALL_POTION), 3);
 	}
 
+	// Equips an item from inventory and adjust player's stats
 	public void equipItem(Item item) {
 		if (item instanceof Weapon) {
-			equipWeapon(item);
-		}
-		else if (item instanceof Armor) {
-			equipArmor(item);
+			equipWeapon((Weapon) item);
+		} else if (item instanceof Armor) {
+			equipArmor((Armor) item);
 		}
 	}
 
-	private void equipWeapon(Item weapon) {
-		inventory.put(equipment.get("weapon"), 1); // Move the equipped item to inventory
-		equipment.put("weapon", weapon); // Equip the new item
+	private void equipWeapon(Weapon newWeapon) {
+		Weapon currentWeapon = (Weapon) equipment.get("weapon");
+
+		// Move the equipped item to inventory
+		inventory.put(currentWeapon, 1);
+		attack -= currentWeapon.attack;
+
+		// Equip the new item
+		equipment.put("weapon", newWeapon);
+		inventory.remove(newWeapon);
+		attack += newWeapon.attack;
 
 	}
 
-	private void equipArmor(Item armor) {
-		inventory.put(equipment.get("armor"), 1); // Move the equipped item to inventory
-		equipment.put("armor", armor); // Equip the new item
+	private void equipArmor(Armor newArmor) {
+		Armor currentArmor = (Armor) equipment.get("armor");
 
+		// Move the equipped item to inventory
+		inventory.put(currentArmor, 1);
+		defense -= currentArmor.defense;
+
+		// Equip the new item
+		equipment.put("armor", newArmor);
+		inventory.remove(newArmor);
+		defense += newArmor.defense;
 	}
 
 	public int getX() {

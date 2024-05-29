@@ -1,7 +1,7 @@
 package items;
 
 public class Potion extends Item {
-	int healing;
+	public int healing;
 
 	public Potion(ItemID item) {
 		switch (item) {

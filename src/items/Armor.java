@@ -1,7 +1,7 @@
 package items;
 
 public class Armor extends Item {
-	int defense;
+	public int defense;
 
 	public Armor(ItemID item) {
 		switch (item) {
