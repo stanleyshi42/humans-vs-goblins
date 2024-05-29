@@ -77,7 +77,7 @@ public class InventoryPanel extends JPanel {
         statsContainer.setLayout(new GridLayout(2, 2, 40, 5));
         statsContainer.setPreferredSize(new Dimension(300, 100));
 
-        JLabel hpLabel = new JLabel("HP: "+player.getCurHp()+"/"+player.getMaxHp());
+        JLabel hpLabel = new JLabel("HP: "+player.getHp()+"/"+player.getMaxHp());
         hpLabel.setFont(new Font("Sans-serif", Font.BOLD, 20));
         hpLabel.setHorizontalAlignment(JLabel.CENTER);
 
