@@ -1,6 +1,5 @@
 package items;
 
-public class Item {
-	String name;
-
+public enum Item {
+	WOODEN_SWORD, IRON_SWORD, DIAMOND_SWORD, SMALL_POTION, MEDIUM_POTION, LARGE_POTION
 }
