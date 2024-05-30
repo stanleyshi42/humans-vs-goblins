@@ -103,7 +103,7 @@ public class Player extends Entity {
 		inventory.remove(index);
 		attack += newWeapon.attack;
 		inventory.add(index, currentWeapon);
-
+		System.out.println(attack);
 	}
 
 	// Equip a new armor and return the previously equipped
