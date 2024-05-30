@@ -174,7 +174,6 @@ public class Player extends Entity {
 		return gY;
 	}
 
-
 	public int getHp() {
 		return curHp;
 	}
@@ -190,7 +189,7 @@ public class Player extends Entity {
 	@Override
 	public String toString() {
 		return "Player [maxHp=" + maxHp + ", curHp=" + curHp + ", attack=" + attack + ", defense=" + defense
-				+ ", speed=" + speed + ", equipment=" + equipment + ", inventory=" + inventory + "]";
+				+ ", speed=" + speed + ", x=" + x + ", y=" + y + ", gX=" + gX + ", gY=" + gY + "]";
 	}
 
 }
