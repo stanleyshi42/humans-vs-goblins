@@ -9,7 +9,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import items.Armor;
 import items.Item;
+import items.Potion;
+import items.Weapon;
 
 public class InventorySlot extends JButton {
 
@@ -27,6 +30,22 @@ public class InventorySlot extends JButton {
         
     }
 
+    private void displayStatsOfItem() {
+        if(itemInSlot instanceof Potion) {
+            this.setText("<html>"+itemInSlot.getName()+" <br /><center>Healing: "
+            +((Potion)itemInSlot).healing+"</center></html>");
+        }
+        else if(itemInSlot instanceof Armor) {
+            this.setText("<html>"+itemInSlot.getName()+" <br /><center>Defense: "
+            +((Armor)itemInSlot).defense+"</center></html>");
+        }
+        else if(itemInSlot instanceof Weapon) {
+            this.setText("<html>"+itemInSlot.getName()+" <br /><center>Attack: "
+            +((Weapon)itemInSlot).attack+"</center></html>");
+        }
+
+    }
+
     public void displayItem() {
         if(itemInSlot == null) return;
 
@@ -37,7 +56,7 @@ public class InventorySlot extends JButton {
                 sprite.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
             this.setIcon(new ImageIcon(scaledImg));
         }
-        this.setText(itemInSlot.getName());
+        displayStatsOfItem();
     }
 
     public void displayMajorItem() {
@@ -50,7 +69,7 @@ public class InventorySlot extends JButton {
                 sprite.getIconHeight()*5, java.awt.Image.SCALE_SMOOTH);
             this.setIcon(new ImageIcon(scaledImg));
         }
-        this.setText(itemInSlot.getName());
+        displayStatsOfItem();
     }
     
 }

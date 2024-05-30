@@ -43,7 +43,8 @@ public class Player extends Entity {
 
 	}
 
-	// Use a potion to restore HP
+	// Use a potion to restore the player's HP
+	// Receives the potion object directly.
 	public void usePotion(Potion potion) {
 		if (curHp >= maxHp)
 			return;
@@ -54,6 +55,8 @@ public class Player extends Entity {
 		}
 	}
 
+	// Use a potion to restore the player's HP
+	// Receives the id of the potion.
 	public void usePotion(ItemID potionId) {
 		if (curHp >= maxHp)
 			return;
@@ -69,6 +72,8 @@ public class Player extends Entity {
 		}
 	}
 
+	// Restore the player's hp using
+	// the int 'healing'.
 	public void restoreHp(int healing) {
 		curHp += healing;
 		if (curHp > maxHp)
@@ -84,30 +89,36 @@ public class Player extends Entity {
 		}
 	}
 
+	// Equip a new weapon and return the previously equipped
+	// weapon to the player's inventory.
 	private void equipWeapon(Weapon newWeapon) {
 		Weapon currentWeapon = (Weapon) equipment.get("weapon");
 
+		int index = inventory.indexOf(newWeapon);
 		// Move the equipped item to inventory
-		inventory.add(currentWeapon);
 		attack -= currentWeapon.attack;
 
 		// Equip the new item
 		equipment.put("weapon", newWeapon);
-		inventory.remove(newWeapon);
+		inventory.remove(index);
 		attack += newWeapon.attack;
+		inventory.add(index, currentWeapon);
 
 	}
 
+	// Equip a new armor and return the previously equipped
+	// armor to the player's inventory.
 	private void equipArmor(Armor newArmor) {
 		Armor currentArmor = (Armor) equipment.get("armor");
 
 		// Move the equipped item to inventory
-		inventory.add(currentArmor);
+		int index = inventory.indexOf(newArmor);
 		defense -= currentArmor.defense;
 
 		// Equip the new item
 		equipment.put("armor", newArmor);
-		inventory.remove(newArmor);
+		inventory.remove(index);
+		inventory.add(index, currentArmor);
 		defense += newArmor.defense;
 	}
 
