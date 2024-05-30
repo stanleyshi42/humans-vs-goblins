@@ -35,7 +35,7 @@ public class KeyHandler extends MouseAdapter {
 
         if (moves.getMoves().contains(selectedPanel.getName())){
             boolean canMove = true;
-            for (String ele : tile.getTiles()){
+            for (String ele : tile.getTilesCollision()){
                 if(ele.equals(selectedPanel.getName())){
                     canMove = false;
                 }
@@ -43,6 +43,7 @@ public class KeyHandler extends MouseAdapter {
             if (canMove){
                 player.setGridY(coordY);
                 player.setGridX(coordX);
+                moves.createMoves();
 
             }
         }

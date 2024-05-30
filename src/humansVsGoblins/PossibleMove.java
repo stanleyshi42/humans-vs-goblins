@@ -52,7 +52,7 @@ public class PossibleMove {
     }
 
     private boolean isValidMove(int x, int y) {
-        return x >= 0 && x < 20 && y >= 0 && y < 20 && !tile.getTiles().contains(STR."\{y} \{x}");
+        return x >= 0 && x < 20 && y >= 0 && y < 20 && !tile.getTilesCollision().contains(STR."\{y} \{x}");
     }
 
     public ArrayList<String> getMoves(){
@@ -60,11 +60,8 @@ public class PossibleMove {
     }
 
     public void draw(Graphics2D g2){
-        icon =  new ImageIcon("Resources/chest.png");
-        image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
-                icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
         for (String ele : moves){
-            g2.drawImage(image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
+            g2.drawImage(tile.getTile()[2].image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
                     UNITSIZE*Integer.parseInt(ele.split(" ")[0]),UNITSIZE, UNITSIZE, null);
         }
 
