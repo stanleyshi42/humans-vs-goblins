@@ -3,11 +3,13 @@ package humansVsGoblins;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import entities.Player;
+
 public class MovementListener implements KeyListener {
 
-	public static char key;
+	private char key;
 
-	public MovementListener() {
+	public MovementListener(Player p) {
 
 	}
 
@@ -18,15 +20,15 @@ public class MovementListener implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		MovementListener.key = e.getKeyChar();
+		this.key = e.getKeyChar();
 		key = Character.toLowerCase(key);
 
 		switch (key) {
-		case 'w':
-		case 'a':
-		case 's':
-		case 'd':
-			movePlayer(key);
+			case 'w':
+			case 'a':
+			case 's':
+			case 'd':
+				movePlayer(key);
 		}
 
 	}
