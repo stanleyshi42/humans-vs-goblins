@@ -27,54 +27,41 @@ public class PossibleMove {
 
     public void createMoves() {
         moves = new ArrayList<>();
-        int i = 1;
-        boolean up = true;
-        boolean down = true;
-        boolean right = true;
-        boolean left = true;
-        while (i <= player.speed){
-            if (up && player.getGY() != 0){
-                if (!tile.getTiles().contains(STR."\{player.getGY()-i} \{player.getGX()}")){
-                    moves.add(STR."\{player.getGY()-i} \{player.getGX()}");
-                } else {
-                    up = false;
-                }
-            }
-            if (down && player.getGY() != 19){
-                if (!tile.getTiles().contains(STR."\{player.getGY()+i} \{player.getGX()}")){
-                    moves.add(STR."\{player.getGY()+i} \{player.getGX()}");
-                } else {
-                    down = false;
-                }
-            }
-            if (right && player.getGX() != 19){
-                if (!tile.getTiles().contains(STR."\{player.getGY()} \{player.getGX()+i}")){
-                    moves.add(STR."\{player.getGY()} \{player.getGX()+i}");
-                } else {
-                    right = false;
-                }
-            }
-            if (left && player.getGX() != 0){
-                if (!tile.getTiles().contains(STR."\{player.getGY()} \{player.getGX()-i}")){
-                    moves.add(STR."\{player.getGY()} \{player.getGX()-i}");
-                } else {
-                    left = false;
-                }
-            }
-            i++;
-        }
+        int[][] directions = {
+                {0, -1},  // up
+                {0, 1},   // down
+                {1, 0},   // right
+                {-1, 0}   // left
+        };
+        boolean[] canMove = {true, true, true, true};
 
+        for (int i = 1; i <= player.speed; i++) {
+            for (int d = 0; d < directions.length; d++) {
+                if (canMove[d]) {
+                    int newX = player.getGX() + directions[d][0] * i;
+                    int newY = player.getGY() + directions[d][1] * i;
+
+                    if (isValidMove(newX, newY)) {
+                        moves.add(STR."\{newY} \{newX}");
+                    } else {
+                        canMove[d] = false;
+                    }
+                }
+            }
+        }
     }
+
+    private boolean isValidMove(int x, int y) {
+        return x >= 0 && x < 20 && y >= 0 && y < 20 && !tile.getTilesCollision().contains(STR."\{y} \{x}");
+    }
+
     public ArrayList<String> getMoves(){
         return this.moves;
     }
 
     public void draw(Graphics2D g2){
-        icon =  new ImageIcon("Resources/chest.png");
-        image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
-                icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
         for (String ele : moves){
-            g2.drawImage(image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
+            g2.drawImage(tile.getTile()[2].image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
                     UNITSIZE*Integer.parseInt(ele.split(" ")[0]),UNITSIZE, UNITSIZE, null);
         }
 
