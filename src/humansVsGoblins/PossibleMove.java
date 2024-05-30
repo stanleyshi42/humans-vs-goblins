@@ -50,13 +50,19 @@ public class PossibleMove {
 		}
 	}
 
-	private boolean isValidMove(int x, int y) {
-		return x >= 0 && x < 20 && y >= 0 && y < 20 && !tile.getTilesCollision().contains(y + " " + x);
-	}
+                    if (isValidMove(newX, newY)) {
+                        moves.add(newY + " " + newX);
+                    } else {
+                        canMove[d] = false;
+                    }
+                }
+            }
+        }
+    }
 
-	public ArrayList<String> getMoves() {
-		return this.moves;
-	}
+    private boolean isValidMove(int x, int y) {
+        return x >= 0 && x < 20 && y >= 0 && y < 20 && !tile.getTilesCollision().contains(y + " " + x);
+    }
 
 	public void draw(Graphics2D g2) {
 		for (String ele : moves) {
