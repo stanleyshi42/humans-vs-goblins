@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 
 /**
@@ -39,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     ArrayList<Tile> mapTiles = new ArrayList<>();
     TileResource tileResource = new TileResource(this);
-    PossibleMove possibleMove = new PossibleMove(this,player,tileResource);
+
+    PossibleMove possibleMove = new PossibleMove(player,tileResource);
 
     // Game Loop Variables
     Thread gameThread;
@@ -73,7 +72,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove));
         //this.addKeyListener(new MovementListener());
         possibleMove.createMoves();
-
     }
 
 	@Override

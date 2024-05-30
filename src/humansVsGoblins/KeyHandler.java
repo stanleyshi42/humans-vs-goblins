@@ -17,12 +17,15 @@ public class KeyHandler extends MouseAdapter {
 	private final Player player;
 	private final TileResource tile;
 	private final PossibleMove moves;
+	int[][] mapTile;
 
 	public KeyHandler(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
 		this.gamePanel = gamePanel;
 		this.player = player;
 		this.tile = tile;
 		this.moves = moves;
+		this.mapTile = tile.getMap();
+
 	}
 
 	@Override
@@ -34,17 +37,10 @@ public class KeyHandler extends MouseAdapter {
 		selectedPanel = panel;
 		int coordX = Integer.parseInt(selectedPanel.getName().split(" ")[1]);
 		int coordY = Integer.parseInt(selectedPanel.getName().split(" ")[0]);
-		int speed = player.speed;
 		moves.createMoves();
 
 		if (moves.getMoves().contains(selectedPanel.getName())) {
-			boolean canMove = true;
-			for (String ele : tile.getTilesCollision()) {
-				if (ele.equals(selectedPanel.getName())) {
-					canMove = false;
-				}
-			}
-			if (canMove) {
+			if (mapTile[coordY][coordX] != 1){
 				player.setGridY(coordY);
 				player.setGridX(coordX);
 				moves.createMoves();
@@ -56,10 +52,10 @@ public class KeyHandler extends MouseAdapter {
 					g.move();
 				}
 				// Check if goblin moved into player
+
 				gamePanel.checkCombat();
 
 			}
-
 		}
 	}
 }
