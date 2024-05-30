@@ -45,6 +45,9 @@ public class Player extends Entity {
 
 	// Use a potion to restore HP
 	public void usePotion(Potion potion) {
+		if (curHp >= maxHp)
+			return;
+
 		if (inventory.contains(potion)) {
 			restoreHp(potion.healing);
 			inventory.remove(potion);
@@ -52,6 +55,9 @@ public class Player extends Entity {
 	}
 
 	public void usePotion(ItemID potionId) {
+		if (curHp >= maxHp)
+			return;
+
 		Potion potion = new Potion(potionId);
 
 		for (Item i : inventory) {

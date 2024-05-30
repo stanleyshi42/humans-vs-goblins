@@ -7,7 +7,7 @@ public class Armor extends Item {
 
 	public Armor(ItemID itemId) {
 		super("", itemId, null);
-		this.id = itemId;
+
 		switch (itemId) {
 		case LEATHER_ARMOR:
 			this.name = "Leather Armor";
