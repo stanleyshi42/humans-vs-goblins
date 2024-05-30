@@ -56,7 +56,7 @@ public class TileResource {
 
     public void loadMap() {
         try{
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/maps/map01.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/maps/map02.txt")));
             for (int i = 0; i < gp.maxScreenRows; i++){
                 String line = br.readLine();
                 String numbers[] = line.split(" ");

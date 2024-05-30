@@ -6,7 +6,7 @@ public class Launcher {
         GameFrame window = new GameFrame();
 
         GamePanel panel = new GamePanel();
-        InventoryPanel invPanel = new InventoryPanel(panel, panel.getPlayer());
+        //InventoryPanel invPanel = new InventoryPanel(panel, panel.getPlayer());
         window.add(panel);
 
         //GamePanel panel = new GamePanel();

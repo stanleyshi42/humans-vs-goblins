@@ -108,7 +108,7 @@ public class CombatWindow extends JFrame {
 
     private void performAttack() {
         if (playerTurn) {
-            int playerDamage = rand.nextInt(player.getAttack());
+            int playerDamage = rand.nextInt(player.getAttack()+1);
             int enemyDefense = enemy.getDefense();
             enemy.takeDamage(playerDamage);
             appendToCombatLog("Player attacks for " + playerDamage + " damage.");
@@ -128,7 +128,7 @@ public class CombatWindow extends JFrame {
     }
 
     private void enemyAttack() {
-        int enemyDamage = rand.nextInt(enemy.getAttack());
+        int enemyDamage = rand.nextInt(enemy.getAttack()+1);
         player.takeDamage(enemyDamage);
         int playerDefense = player.getDefense();
         appendToCombatLog("Enemy attacks for " + enemyDamage + " damage.");

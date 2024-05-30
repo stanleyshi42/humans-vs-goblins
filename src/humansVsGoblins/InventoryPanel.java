@@ -132,7 +132,7 @@ public class InventoryPanel extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    gPanel.unPauseGameThread();
+                    //gPanel.unPauseGameThread();
                     p.dispose();
                 }
             });
@@ -242,7 +242,7 @@ public class InventoryPanel extends JFrame {
         // Grab all the items the player has in its inventory.
         this.player = p;
         this.gPanel = panel;
-        gPanel.pauseGameThread();
+        //gPanel.pauseGameThread();
         this.setTitle("Inventory");
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(500, 940));
