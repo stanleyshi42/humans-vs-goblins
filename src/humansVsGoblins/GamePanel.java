@@ -42,6 +42,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     PossibleMove possibleMove = new PossibleMove(this,player,tileResource);
 
+    boolean paused = false;
+
     public GamePanel() {
     	
     	goblins.add(new Goblin(19,5));
@@ -90,6 +92,14 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
+    public void pauseGameThread() {
+        paused = true;
+    }
+
+    public void unPauseGameThread() {
+        paused = false;
+    }
+
 	@Override
 	public void run() {
 		double drawInterval = (double) 1000000000 / 30;
@@ -97,6 +107,8 @@ public class GamePanel extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long currentTime;
 		while (gameThread != null) {
+            if(paused) continue;
+
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;

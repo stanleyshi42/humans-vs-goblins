@@ -69,7 +69,7 @@ public class KeyHandler extends MouseAdapter {
 	public void checkCombat() {
 		for (Goblin g : goblins) {
 			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
-				new CombatWindow(player, g);
+				new CombatWindow((GamePanel) gamePanel, player, g);
 				goblins.remove(g);
 				spawnGoblin();
 				break;

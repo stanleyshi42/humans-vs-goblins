@@ -15,11 +15,15 @@ public class CombatWindow extends JFrame {
     private final JProgressBar playerHealthBar;
     private final JProgressBar enemyHealthBar;
     private boolean playerTurn;
+    private GamePanel gPanel;
 
-    public CombatWindow(Player player, Goblin enemy) {
+    public CombatWindow(GamePanel gamePanel, Player player, Goblin enemy) {
         this.player = player;
         this.enemy = enemy;
         this.playerTurn = true;
+        this.gPanel = gamePanel;
+
+        gPanel.pauseGameThread();
 
         setTitle("Combat");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -114,6 +118,7 @@ public class CombatWindow extends JFrame {
             if (enemy.getHp() <= 0) {
                 appendToCombatLog("Enemy defeated!");
                 appendToCombatLog("Combat ended.");
+                gPanel.unPauseGameThread();
                 dispose();
             } else {
                 playerTurn = false;
@@ -134,6 +139,7 @@ public class CombatWindow extends JFrame {
         if (player.getHp() <= 0) {
             appendToCombatLog("Player defeated!");
             appendToCombatLog("Combat ended.");
+            gPanel.unPauseGameThread();
             dispose();
         } else {
             playerTurn = true;
