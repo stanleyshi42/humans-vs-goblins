@@ -50,7 +50,7 @@ public class KeyHandler extends MouseAdapter {
 				gamePanel.checkCombat();
 
 				for (Goblin g : gamePanel.getGoblins()) {
-					g.move();
+					g.move(mapTile);
 				}
 				// Check if goblin moved into player
 
