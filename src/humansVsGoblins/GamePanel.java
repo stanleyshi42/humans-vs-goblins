@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     TileResource tileResource = new TileResource(this);
 
-    JPanel selectedPanel = null;
+    PossibleMove possibleMove = new PossibleMove(this,player,tileResource);
 
     public GamePanel() {
 
@@ -61,7 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setVisible(true);
         //this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.addMouseListener(new KeyHandler(this,player, tileResource));
+        this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove));
+        possibleMove.createMoves();
 
     }
 
@@ -72,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D)g;
         tileResource.draw(g2);
         player.draw(g2);
+        possibleMove.draw(g2);
         g2.dispose();
     }
 

@@ -12,11 +12,13 @@ public class KeyHandler extends MouseAdapter {
     private final JPanel gamePanel;
     private final Player player;
     private final TileResource tile;
+    private final PossibleMove moves;
 
-    public KeyHandler(JPanel gamePanel, Player player,TileResource tile) {
+    public KeyHandler(JPanel gamePanel, Player player,TileResource tile, PossibleMove moves) {
         this.gamePanel = gamePanel;
         this.player = player;
         this.tile = tile;
+        this.moves = moves;
     }
 
     @Override
@@ -26,17 +28,23 @@ public class KeyHandler extends MouseAdapter {
             return;
         }
         selectedPanel = panel;
-        boolean canMove = true;
-        for (String ele : tile.getTiles()){
-            System.out.println(ele);
-            System.out.println(selectedPanel.getName());
-            if(ele.equals(selectedPanel.getName())){
-                canMove = false;
+        int coordX = Integer.parseInt(selectedPanel.getName().split(" ")[1]);
+        int coordY = Integer.parseInt(selectedPanel.getName().split(" ")[0]);
+        int speed = player.speed;
+        moves.createMoves();
+
+        if (moves.getMoves().contains(selectedPanel.getName())){
+            boolean canMove = true;
+            for (String ele : tile.getTiles()){
+                if(ele.equals(selectedPanel.getName())){
+                    canMove = false;
+                }
             }
-        }
-        if (canMove){
-            player.setGridY(Integer.parseInt(selectedPanel.getName().split(" ")[0]));
-            player.setGridX(Integer.parseInt(selectedPanel.getName().split(" ")[1]));
+            if (canMove){
+                player.setGridY(coordY);
+                player.setGridX(coordX);
+
+            }
         }
     }
 }
