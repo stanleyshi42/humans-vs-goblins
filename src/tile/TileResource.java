@@ -4,9 +4,9 @@ import humansVsGoblins.GamePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+
 
 
 public class TileResource {
@@ -50,15 +50,13 @@ public class TileResource {
             icon = new ImageIcon(resourceContainer[i]);
             tile[i].image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
                     icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
-            System.out.println(tile[i].name);
         }
 
     }
 
     public void loadMap() {
         try{
-            InputStream is = getClass().getClassLoader().getResourceAsStream("maps/map01.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/maps/map01.txt")));
             for (int i = 0; i < gp.maxScreenRows; i++){
                 String line = br.readLine();
                 String numbers[] = line.split(" ");
