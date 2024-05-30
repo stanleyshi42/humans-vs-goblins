@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -100,17 +101,39 @@ public class InventoryPanel extends JPanel {
 
         this.removeAll();
         initializeInventorySlots();
-
+        
         // INVENTORY TITLE
         JPanel titleCont = new JPanel();
-        titleCont.setSize(new Dimension(400, 30));                      // 400 30
-        titleCont.setPreferredSize(new Dimension(400, 30));
+        titleCont.setSize(new Dimension(400, 40));                      // 400 30
+        titleCont.setPreferredSize(new Dimension(400, 40));
 
         JLabel title = new JLabel("INVENTORY");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Sans-serif", Font.BOLD, 36));
         titleCont.add(title);
         this.add(titleCont);
+
+        // BACK BUTTON
+        JPanel buttonCont = new JPanel();
+        buttonCont.setSize(new Dimension(400, 40));                      // 400 40
+        buttonCont.setPreferredSize(new Dimension(400, 40));
+        //buttonCont.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JButton backButton = new JButton("Return");
+        backButton.setFont(new Font("Sans-serif", Font.BOLD, 16));
+        backButton.setFocusable(false);
+        {
+            InventoryPanel p = this;
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // TODO Auto-generated method stub
+                    p.setVisible(false);
+                }
+            });
+        }
+        buttonCont.add(backButton);
+        this.add(buttonCont);
 
         // PLAYER STATS
         JPanel statsLabelCont = new JPanel();
@@ -211,8 +234,8 @@ public class InventoryPanel extends JPanel {
 
         // Grab all the items the player has in its inventory.
         this.player = p;
-        this.setPreferredSize(new Dimension(500, 900));
-        this.setSize(new Dimension(500, 900));
+        this.setPreferredSize(new Dimension(500, 940));
+        this.setSize(new Dimension(500, 940));
         this.setDoubleBuffered(true);
         this.setVisible(true);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
