@@ -42,7 +42,8 @@ public class Player extends Entity {
 		g2.drawImage(image, this.x,this.y,48, 48, null);
 	}
 
-	// Use a potion to restore HP
+	// Use a potion to restore the player's HP
+	// Receives the potion object directly.
 	public void usePotion(Potion potion) {
 		if (inventory.contains(potion)) {
 			restoreHp(potion.healing);
@@ -50,6 +51,8 @@ public class Player extends Entity {
 		}
 	}
 
+	// Use a potion to restore the player's HP
+	// Receives the id of the potion.
 	public void usePotion(ItemID potionId) {
 		Potion potion = new Potion(potionId);
 
@@ -62,6 +65,8 @@ public class Player extends Entity {
 		}
 	}
 
+	// Restore the player's hp using
+	// the int 'healing'.
 	public void restoreHp(int healing) {
 		curHp += healing;
 		if (curHp > maxHp)
@@ -77,6 +82,8 @@ public class Player extends Entity {
 		}
 	}
 
+	// Equip a new weapon and return the previously equipped
+	// weapon to the player's inventory.
 	private void equipWeapon(Weapon newWeapon) {
 		Weapon currentWeapon = (Weapon) equipment.get("weapon");
 
@@ -92,6 +99,8 @@ public class Player extends Entity {
 
 	}
 
+	// Equip a new armor and return the previously equipped
+	// armor to the player's inventory.
 	private void equipArmor(Armor newArmor) {
 		Armor currentArmor = (Armor) equipment.get("armor");
 

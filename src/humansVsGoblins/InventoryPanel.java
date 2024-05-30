@@ -18,6 +18,12 @@ import javax.swing.border.EmptyBorder;
 import entities.Player;
 import items.Potion;
 
+/*
+ * InventoryPanel represents the Inventory Screen for the HumanVsPlayers game.
+ * Uses Java Swing for a GUI representation and communicates directly with the
+ * Player class to display stats and the items that the Player has. Allows for
+ * equipping and using items.
+ */
 public class InventoryPanel extends JPanel {
     final int tileSize = 16;
     final int scale = 3;
@@ -31,6 +37,12 @@ public class InventoryPanel extends JPanel {
     InventorySlot armor;
     ArrayList<InventorySlot> pouchItems;
 
+    // initializeInventorySlots() will create all the inventory slots
+    // needed to display the player's items and additional empty slots
+    // to be filled when the player acquires more items. This method
+    // also creates an actionlistener to every InventorySlot that
+    // works with Player.equipItem() and Player.usePotion() to use potions
+    // and equip items directly from the slots.
     public void initializeInventorySlots() {
 
         pouchItems = new ArrayList<>();
@@ -81,6 +93,9 @@ public class InventoryPanel extends JPanel {
         // }
     }
 
+    // initializeDisplay() is used to create all the JPanels, JLabels, etc
+    // needed to display the inventory screen. This class is recalled on every
+    // inventory change allowing for a GUI refresh. 
     public void initializeDisplay() {
 
         this.removeAll();
