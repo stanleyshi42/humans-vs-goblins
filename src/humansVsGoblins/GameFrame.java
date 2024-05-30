@@ -13,10 +13,10 @@ public class GameFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 
-		//Player player = new Player();
-        //Goblin enemy = new Goblin(200, 200, 10, 3, 1);
+		// Player player = new Player();
+        // Goblin enemy = new Goblin(200, 200, 10, 3, 1);
 
-        //CombatWindow combatWindow = new CombatWindow(player, enemy);
+        // CombatWindow combatWindow = new CombatWindow(player, enemy);
 		
 		//this.add(gamePanel);
 		this.pack();

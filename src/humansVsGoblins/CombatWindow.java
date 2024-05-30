@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import entities.Goblin;
 import entities.Player;
+import items.Item;
+import items.Potion;
 
 public class CombatWindow extends JFrame {
     private final Player player;
@@ -67,13 +70,6 @@ public class CombatWindow extends JFrame {
             }
         });
 
-        JButton changeWeaponButton = new JButton("Change Weapon");
-        changeWeaponButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                changeWeapon();
-            }
-        });
 
         JButton usePotionButton = new JButton("Use Potion");
         usePotionButton.addActionListener(new ActionListener() {
@@ -85,7 +81,6 @@ public class CombatWindow extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(attackButton);
-        buttonPanel.add(changeWeaponButton);
         buttonPanel.add(usePotionButton);
 
         // Panel positions
@@ -147,12 +142,50 @@ public class CombatWindow extends JFrame {
         }
     }
 
-    private void changeWeapon() {
-        
-    }
+
 
     private void usePotion() {
-       
+        // Get the list of potions from the player's inventory
+        ArrayList<Potion> potions = new ArrayList<>();
+        for (Item item : player.getInventory()) {
+            if (item instanceof Potion) {
+                potions.add((Potion) item);
+            }
+        }
+
+        if (potions.isEmpty()) {
+            appendToCombatLog("No potions available!");
+            return;
+        }
+
+        // Create a list of potion names for the dialog
+        String[] potionNames = new String[potions.size()];
+        for (int i = 0; i < potions.size(); i++) {
+            potionNames[i] = potions.get(i).getName() + " (" + potions.get(i).healing + " HP)";
+        }
+
+        // Show the dialog to select a potion
+        String selectedPotion = (String) JOptionPane.showInputDialog(
+                this,
+                "Select a potion to use:",
+                "Use Potion",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                potionNames,
+                potionNames[0]);
+
+        if (selectedPotion != null) {
+            // Find the selected potion
+            for (Potion potion : potions) {
+                if (selectedPotion.startsWith(potion.getName())) {
+                    // Use the selected potion
+                    player.usePotion(potion);
+                    appendToCombatLog("Player used " + potion.getName() + " to restore " + potion.healing + " HP.");
+                    updateHealthBars(player.getHp(), enemy.getHp());
+                    break;
+                }
+            }
+        }
     }
 
     private void appendToCombatLog(String message) {
