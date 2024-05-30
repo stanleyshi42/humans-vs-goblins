@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 import java.awt.GridLayout;
@@ -29,17 +30,18 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int screenWidth = scaledTileSize*maxScreenColumns;
     final int screenHeight = scaledTileSize*maxScreenRows;
-    Player player = new Player();
-    
-    ArrayList<Goblin> goblins =new ArrayList<Goblin>();
 
-    
+    // Entities
+    Player player = new Player();
+    ArrayList<Goblin> goblins = new ArrayList<Goblin>();
+
     ArrayList<Tile> mapTiles = new ArrayList<>();
-    Thread gameThread;
     TileResource tileResource = new TileResource(this);
 
     PossibleMove possibleMove = new PossibleMove(player,tileResource);
 
+    // Game Loop Variables
+    Thread gameThread;
     boolean paused = false;
 
     public GamePanel() {
@@ -67,7 +69,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setVisible(true);
         //this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove, goblins));
+        this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove));
+        //this.addKeyListener(new MovementListener());
         possibleMove.createMoves();
     }
 
@@ -123,5 +126,55 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public Player getPlayer() {
 		return player;
+	}
+    
+    public ArrayList<Goblin> getGoblins() {
+        return goblins;
+    }
+
+    public void addGoblin(int randX, int randY) {
+        goblins.add(new Goblin(randX, randY));
+    }
+
+    public void removeGoblin(Goblin g) {
+        goblins.remove(g);
+    }
+
+    // Check if the player is in the same space as a goblin and start combat if needed
+	public void checkCombat() {
+		for (Goblin g : getGoblins()) {
+			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
+				new CombatWindow((GamePanel) this, player, g);
+				removeGoblin(g);
+				spawnGoblin();
+				break;
+			}
+		}
+	}
+
+	// Spawn a goblin in an empty tile
+	public void spawnGoblin() {
+		Random random = new Random();
+		int randX = 0;
+		int randY = 0;
+		boolean collision = false;
+
+		// Generate random coordinates for an empty tile
+		do {
+			randX = random.nextInt(20);
+			randY = random.nextInt(20);
+
+			if (randX == player.getGX() && randY == player.getGY())
+				collision = true;
+
+			for (Goblin g : getGoblins()) {
+				if (randX == g.getX() && randY == g.getY()) {
+					collision = true;
+				}
+			}
+
+		} while (collision);
+
+		addGoblin(randX, randY);
 	}
 }
