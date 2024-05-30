@@ -44,6 +44,7 @@ public class InventoryPanel extends JFrame {
     InventorySlot weapon;
     InventorySlot armor;
     ArrayList<InventorySlot> pouchItems;
+    GamePanel gPanel;
 
     // initializeInventorySlots() will create all the inventory slots
     // needed to display the player's items and additional empty slots
@@ -133,6 +134,7 @@ public class InventoryPanel extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
+                    gPanel.unPauseGameThread();
                     p.dispose();
                 }
             });
@@ -237,10 +239,12 @@ public class InventoryPanel extends JFrame {
         this.pack();
     }
 
-    InventoryPanel(Player p) {
+    InventoryPanel(GamePanel panel, Player p) {
 
         // Grab all the items the player has in its inventory.
         this.player = p;
+        this.gPanel = panel;
+        gPanel.pauseGameThread();
         this.setTitle("Inventory");
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(500, 940));
