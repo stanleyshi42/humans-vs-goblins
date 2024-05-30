@@ -17,8 +17,8 @@ public class Player extends Entity {
 
 	// Starting stats
 	public Player() {
-		this.x = 0;
-		this.y = 0;
+		this.setGridX(1);
+		this.setGridY(1);
 
 		this.maxHp = 10;
 		this.curHp = this.maxHp;
@@ -151,9 +151,6 @@ public class Player extends Entity {
 		return speed;
 	}
 
-	public int getX() {
-		return x;
-	}
 	public int getGX() {
 		return gX;
 	}
@@ -167,9 +164,6 @@ public class Player extends Entity {
 		this.y = y * 48;
 	}
 
-	public int getY() {
-		return y;
-	}
 	public int getGY() {
 		return gY;
 	}

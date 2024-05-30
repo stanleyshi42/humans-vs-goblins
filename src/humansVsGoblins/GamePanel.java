@@ -11,8 +11,6 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 
 /**
@@ -40,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     TileResource tileResource = new TileResource(this);
 
-    PossibleMove possibleMove = new PossibleMove(this,player,tileResource);
+    PossibleMove possibleMove = new PossibleMove(player,tileResource);
 
     boolean paused = false;
 
@@ -71,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove, goblins));
         possibleMove.createMoves();
-
     }
 
 	@Override

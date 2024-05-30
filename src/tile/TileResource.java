@@ -3,6 +3,9 @@ package tile;
 import humansVsGoblins.GamePanel;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
@@ -12,28 +15,31 @@ public class TileResource {
     Tile[] tile;
     ImageIcon icon;
     String[] resourceContainer = {
-            "Resources/grass.png",
-            "Resources/tree.png",
-            "Resources/chest.png",
-            "Resources/lockedChest.png"
+            "Resources/grass.png", // tile[0]
+            "Resources/tree.png", // tile[1]
+            "Resources/chest.png", // tile[2]
+            "Resources/lockedChest.png", // tile[3]
+            "Resources/movement.png" // tile[4]
     };
-    ArrayList<String> collisionList = new ArrayList<>();
+    int mapTile[][];
 
     final int UNITSIZE = 48;
     
     public TileResource(GamePanel gp) {
         this.gp = gp;
         tile = new Tile[10];
-
+        mapTile = new int[gp.maxScreenColumns][gp.maxScreenRows];
         createTileImage();
+        loadMap();
     }
 
-    public ArrayList<String> getTilesCollision(){
-        return collisionList;
-    }
 
     public Tile[] getTile(){
         return tile;
+    }
+
+    public int[][] getMap(){
+        return mapTile;
     }
 
     private void createTileImage() {
@@ -46,25 +52,40 @@ public class TileResource {
                     icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
             System.out.println(tile[i].name);
         }
-        tile[1].collision = true;
 
+    }
+
+    public void loadMap() {
+        try{
+            InputStream is = getClass().getClassLoader().getResourceAsStream("maps/map01.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            for (int i = 0; i < gp.maxScreenRows; i++){
+                String line = br.readLine();
+                String numbers[] = line.split(" ");
+                for (int j = 0; j < gp.maxScreenColumns; j++){
+                    mapTile[i][j] = Integer.parseInt(numbers[j]);
+                }
+            }
+        } catch (Exception e){
+            System.out.println("Map Loaded Incorrectly");
+        }
     }
 
     public void draw(Graphics2D g2){
         int x;
         int y;
         for (int i = 0; i < gp.maxScreenRows; i++){
-            x = UNITSIZE * i;
+            y = UNITSIZE * i;
             for (int j = 0; j < gp.maxScreenColumns;j++){
-                y = UNITSIZE * j;
+                x = UNITSIZE * j;
+                int tileNumber = mapTile[i][j];
                 g2.drawImage(tile[0].image, x,y,gp.scaledTileSize, gp.scaledTileSize, null);
+                if (tileNumber != 0){
+                    g2.drawImage(tile[tileNumber].image, x,y,gp.scaledTileSize, gp.scaledTileSize, null);
+                }
+
             }
         }
-        g2.drawImage(tile[1].image, UNITSIZE*2,0,gp.scaledTileSize, gp.scaledTileSize, null);
-        collisionList.add("0 2");
-        g2.drawImage(tile[2].image, UNITSIZE*3,0,gp.scaledTileSize, gp.scaledTileSize, null);
-        g2.drawImage(tile[3].image, UNITSIZE*4,0,gp.scaledTileSize, gp.scaledTileSize, null);
-        g2.drawImage(tile[3].image, UNITSIZE*5,0,gp.scaledTileSize, gp.scaledTileSize, null);
 
 
     }
