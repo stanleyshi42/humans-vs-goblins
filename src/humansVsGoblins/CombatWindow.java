@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import entities.Goblin;
 import entities.Player;
@@ -19,6 +20,8 @@ public class CombatWindow extends JFrame {
     private final JProgressBar enemyHealthBar;
     private boolean playerTurn;
     private GamePanel gPanel;
+
+    private Random rand = new Random();
 
     public CombatWindow(GamePanel gamePanel, Player player, Goblin enemy) {
         this.player = player;
@@ -105,7 +108,7 @@ public class CombatWindow extends JFrame {
 
     private void performAttack() {
         if (playerTurn) {
-            int playerDamage = player.getAttack();
+            int playerDamage = rand.nextInt(player.getAttack());
             int enemyDefense = enemy.getDefense();
             enemy.takeDamage(playerDamage);
             appendToCombatLog("Player attacks for " + playerDamage + " damage.");
@@ -125,7 +128,7 @@ public class CombatWindow extends JFrame {
     }
 
     private void enemyAttack() {
-        int enemyDamage = enemy.getAttack();
+        int enemyDamage = rand.nextInt(enemy.getAttack());
         player.takeDamage(enemyDamage);
         int playerDefense = player.getDefense();
         appendToCombatLog("Enemy attacks for " + enemyDamage + " damage.");
