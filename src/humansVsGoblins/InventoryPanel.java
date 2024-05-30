@@ -1,19 +1,26 @@
 package humansVsGoblins;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import entities.Player;
@@ -25,7 +32,7 @@ import items.Potion;
  * Player class to display stats and the items that the Player has. Allows for
  * equipping and using items.
  */
-public class InventoryPanel extends JPanel {
+public class InventoryPanel extends JFrame {
     final int tileSize = 16;
     final int scale = 3;
 
@@ -86,12 +93,6 @@ public class InventoryPanel extends JPanel {
         armor = new InventorySlot(scaledTileSize, player.getEquipment().get("armor"));
         revalidate();
         repaint();
-        // System.out.println("\nInventory:");
-        // for (InventorySlot inventorySlot : pouchItems) {
-        //     if(inventorySlot.itemInSlot != null) {
-        //         System.out.println(inventorySlot.itemInSlot.getName());
-        //     }
-        // }
     }
 
     // initializeDisplay() is used to create all the JPanels, JLabels, etc
@@ -99,8 +100,12 @@ public class InventoryPanel extends JPanel {
     // inventory change allowing for a GUI refresh. 
     public void initializeDisplay() {
 
-        this.removeAll();
+        this.getContentPane().removeAll();
         initializeInventorySlots();
+
+        JPanel frameContainer = new JPanel();
+        frameContainer.setLayout(new BoxLayout(frameContainer, BoxLayout.Y_AXIS));
+        frameContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         
         // INVENTORY TITLE
         JPanel titleCont = new JPanel();
@@ -111,7 +116,7 @@ public class InventoryPanel extends JPanel {
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Sans-serif", Font.BOLD, 36));
         titleCont.add(title);
-        this.add(titleCont);
+        frameContainer.add(titleCont);
 
         // BACK BUTTON
         JPanel buttonCont = new JPanel();
@@ -128,12 +133,12 @@ public class InventoryPanel extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    p.setVisible(false);
+                    p.dispose();
                 }
             });
         }
         buttonCont.add(backButton);
-        this.add(buttonCont);
+        frameContainer.add(buttonCont);
 
         // PLAYER STATS
         JPanel statsLabelCont = new JPanel();
@@ -146,7 +151,7 @@ public class InventoryPanel extends JPanel {
         statsLabel.setForeground(Color.BLACK);
         statsLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
         statsLabelCont.add(statsLabel);
-        this.add(statsLabelCont);
+        frameContainer.add(statsLabelCont);
 
         JPanel statsContainer = new JPanel();
         statsContainer.setSize(new Dimension(300, 40));                 // 300 40
@@ -173,9 +178,9 @@ public class InventoryPanel extends JPanel {
         statsContainer.add(attackLabel);
         statsContainer.add(defenseLabel);
         statsContainer.add(speedLabel);
-        this.add(statsContainer);
+        frameContainer.add(statsContainer);
 
-        this.add(Box.createRigidArea(new Dimension(40,10)));            // 40 10
+        frameContainer.add(Box.createRigidArea(new Dimension(40,10)));            // 40 10
 
         // EQUIPMENT AREA
         JPanel equipLabelCont = new JPanel();
@@ -187,7 +192,7 @@ public class InventoryPanel extends JPanel {
         equipLabel.setForeground(Color.BLACK);
         equipLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
         equipLabelCont.add(equipLabel);
-        this.add(equipLabelCont);
+        frameContainer.add(equipLabelCont);
 
         JPanel equipContainer = new JPanel();
         equipContainer.setSize(new Dimension(300, 140));                // 300 140
@@ -202,9 +207,9 @@ public class InventoryPanel extends JPanel {
         weapon.setFont(new Font("Sans-serif", Font.BOLD, 18));
         equipContainer.add(armor);
         equipContainer.add(weapon);
-        this.add(equipContainer);
+        frameContainer.add(equipContainer);
 
-        this.add(Box.createRigidArea(new Dimension(40,10)));            // 40 10
+        frameContainer.add(Box.createRigidArea(new Dimension(40,10)));            // 40 10
 
         // POUCH AREA
         JPanel pouchLabelCont = new JPanel();
@@ -216,7 +221,7 @@ public class InventoryPanel extends JPanel {
         pouchLabel.setForeground(Color.BLACK);
         pouchLabel.setFont(new Font("Sans-serif", Font.BOLD, 24));
         pouchLabelCont.add(pouchLabel);
-        this.add(pouchLabelCont);
+        frameContainer.add(pouchLabelCont);
 
         JPanel pouchContainer = new JPanel();
         pouchContainer.setLayout(new GridLayout(4, 3, 10, 5));
@@ -227,20 +232,53 @@ public class InventoryPanel extends JPanel {
             t.displayItem();
             pouchContainer.add(t);
         }
-        this.add(pouchContainer);
+        frameContainer.add(pouchContainer);
+        this.add(frameContainer, BorderLayout.CENTER);
+        this.pack();
     }
 
     InventoryPanel(Player p) {
 
         // Grab all the items the player has in its inventory.
         this.player = p;
+        this.setTitle("Inventory");
+        this.setUndecorated(true);
         this.setPreferredSize(new Dimension(500, 940));
         this.setSize(new Dimension(500, 940));
-        this.setDoubleBuffered(true);
+        //this.setDoubleBuffered(true);
         this.setVisible(true);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(new EmptyBorder(10,10,10,10));
+        this.setResizable(false);
+        this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+        this.setLocationRelativeTo(null);
+        FrameDragListener fdl = new FrameDragListener(this);
+        this.addMouseListener(fdl);
+        this.addMouseMotionListener(fdl);
+        this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        //this.setBorder(new EmptyBorder(10,10,10,10));
         initializeDisplay();
+    }
+
+    public static class FrameDragListener extends MouseAdapter {
+
+        private final JFrame frame;
+        private Point mouseDownCompCoords = null;
+
+        public FrameDragListener(JFrame frame) {
+            this.frame = frame;
+        }
+
+        public void mouseReleased(MouseEvent e) {
+            mouseDownCompCoords = null;
+        }
+
+        public void mousePressed(MouseEvent e) {
+            mouseDownCompCoords = e.getPoint();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            Point currCoords = e.getLocationOnScreen();
+            frame.setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+        }
     }
 
 }
