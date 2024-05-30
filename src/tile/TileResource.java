@@ -28,8 +28,12 @@ public class TileResource {
         createTileImage();
     }
 
-    public ArrayList<String> getTiles(){
+    public ArrayList<String> getTilesCollision(){
         return collisionList;
+    }
+
+    public Tile[] getTile(){
+        return tile;
     }
 
     private void createTileImage() {
