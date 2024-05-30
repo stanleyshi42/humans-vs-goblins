@@ -49,17 +49,15 @@ public class Goblin extends Entity {
 		Random random = new Random();
 		Boolean moved = false;
 
-		switch (random.nextInt(1)) {
+		switch (random.nextInt(4)) {
 		case 0:
 			moveRight(mapTile);
 			break;
 		case 1:
 			moveLeft(mapTile);
-
 			break;
 		case 2:
 			moveUp(mapTile);
-
 			break;
 		case 3:
 			moveDown(mapTile);
@@ -70,7 +68,7 @@ public class Goblin extends Entity {
 
 	// Check if a tile is occupied by an obstacle (trees, chests, etc.)
 	public boolean isOccupied(int[][] mapTile, int xCoord, int yCoord) {
-		if (mapTile[xCoord][yCoord] >= 1) {
+		if (mapTile[yCoord][xCoord] == 1) {
 			return true;
 		}
 
