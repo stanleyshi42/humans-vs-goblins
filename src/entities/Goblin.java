@@ -47,27 +47,30 @@ public class Goblin extends Entity {
 	// Randomly move
 	public void move(int[][] mapTile) {
 		Random random = new Random();
-		switch (random.nextInt(4)) {
+		Boolean moved = false;
 
+		switch (random.nextInt(1)) {
 		case 0:
 			moveRight(mapTile);
 			break;
 		case 1:
 			moveLeft(mapTile);
+
 			break;
 		case 2:
 			moveUp(mapTile);
+
 			break;
 		case 3:
 			moveDown(mapTile);
 			break;
 		}
+
 	}
 
 	// Check if a tile is occupied by an obstacle (trees, chests, etc.)
-	public boolean isOccupied(int[][] mapTile, int x, int y) {
-		if (mapTile[x][y] > 0) {
-			System.out.println("Occupied");
+	public boolean isOccupied(int[][] mapTile, int xCoord, int yCoord) {
+		if (mapTile[xCoord][yCoord] >= 1) {
 			return true;
 		}
 
@@ -75,31 +78,33 @@ public class Goblin extends Entity {
 	}
 
 	public void moveRight(int[][] mapTile) {
-		int newX = this.x + 1;
-		if (this.x < 19)
-			if (!isOccupied(mapTile, newX, y))
-				this.x += 1;
+		int newX = x + 1;
+		if (x < 19 && !isOccupied(mapTile, newX, this.y)) {
+			x = newX;
+		}
+
 	}
 
 	public void moveLeft(int[][] mapTile) {
 		int newX = this.x - 1;
-		if (this.x > 0)
-			if (!isOccupied(mapTile, newX, y))
-				this.x -= 1;
+		if (this.x > 0 && !isOccupied(mapTile, newX, this.y)) {
+			this.x -= 1;
+		}
+
 	}
 
 	public void moveUp(int[][] mapTile) {
 		int newY = this.y - 1;
-		if (this.y > 0)
-			if (!isOccupied(mapTile, x, newY))
-				this.y -= 1;
+		if (this.y > 0 && !isOccupied(mapTile, this.x, newY)) {
+			this.y -= 1;
+		}
 	}
 
 	public void moveDown(int[][] mapTile) {
 		int newY = this.y + 1;
-		if (this.y < 19)
-			if (!isOccupied(mapTile, x, newY))
-				this.y += 1;
+		if (this.y < 19 && !isOccupied(mapTile, this.x, newY)) {
+			this.y += 1;
+		}
 	}
 
 	public int getDefense() {
