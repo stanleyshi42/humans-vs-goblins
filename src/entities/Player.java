@@ -80,14 +80,15 @@ public class Player extends Entity {
 	private void equipWeapon(Weapon newWeapon) {
 		Weapon currentWeapon = (Weapon) equipment.get("weapon");
 
+		int index = inventory.indexOf(newWeapon);
 		// Move the equipped item to inventory
-		inventory.add(currentWeapon);
 		attack -= currentWeapon.attack;
 
 		// Equip the new item
 		equipment.put("weapon", newWeapon);
-		inventory.remove(newWeapon);
+		inventory.remove(index);
 		attack += newWeapon.attack;
+		inventory.add(index, currentWeapon);
 
 	}
 
@@ -95,12 +96,13 @@ public class Player extends Entity {
 		Armor currentArmor = (Armor) equipment.get("armor");
 
 		// Move the equipped item to inventory
-		inventory.add(currentArmor);
+		int index = inventory.indexOf(newArmor);
 		defense -= currentArmor.defense;
 
 		// Equip the new item
 		equipment.put("armor", newArmor);
-		inventory.remove(newArmor);
+		inventory.remove(index);
+		inventory.add(index, currentArmor);
 		defense += newArmor.defense;
 	}
 
