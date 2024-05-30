@@ -39,4 +39,18 @@ public class InventorySlot extends JButton {
         }
         this.setText(itemInSlot.getName());
     }
+
+    public void displayMajorItem() {
+        if(itemInSlot == null) return;
+
+        ImageIcon sprite = itemInSlot.getSprite();
+        if(sprite != null) {
+            Image unScaled = sprite.getImage();
+            Image scaledImg = unScaled.getScaledInstance(sprite.getIconWidth()*5,
+                sprite.getIconHeight()*5, java.awt.Image.SCALE_SMOOTH);
+            this.setIcon(new ImageIcon(scaledImg));
+        }
+        this.setText(itemInSlot.getName());
+    }
+    
 }

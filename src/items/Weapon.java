@@ -13,23 +13,20 @@ public class Weapon extends Item {
 			this.setName("Wooden Sword");
 			this.attack = 2;
 			// TODO set sprite
-			//ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
-			//this.setSprite(woodSword);
-			this.setSprite(null);
+			ImageIcon woodSword = new ImageIcon("Resources/woodenSword.png");
+			this.setSprite(woodSword);
 			break;
 		case IRON_SWORD:
 			this.setName("Iron Sword");
 			this.attack = 4;
-			//ImageIcon ironSword = new ImageIcon("Resources/ironSword.png");
-			//this.setSprite(ironSword);
-			this.setSprite(null);
+			ImageIcon ironSword = new ImageIcon("Resources/ironSword.png");
+			this.setSprite(ironSword);
 			break;
 		case DIAMOND_SWORD:
 			this.setName("Diamond Sword");
 			this.attack = 6;
-			//ImageIcon diamondSword = new ImageIcon("Resources/diamondSword.png");
-			//this.setSprite(diamondSword);
-			this.setSprite(null);
+			ImageIcon diamondSword = new ImageIcon("Resources/diamondSword.png");
+			this.setSprite(diamondSword);
 			break;
 		case BROAD_SWORD:
 			this.setName("Broad Sword");
