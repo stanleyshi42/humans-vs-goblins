@@ -40,6 +40,7 @@ public class Player extends Entity {
 
 	public void draw(Graphics2D g2){
 		g2.drawImage(image, this.x,this.y,48, 48, null);
+
 	}
 
 	// Use a potion to restore HP

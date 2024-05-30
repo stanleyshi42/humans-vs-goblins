@@ -48,7 +48,7 @@ public class TileResource {
 
     public void draw(Graphics2D g2){
         int x;
-        int y = 0;
+        int y;
         for (int i = 0; i < gp.maxScreenRows; i++){
             x = UNITSIZE * i;
             for (int j = 0; j < gp.maxScreenColumns;j++){
@@ -61,6 +61,7 @@ public class TileResource {
         g2.drawImage(tile[2].image, UNITSIZE*3,0,gp.scaledTileSize, gp.scaledTileSize, null);
         g2.drawImage(tile[3].image, UNITSIZE*4,0,gp.scaledTileSize, gp.scaledTileSize, null);
         g2.drawImage(tile[3].image, UNITSIZE*5,0,gp.scaledTileSize, gp.scaledTileSize, null);
+
 
     }
 }
