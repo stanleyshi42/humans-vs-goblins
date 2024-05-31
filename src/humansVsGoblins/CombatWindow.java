@@ -126,15 +126,16 @@ public class CombatWindow extends JFrame {
             if (enemy.getHp() <= 0) {
                 appendToCombatLog("Enemy defeated!");
                 appendToCombatLog("Combat ended.");
-                gPanel.unPauseGameThread();
+                updateHealthBars(player.getHp(), enemy.getHp());
+                gPanel.addListeners();
                 dispose();
             } else {
                 playerTurn = false;
                 appendToCombatLog("Enemy's turn.");
                 enemyAttack();
+                updateHealthBars(player.getHp(), enemy.getHp());
             }
         }
-        updateHealthBars(player.getHp(), enemy.getHp());
     }
 
     private void enemyAttack() {
@@ -147,7 +148,7 @@ public class CombatWindow extends JFrame {
         if (player.getHp() <= 0) {
             appendToCombatLog("Player defeated!");
             appendToCombatLog("Combat ended.");
-            gPanel.unPauseGameThread();
+            gPanel.addListeners();
             dispose();
         } else {
             playerTurn = true;

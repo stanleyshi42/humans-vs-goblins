@@ -38,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Game Loop Variables
 	Thread gameThread;
-	boolean paused = false;
   
   // Listeners
 	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
@@ -110,14 +109,6 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
-	public void pauseGameThread() {
-		paused = true;
-	}
-
-	public void unPauseGameThread() {
-		paused = false;
-	}
-
 	@Override
 	public void run() {
 		double drawInterval = (double) 1000000000 / 30;
@@ -125,9 +116,6 @@ public class GamePanel extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long currentTime;
 		while (gameThread != null) {
-			if (paused)
-				continue;
-
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
@@ -168,6 +156,8 @@ public class GamePanel extends JPanel implements Runnable {
 		for (Goblin g : getGoblins()) {
 			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
 				new CombatWindow((GamePanel) this, player, g);
+				this.removeMouseListener(mouse);
+				this.removeKeyListener(keyboard);
 				removeGoblin(g);
 				spawnGoblin();
 				break;
