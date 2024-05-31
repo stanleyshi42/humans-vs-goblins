@@ -17,15 +17,15 @@ public final class GoblinDrops {
 		Random random = new Random();
 		int rand = random.nextInt(100) + 1; // 1-100
 
-		if (isBetween(rand, 1, 20))
+		if (isBetween(rand, 1, 54))
 			return null; // Rolled no drop
-		if (isBetween(rand, 21, 40)) 
+		if (isBetween(rand, 55, 58)) 
 			return new Weapon(ItemID.IRON_SWORD);
-		if (isBetween(rand, 41, 50))
+		if (isBetween(rand, 59, 65))
 			return new Weapon(ItemID.BROAD_SWORD);
-		if (isBetween(rand, 51, 90))
+		if (isBetween(rand, 66, 92))
 			return new Potion(ItemID.SMALL_POTION);
-		if (isBetween(rand, 91, 100))
+		if (isBetween(rand, 93, 100))
 			return new Key(ItemID.KEY);
 		return null;
 

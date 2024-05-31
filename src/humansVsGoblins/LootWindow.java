@@ -50,7 +50,6 @@ public class LootWindow extends JFrame {
         for(Item i: itemObjs){
             if(i != null) allNull = false;
         }
-        if(allNull) this.dispose();
 
         gPanel.removeKeyListener(gPanel.getKeyboard());
         gPanel.removeMouseListener(gPanel.getMouse());
@@ -77,6 +76,10 @@ public class LootWindow extends JFrame {
         this.addMouseMotionListener(fdl);
         
         initializeDisplay();
+        if(allNull) {
+            gPanel.addListeners();
+            this.dispose();
+        }
     }
 
     public void initializeLootSlots() {
