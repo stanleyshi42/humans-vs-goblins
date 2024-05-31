@@ -74,12 +74,9 @@ public class InstructionsWindow extends JFrame implements ActionListener {
 		Object source = e.getSource();
 		if (source == startButton) {
 			setVisible(false);
-			Launcher.main(null);
+			//Launcher.main(null);
+			new GameFrame();
 		}
-	}
-
-	public static void main(String[] args) {
-		new InstructionsWindow();
 	}
 
 }
