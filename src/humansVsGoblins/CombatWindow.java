@@ -48,7 +48,7 @@ public class CombatWindow extends JFrame {
 
 
         // Combat log setup
-        combatLog = new JTextArea(5, 50);
+        combatLog = new JTextArea(8, 50);
         combatLog.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(combatLog);
 
@@ -110,8 +110,10 @@ public class CombatWindow extends JFrame {
         setVisible(true);
 
         appendToCombatLog("Combat started!");
+        appendToCombatLog("--------------------");
         appendToCombatLog("Player: " + player.getClass().getSimpleName() + " (Health: " + player.getHp() + ")");
         appendToCombatLog("Enemy: " + enemy.getClass().getSimpleName() + " (Health: " + enemy.getHp() + ")");
+        appendToCombatLog("-------------------");
         appendToCombatLog("");
         appendToCombatLog("Player's turn.");
     }
@@ -121,8 +123,9 @@ public class CombatWindow extends JFrame {
             int playerDamage = rand.nextInt(player.getAttack()+1);
             int enemyDefense = enemy.getDefense();
             enemy.takeDamage(playerDamage);
-            appendToCombatLog("Player attacks for " + playerDamage + " damage.");
-            appendToCombatLog("Enemy blocked " + enemyDefense + " damage.");
+            appendToCombatLog("*** Player attacks for " + playerDamage + " damage.");
+            appendToCombatLog("*** Enemy blocked " + enemyDefense + " damage.");
+            appendToCombatLog("---------------------");
             if (enemy.getHp() <= 0) {
                 appendToCombatLog("Enemy defeated!");
                 appendToCombatLog("Combat ended.");
@@ -141,8 +144,9 @@ public class CombatWindow extends JFrame {
         int enemyDamage = rand.nextInt(enemy.getAttack()+1);
         player.takeDamage(enemyDamage);
         int playerDefense = player.getDefense();
-        appendToCombatLog("Enemy attacks for " + enemyDamage + " damage.");
-        appendToCombatLog("Player blocked " + playerDefense + " damage.");
+        appendToCombatLog("*** Enemy attacks for " + enemyDamage + " damage.");
+        appendToCombatLog("*** Player blocked " + playerDefense + " damage.");
+        appendToCombatLog("---------------------");
         updateHealthBars(player.getHp(), enemy.getHp());
         if (player.getHp() <= 0) {
             appendToCombatLog("Player defeated!");
@@ -194,6 +198,8 @@ public class CombatWindow extends JFrame {
                     // Use the selected potion
                     player.usePotion(potion);
                     appendToCombatLog("Player used " + potion.getName() + " to restore " + potion.healing + " HP.");
+                    appendToCombatLog("---------------------");
+                    appendToCombatLog("Enemy's turn.");
                     updateHealthBars(player.getHp(), enemy.getHp());
                     playerTurn = false;
                     enemyAttack();
