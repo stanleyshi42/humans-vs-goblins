@@ -15,61 +15,62 @@ import javax.swing.*;
  */
 public class GamePanel extends JPanel implements Runnable {
 
-    final int tileSize = 16;
-    final int scale = 3;
+	final int tileSize = 16;
+	final int scale = 3;
 
-    public final int scaledTileSize = tileSize * scale;
-    public final int maxScreenColumns = 20;
-    public final int maxScreenRows = 20;
+	public final int scaledTileSize = tileSize * scale;
+	public final int maxScreenColumns = 20;
+	public final int maxScreenRows = 20;
 
-    final Dimension UNITSIZE = new Dimension(48,48);
+	final Dimension UNITSIZE = new Dimension(48, 48);
 
-    final int screenWidth = scaledTileSize*maxScreenColumns;
-    final int screenHeight = scaledTileSize*maxScreenRows;
+	final int screenWidth = scaledTileSize * maxScreenColumns;
+	final int screenHeight = scaledTileSize * maxScreenRows;
 
-    // Entities
-    Player player = new Player();
-    ArrayList<Goblin> goblins = new ArrayList<Goblin>();
+	// Entities
+	Player player = new Player();
+	public static ArrayList<Goblin> goblins = new ArrayList<Goblin>();
 
-    ArrayList<Tile> mapTiles = new ArrayList<>();
-    TileResource tileResource = new TileResource(this);
+	ArrayList<Tile> mapTiles = new ArrayList<>();
+	TileResource tileResource = new TileResource(this);
 
-    PossibleMove possibleMove = new PossibleMove(player,tileResource);
+	PossibleMove possibleMove = new PossibleMove(player, tileResource);
 
-    // Game Loop Variables
-    Thread gameThread;
-    boolean paused = false;
+	// Game Loop Variables
+	Thread gameThread;
+	boolean paused = false;
 
-    public GamePanel() {
-    	
-    	goblins.add(new Goblin(19,5));
-    	goblins.add(new Goblin(10,1));
-    	
-//        for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
-//            mapTiles.add(new Tile(scaledTileSize));
-//        }
+	public GamePanel() {
 
+		// goblins.add(new Goblin(7, 7));
+		// goblins.add(new Goblin(1, 3));
+		spawnGoblin();
+		spawnGoblin();
+		spawnGoblin();
 
-        setLayout(new GridLayout(maxScreenRows,maxScreenColumns,0,0));
-        for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
-            JPanel panel = new JPanel();
-            String name = String.format("%d %d",
-                    i / maxScreenRows, i % maxScreenColumns);
-            panel.setName(name);
-            panel.setPreferredSize(UNITSIZE);
-            add(panel);
-        }
+		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
+			mapTiles.add(new Tile(scaledTileSize));
+		}
 
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.BLACK);
-        this.setDoubleBuffered(true);
-        this.setVisible(true);
-        //this.addKeyListener(keyHandler);
-        this.setFocusable(true);
-        this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove));
-        //this.addKeyListener(new MovementListener());
-        possibleMove.createMoves();
-    }
+		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 1, 1));
+		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
+			JPanel panel = new JPanel();
+			String name = String.format("%d %d", i / maxScreenRows, i % maxScreenColumns);
+			panel.setName(name);
+			panel.setPreferredSize(UNITSIZE);
+			add(panel);
+		}
+
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+		this.setBackground(Color.BLACK);
+		this.setDoubleBuffered(true);
+		this.setVisible(true);
+		// this.addKeyListener(keyHandler);
+		this.setFocusable(true);
+		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
+		// this.addKeyListener(new MovementListener());
+		possibleMove.createMoves();
+	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -114,13 +115,13 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
-    public void pauseGameThread() {
-        paused = true;
-    }
+	public void pauseGameThread() {
+		paused = true;
+	}
 
-    public void unPauseGameThread() {
-        paused = false;
-    }
+	public void unPauseGameThread() {
+		paused = false;
+	}
 
 	@Override
 	public void run() {
@@ -129,7 +130,8 @@ public class GamePanel extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long currentTime;
 		while (gameThread != null) {
-            if(paused) continue;
+			if (paused)
+				continue;
 
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
@@ -149,20 +151,20 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player getPlayer() {
 		return player;
 	}
-    
-    public ArrayList<Goblin> getGoblins() {
-        return goblins;
-    }
 
-    public void addGoblin(int randX, int randY) {
-        goblins.add(new Goblin(randX, randY));
-    }
+	public ArrayList<Goblin> getGoblins() {
+		return goblins;
+	}
 
-    public void removeGoblin(Goblin g) {
-        goblins.remove(g);
-    }
+	public void addGoblin(int randX, int randY) {
+		goblins.add(new Goblin(randX, randY));
+	}
 
-    // Check if the player is in the same space as a goblin and start combat if needed
+	public void removeGoblin(Goblin g) {
+		goblins.remove(g);
+	}
+
+	// Check if player is in the same space as a goblin and start combat if needed
 	public void checkCombat() {
 		for (Goblin g : getGoblins()) {
 			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
@@ -179,23 +181,27 @@ public class GamePanel extends JPanel implements Runnable {
 		Random random = new Random();
 		int randX = 0;
 		int randY = 0;
-		boolean collision = false;
+		boolean isOccopied = true;
+		int[][] mapTiles = tileResource.getMap();
 
 		// Generate random coordinates for an empty tile
 		do {
 			randX = random.nextInt(20);
 			randY = random.nextInt(20);
 
+			if (mapTiles[randY][randX] == 0)
+				isOccopied = false;
+
 			if (randX == player.getGX() && randY == player.getGY())
-				collision = true;
+				isOccopied = true;
 
 			for (Goblin g : getGoblins()) {
 				if (randX == g.getX() && randY == g.getY()) {
-					collision = true;
+					isOccopied = true;
 				}
 			}
 
-		} while (collision);
+		} while (isOccopied);
 
 		addGoblin(randX, randY);
 	}

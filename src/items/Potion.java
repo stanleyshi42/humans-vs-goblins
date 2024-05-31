@@ -7,20 +7,19 @@ public class Potion extends Item {
 
 	public Potion(ItemID itemId) {
 		super("", itemId, null);
-		
+
 		switch (itemId) {
 		case SMALL_POTION:
 			this.setName("Small Potion");
 			this.healing = 3;
-			// TODO set sprite
 			ImageIcon smallPot = new ImageIcon("Resources/lesserHealingPot.png");
 			this.setSprite(smallPot);
 			break;
 		case MEDIUM_POTION:
 			this.setName("Medium Potion");
 			this.healing = 5;
-			//ImageIcon mediumPot = new ImageIcon("Resources/healingPot.png");
-			//this.setSprite(mediumPot);
+			// ImageIcon mediumPot = new ImageIcon("Resources/healingPot.png");
+			// this.setSprite(mediumPot);
 			this.setSprite(null);
 			break;
 		case LARGE_POTION:
