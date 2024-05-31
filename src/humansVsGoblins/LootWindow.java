@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import drop_tables.ChestDrops;
 import drop_tables.GoblinDrops;
 import entities.Player;
 import humansVsGoblins.InventoryPanel.FrameDragListener;
@@ -39,13 +40,17 @@ public class LootWindow extends JFrame {
     ArrayList<InventorySlot> pouchItems;
     ArrayList<Item> itemObjs;
 
-    LootWindow(GamePanel panel, Player p) {
+    LootWindow(GamePanel panel, Player p, boolean chest) {
         this.player = p;
         this.gPanel = panel;
 
+        if(chest == false)
+            itemObjs = GoblinDrops.rollMultiple(3);
+        else
+            itemObjs = ChestDrops.rollMultiple(3);
+
         // Grab random loot items and check if
         // the player rolled all null items.
-        itemObjs = GoblinDrops.rollMultiple(3);
         boolean allNull = true;
         for(Item i: itemObjs){
             if(i != null) allNull = false;

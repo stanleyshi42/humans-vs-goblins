@@ -188,6 +188,31 @@ public class Player extends Entity {
 		return equipment;
 	}
 
+	// hasKeyInInventory() will return if the player
+	// has a Key object in their inventory. Used
+	// to unlock chests.
+	public boolean hasKeyInInventory() {
+		for(Item it: inventory) {
+			if(it instanceof Key) return true;
+		}
+		return false;
+	}
+
+	// useKey() will remove a singular key object
+	// from the player's inventory if the player
+	// has one. Used to unlock chests in the
+	// CheckChest() method in GamePanel.java 
+	public void useKey() {
+		if(hasKeyInInventory()) {
+			for(Item it: inventory) {
+				if(it instanceof Key) {
+					inventory.remove(it);
+					return;
+				}
+			}
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "Player [maxHp=" + maxHp + ", curHp=" + curHp + ", attack=" + attack + ", defense=" + defense

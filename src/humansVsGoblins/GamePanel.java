@@ -171,9 +171,14 @@ public class GamePanel extends JPanel implements Runnable {
 		for (Treasure t : chests) {
 			if (t.getX() == player.getGX() && t.getY() == player.getGY()) {
 				System.out.println(t.getLocked());
-				this.removeMouseListener(mouse);
-				this.removeKeyListener(keyboard);
-				if (!t.getLocked()){
+				if (!t.getLocked()) {
+					new LootWindow(this, player, true);
+					removeChest(t);
+				}
+				else if(player.hasKeyInInventory()) {
+					player.useKey();
+					t.setUnlock();
+					new LootWindow(this, player, true);
 					removeChest(t);
 				}
 				break;
