@@ -77,6 +77,8 @@ public class MovementListener implements KeyListener {
 				// Check if player moved into a goblin
 				gamePanel.checkCombat();
 
+				gamePanel.checkChest();
+
 				for (Goblin g : gamePanel.getGoblins()) {
 					g.move(mapTile);
 				}
