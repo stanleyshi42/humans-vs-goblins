@@ -14,13 +14,14 @@ public class Player extends Entity {
 
 	ImageIcon icon;
 	Image image;
+	Image image2;
 
 	// Starting stats
 	public Player() {
 		this.setGridX(1);
 		this.setGridY(1);
 
-		this.maxHp = 10;
+		this.maxHp = 1;
 		this.curHp = this.maxHp;
 		this.attack = 5;
 		this.defense = 2;
@@ -35,6 +36,9 @@ public class Player extends Entity {
 		this.inventory.add(new Armor(ItemID.IRON_ARMOR));
 		this.icon = new ImageIcon("Resources/player.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
+				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
+		this.icon = new ImageIcon("Resources/chest.png");
+		this.image2 = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
 				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
 	}
 
