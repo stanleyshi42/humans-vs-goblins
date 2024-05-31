@@ -27,6 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	final int screenWidth = scaledTileSize * maxScreenColumns;
 	final int screenHeight = scaledTileSize * maxScreenRows;
+	public int spriteNum = 1;
+	public int spriteCounter = 0;
 
 	// Entities
 	Player player = new Player();
@@ -134,7 +136,20 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void update() {
+		spriteCounter++;
 
+		if (spriteCounter > 10){
+			if (spriteNum == 1){
+				spriteNum = 2;
+			} else if (spriteNum == 2){
+				spriteNum = 1;
+			}
+			player.update(spriteNum);
+			for (Goblin gob: goblins){
+				gob.update(spriteNum);
+			}
+			spriteCounter = 0;
+		}
 	}
 
 	public Player getPlayer() {
