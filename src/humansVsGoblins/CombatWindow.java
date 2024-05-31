@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,6 +39,14 @@ public class CombatWindow extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gPanel.unPauseGameThread();
+            }
+        });
+
+
         // Combat log setup
         combatLog = new JTextArea(5, 50);
         combatLog.setEditable(false);
@@ -53,7 +63,7 @@ public class CombatWindow extends JFrame {
 
         // Health bar panel setup
         JPanel healthBarPanel = new JPanel(new GridLayout(1, 2));
-        playerHealthBar = new JProgressBar(0, player.getHp());
+        playerHealthBar = new JProgressBar(0, player.getMaxHp());
         playerHealthBar.setValue(player.getHp());
         playerHealthBar.setStringPainted(true);
         playerHealthBar.setForeground(Color.BLUE);
@@ -199,5 +209,7 @@ public class CombatWindow extends JFrame {
         playerHealthBar.setValue(playerHp);
         enemyHealthBar.setValue(enemyHp);
     }
+
+    
 
 }
