@@ -7,25 +7,12 @@ import items.*;
 
 public final class GoblinDrops {
 
-	public static ArrayList<ItemID> drops;
-
-	// Static block
-	// Called once when the class is loaded
-	static {
-		drops.add(ItemID.IRON_SWORD);
-		drops.add(ItemID.BROAD_SWORD);
-		drops.add(ItemID.IRON_ARMOR);
-		drops.add(ItemID.SMALL_POTION);
-		drops.add(ItemID.MEDIUM_POTION);
-		drops.add(ItemID.KEY);
-	}
-
 	private GoblinDrops() {
 
 	}
 
 	// Return an item drop
-	public ItemID roll() {
+	public static ItemID roll() {
 		Random random = new Random();
 		int rand = random.nextInt(100) + 1; // 1-100
 
@@ -44,7 +31,7 @@ public final class GoblinDrops {
 	}
 
 	// Return multiple item drops
-	public ArrayList<ItemID> rollMultiple(int x) {
+	public static ArrayList<ItemID> rollMultiple(int x) {
 		ArrayList<ItemID> items = new ArrayList<>();
 
 		for (int i = 0; i < x; i++) {
