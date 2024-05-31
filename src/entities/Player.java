@@ -21,7 +21,7 @@ public class Player extends Entity {
 		this.setGridX(1);
 		this.setGridY(1);
 
-		this.maxHp = 1;
+		this.maxHp = 10;
 		this.curHp = this.maxHp;
 		this.attack = 5;
 		this.defense = 2;
