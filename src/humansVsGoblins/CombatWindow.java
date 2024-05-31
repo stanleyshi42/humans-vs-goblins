@@ -31,7 +31,6 @@ public class CombatWindow extends JFrame {
         this.playerTurn = true;
         this.gPanel = gamePanel;
 
-        gPanel.pauseGameThread();
 
         setTitle("Combat");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
