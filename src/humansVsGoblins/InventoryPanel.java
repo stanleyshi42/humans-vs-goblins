@@ -132,7 +132,6 @@ public class InventoryPanel extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    gPanel.unPauseGameThread();
                     gPanel.addListeners();
                     p.dispose();
                 }
@@ -244,7 +243,6 @@ public class InventoryPanel extends JFrame {
         this.player = p;
         this.gPanel = panel;
 
-        gPanel.pauseGameThread();
         gPanel.removeKeyListener(gPanel.getKeyboard());
         gPanel.removeMouseListener(gPanel.getMouse());
         
