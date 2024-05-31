@@ -44,7 +44,6 @@ public class KeyHandler extends MouseAdapter {
 				player.setGridY(coordY);
 				player.setGridX(coordX);
 				moves.createMoves();
-				System.out.println(player.attack);
 
 				// Check if player moved into a goblin
 				gamePanel.checkCombat();

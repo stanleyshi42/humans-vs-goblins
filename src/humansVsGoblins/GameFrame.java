@@ -17,7 +17,6 @@ public class GameFrame extends JFrame {
         // Goblin enemy = new Goblin(200, 200, 10, 3, 1);
 
         // CombatWindow combatWindow = new CombatWindow(player, enemy);
-		InventoryPanel invPanel = new InventoryPanel(gamePanel, gamePanel.getPlayer());
 		this.add(gamePanel);
 		this.pack();
 		this.setVisible(true);

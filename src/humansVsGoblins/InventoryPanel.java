@@ -132,7 +132,8 @@ public class InventoryPanel extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-                    //gPanel.unPauseGameThread();
+                    gPanel.unPauseGameThread();
+                    gPanel.addListeners();
                     p.dispose();
                 }
             });
@@ -242,7 +243,11 @@ public class InventoryPanel extends JFrame {
         // Grab all the items the player has in its inventory.
         this.player = p;
         this.gPanel = panel;
-        //gPanel.pauseGameThread();
+
+        gPanel.pauseGameThread();
+        gPanel.removeKeyListener(gPanel.getKeyboard());
+        gPanel.removeMouseListener(gPanel.getMouse());
+        
         this.setTitle("Inventory");
         this.setUndecorated(true);
         this.setPreferredSize(new Dimension(500, 940));
@@ -252,11 +257,12 @@ public class InventoryPanel extends JFrame {
         this.setResizable(false);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.setLocationRelativeTo(null);
+        this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
         FrameDragListener fdl = new FrameDragListener(this);
         this.addMouseListener(fdl);
         this.addMouseMotionListener(fdl);
-        this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        //this.setBorder(new EmptyBorder(10,10,10,10));
+        
         initializeDisplay();
     }
 
