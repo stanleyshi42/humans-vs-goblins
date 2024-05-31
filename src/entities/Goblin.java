@@ -45,14 +45,14 @@ public class Goblin extends Entity {
 
 	}
 
-	// TODO implement movement algorithm
+	// TODO implement advanced movement algorithm
 	// Randomly move, if the chosen move is invalid, try again
 	public void move(int[][] mapTile) {
 		Random random = new Random();
 		Boolean moved = false;
 
 		while (!moved) {
-			switch (random.nextInt(4)) {
+			switch (random.nextInt(6)) {
 			case 0:
 				moved = moveRight(mapTile);
 				break;
@@ -64,6 +64,10 @@ public class Goblin extends Entity {
 				break;
 			case 3:
 				moved = moveDown(mapTile);
+				break;
+			// Don't move
+			case 4, 5:
+				moved = true;
 				break;
 			}
 		}

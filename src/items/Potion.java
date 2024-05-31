@@ -18,9 +18,8 @@ public class Potion extends Item {
 		case MEDIUM_POTION:
 			this.setName("Medium Potion");
 			this.healing = 5;
-			// ImageIcon mediumPot = new ImageIcon("Resources/healingPot.png");
-			// this.setSprite(mediumPot);
-			this.setSprite(null);
+			ImageIcon mediumPot = new ImageIcon("Resources/mediumHealingPot-1.png");
+			this.setSprite(mediumPot);
 			break;
 		case LARGE_POTION:
 			this.setName("Large Potion");
