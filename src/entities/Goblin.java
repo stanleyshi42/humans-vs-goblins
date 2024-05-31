@@ -56,7 +56,6 @@ public class Goblin extends Entity {
 
 	public void draw(Graphics2D g2) {
 		if (spriteNum == 1){
-			System.out.println(this.x);
 			g2.drawImage(image1, this.x*48,this.y*48,48, 48, null);
 		} else {
 			g2.drawImage(image2, this.x*48,this.y*48,48, 48, null);
