@@ -37,11 +37,14 @@ public class CombatWindow extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setUndecorated(true);
+        getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                gPanel.unPauseGameThread();
+                gPanel.addListeners();
             }
         });
 
