@@ -43,10 +43,10 @@ public class Player extends Entity {
 		this.inventory.add(new Key(ItemID.KEY));
 		this.inventory.add(new Weapon(ItemID.BROAD_SWORD));
 		
-		this.icon = new ImageIcon("Resources/player.png");
+		this.icon = new ImageIcon("Resources/player-1.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
 				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
-		this.icon2 = new ImageIcon("Resources/chest.png");
+		this.icon2 = new ImageIcon("Resources/player-2.png");
 		this.image2 = icon2.getImage().getScaledInstance(icon.getIconWidth()*3,
 				icon2.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
 	}

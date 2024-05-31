@@ -49,12 +49,6 @@ public class GamePanel extends JPanel implements Runnable {
   MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
-
-		tileResource.loadRandomMap();
-		// goblins.add(new Goblin(7, 7));
-		// goblins.add(new Goblin(1, 3));
-		spawnGoblin();
-		spawnGoblin();
 		spawnGoblin();
 		goblins.add(new Goblin(5, 5, 20, 5, 5,2));
 		goblins.add(new Goblin(7, 7, 20, 5, 5,1));
@@ -183,7 +177,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void setUpChest(){
 		for (String ele : tileResource.getChest()){
-			System.out.println(ele);
 			String[] re = ele.split(" ");
 			addChest(new Treasure(Integer.parseInt(re[0]),Integer.parseInt(re[1]),Boolean.parseBoolean(re[2])));
 		}
@@ -191,14 +184,12 @@ public class GamePanel extends JPanel implements Runnable {
 	public void checkChest() {
 		for (Treasure t : chests) {
 			if (t.getX() == player.getGX() && t.getY() == player.getGY()) {
-				System.out.println(t.getLocked());
 				if (!t.getLocked()) {
 					new LootWindow(this, player, true);
 					removeChest(t);
 				}
 				else if(player.hasKeyInInventory()) {
 					player.useKey();
-					t.setUnlock();
 					new LootWindow(this, player, true);
 					removeChest(t);
 				}
