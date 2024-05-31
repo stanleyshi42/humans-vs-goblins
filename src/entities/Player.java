@@ -12,9 +12,15 @@ public class Player extends Entity {
 	public HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
 	public ArrayList<Item> inventory = new ArrayList<>();
 
+
 	ImageIcon icon;
+	ImageIcon icon2;
 	Image image;
 	Image image2;
+
+	int spriteNum;
+
+
 
 	// Starting stats
 	public Player() {
@@ -40,14 +46,23 @@ public class Player extends Entity {
 		this.icon = new ImageIcon("Resources/player.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
 				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
-		this.icon = new ImageIcon("Resources/chest.png");
-		this.image2 = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
-				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
+		this.icon2 = new ImageIcon("Resources/chest.png");
+		this.image2 = icon2.getImage().getScaledInstance(icon.getIconWidth()*3,
+				icon2.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
 	}
 
 	public void draw(Graphics2D g2){
-		g2.drawImage(image, this.x,this.y,48, 48, null);
 
+		if (spriteNum == 1){
+			g2.drawImage(image, this.x,this.y,48, 48, null);
+		} else {
+			g2.drawImage(image2, this.x,this.y,48, 48, null);
+		}
+
+	}
+
+	public void update(int spriteNum){
+		this.spriteNum = spriteNum;
 	}
 
 	// Use a potion to restore the player's HP

@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	final int screenWidth = scaledTileSize * maxScreenColumns;
 	final int screenHeight = scaledTileSize * maxScreenRows;
+	public int spriteNum = 1;
+	public int spriteCounter = 0;
 
 	// Entities
 	Player player = new Player();
@@ -47,12 +49,16 @@ public class GamePanel extends JPanel implements Runnable {
   MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
+
 		tileResource.loadRandomMap();
 		// goblins.add(new Goblin(7, 7));
 		// goblins.add(new Goblin(1, 3));
 		spawnGoblin();
 		spawnGoblin();
 		spawnGoblin();
+		goblins.add(new Goblin(5, 5, 20, 5, 5,2));
+		goblins.add(new Goblin(7, 7, 20, 5, 5,1));
+		goblins.add(new Goblin(8, 8, 20, 5, 5,3));
 		setUpChest();
 
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
@@ -135,7 +141,20 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void update() {
+		spriteCounter++;
 
+		if (spriteCounter > 10){
+			if (spriteNum == 1){
+				spriteNum = 2;
+			} else if (spriteNum == 2){
+				spriteNum = 1;
+			}
+			player.update(spriteNum);
+			for (Goblin gob: goblins){
+				gob.update(spriteNum);
+			}
+			spriteCounter = 0;
+		}
 	}
 
 	public Player getPlayer() {
@@ -149,6 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void addGoblin(int randX, int randY) {
 		goblins.add(new Goblin(randX, randY));
 	}
+
 
 	public void openInventory() {
 		new InventoryPanel(this, player);
