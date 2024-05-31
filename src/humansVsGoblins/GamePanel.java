@@ -1,6 +1,7 @@
 package humansVsGoblins;
 
 import entities.Goblin;
+import entities.GoblinAttributes;
 import entities.Player;
 import entities.Treasure;
 import tile.TileResource;
@@ -38,23 +39,16 @@ public class GamePanel extends JPanel implements Runnable {
 
 	ArrayList<Tile> mapTiles = new ArrayList<>();
 	TileResource tileResource = new TileResource(this);
-
 	PossibleMove possibleMove = new PossibleMove(player, tileResource);
 
 	// Game Loop Variables
 	Thread gameThread;
   
-  // Listeners
-	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
-  MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
+  	// Listeners
+  	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
+  	MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
-		spawnGoblin();
-		goblins.add(new Goblin(5, 5, 20, 5, 5,2));
-		goblins.add(new Goblin(7, 7, 20, 5, 5,1));
-		goblins.add(new Goblin(8, 8, 20, 5, 5,3));
-		setUpChest();
-
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
@@ -76,6 +70,8 @@ public class GamePanel extends JPanel implements Runnable {
 		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
     	addListeners();
 		possibleMove.createMoves();
+		setUpChest();
+		spawnGoblin();
 	}
 
 	@Override
@@ -151,19 +147,6 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
-
-	public ArrayList<Goblin> getGoblins() {
-		return goblins;
-	}
-
-	public void addGoblin(int randX, int randY) {
-		goblins.add(new Goblin(randX, randY));
-	}
-
-
 	public void openInventory() {
 		new InventoryPanel(this, player);
 	}
@@ -197,7 +180,13 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
+	public ArrayList<Goblin> getGoblins() {
+		return goblins;
+	}
 
+	public void addGoblin(Goblin g) {
+		goblins.add(g);
+	}
     // Check if the player is in the same space as a goblin and start combat if needed
 	public void removeGoblin(Goblin g) {
 		goblins.remove(g);
@@ -210,7 +199,6 @@ public class GamePanel extends JPanel implements Runnable {
 				this.removeMouseListener(mouse);
 				this.removeKeyListener(keyboard);
 				removeGoblin(g);
-				spawnGoblin();
 				break;
 			}
 		}
@@ -218,32 +206,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Spawn a goblin in an empty tile
 	public void spawnGoblin() {
-		Random random = new Random();
-		int randX = 0;
-		int randY = 0;
-		boolean isOccopied = true;
-		int[][] mapTiles = tileResource.getMap();
-
-		// Generate random coordinates for an empty tile
-		do {
-			randX = random.nextInt(20);
-			randY = random.nextInt(20);
-
-			if (mapTiles[randY][randX] == 0)
-				isOccopied = false;
-
-			if (randX == player.getGX() && randY == player.getGY())
-				isOccopied = true;
-
-			for (Goblin g : getGoblins()) {
-				if (randX == g.getX() && randY == g.getY()) {
-					isOccopied = true;
-				}
-			}
-
-		} while (isOccopied);
-
-		addGoblin(randX, randY);
+		for (String ele : tileResource.getGoblin()){
+			String[] re = ele.split(" ");
+			int x = Integer.parseInt(re[0]);
+			int y = Integer.parseInt(re[1]);
+			int type = Integer.parseInt(re[2]);
+			int [] attributes = GoblinAttributes.getAttributes(type);
+			int hp = attributes[0];
+			int atk = attributes[1];
+			int def = attributes[2];
+			addGoblin(new Goblin(x,y,hp,atk,def,type));
+		}
 	}
 
 	public void addListeners() {

@@ -22,6 +22,9 @@ public class PossibleMove {
         this.player = player;
         this.tile = tile;
         this.mapTile = tile.getMap();
+        this.icon = new ImageIcon("Resources/movement.png");
+        this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
+                icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
     }
 
 
@@ -61,7 +64,7 @@ public class PossibleMove {
 
     public void draw(Graphics2D g2){
         for (String ele : moves){
-            g2.drawImage(tile.getTile()[4].image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
+            g2.drawImage(image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
                     UNITSIZE*Integer.parseInt(ele.split(" ")[0]),UNITSIZE, UNITSIZE, null);
         }
 

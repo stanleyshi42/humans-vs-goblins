@@ -18,19 +18,18 @@ public class TileResource {
     String[] resourceContainer = {
             "Resources/grass.png", // tile[0]
             "Resources/tree.png", // tile[1]
-            "Resources/chest.png", // tile[2]
-            "Resources/lockedChest.png", // tile[3]
-            "Resources/movement.png" // tile[4]
     };
     int mapTile[][];
     ArrayList<String> chest;
+    ArrayList<String> goblin;
 
     final int UNITSIZE = 48;
     
     public TileResource(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[10];
+        tile = new Tile[2];
         chest = new ArrayList<>();
+        goblin = new ArrayList<>();
         mapTile = new int[gp.maxScreenColumns][gp.maxScreenRows];
         createTileImage();
         loadRandomMap();
@@ -43,6 +42,9 @@ public class TileResource {
 
     public ArrayList<String> getChest(){
         return chest;
+    }
+    public ArrayList<String> getGoblin(){
+        return goblin;
     }
 
     public int[][] getMap(){
@@ -77,11 +79,31 @@ public class TileResource {
                 String numbers[] = line.split(" ");
                 for (int j = 0; j < gp.maxScreenColumns; j++){
                     mapTile[i][j] = Integer.parseInt(numbers[j]);
-                    if(Integer.parseInt(numbers[j]) == 2){
-                        chest.add(j + " " + i + " False");
-                    }
-                    else if(Integer.parseInt(numbers[j]) == 3){
-                        chest.add(j + " " + i + " True");
+                    switch (mapTile[i][j]){
+                        case 2:
+                            // Normal Chest
+                            chest.add(j + " " + i + " False");
+                            break;
+                        case 3:
+                            // Lock Chest
+                            chest.add(j + " " + i + " True");
+                            break;
+                        case 4:
+                            // Goblin
+                            goblin.add(j + " " + i + " 0");
+                            break;
+                        case 5:
+                            // Red Cap
+                            goblin.add(j + " " + i + " 1");
+                            break;
+                        case 6:
+                            // Orc
+                            goblin.add(j + " " + i + " 2");
+                            break;
+                        case 7:
+                            // Hoarder
+                            goblin.add(j + " " + i + " 3");
+                            break;
                     }
                 }
             }
