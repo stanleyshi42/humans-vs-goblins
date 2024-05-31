@@ -44,7 +44,7 @@ public class InventorySlot extends JButton {
             +((Weapon)itemInSlot).attack+"</center></html>");
         }
         else {
-            this.setText(itemInSlot.getName());
+            this.setText("<html>"+itemInSlot.getName()+"</html>");
         }
 
     }
