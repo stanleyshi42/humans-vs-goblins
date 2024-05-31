@@ -5,6 +5,7 @@ import java.util.Random;
 
 import items.*;
 
+// Mostly static class
 public final class GoblinDrops {
 
 	private GoblinDrops() {

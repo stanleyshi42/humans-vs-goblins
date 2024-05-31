@@ -29,8 +29,8 @@ public class Player extends Entity {
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
-		this.inventory.add(new Potion(ItemID.SMALL_POTION));
-		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.inventory.add(new Potion(ItemID.MEDIUM_POTION));
+		this.inventory.add(new Potion(ItemID.LARGE_POTION));
 		this.inventory.add(new Armor(ItemID.DIAMOND_ARMOR));
 		this.inventory.add(new Weapon(ItemID.DIAMOND_SWORD));
 		this.inventory.add(new Armor(ItemID.IRON_ARMOR));
