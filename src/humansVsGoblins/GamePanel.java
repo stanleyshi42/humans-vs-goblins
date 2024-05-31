@@ -8,6 +8,7 @@ import tile.TileResource;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import tile.TileResource;
 
 import javax.swing.*;
 
@@ -46,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
   MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
-
+		tileResource.loadRandomMap();
 		// goblins.add(new Goblin(7, 7));
 		// goblins.add(new Goblin(1, 3));
 		spawnGoblin();

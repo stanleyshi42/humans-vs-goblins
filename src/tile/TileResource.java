@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Random;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class TileResource {
         chest = new ArrayList<>();
         mapTile = new int[gp.maxScreenColumns][gp.maxScreenRows];
         createTileImage();
-        loadMap();
+        loadRandomMap();
     }
 
 
@@ -60,9 +61,17 @@ public class TileResource {
 
     }
 
-    public void loadMap() {
+    public void loadRandomMap() {
+        String[] mapFiles = {"Resources/maps/map01.txt", "Resources/maps/map02.txt" };
+        Random random = new Random();
+        int randomIndex = random.nextInt(mapFiles.length);
+        loadMap(mapFiles[randomIndex]);
+
+    }
+
+    public void loadMap(String mapFilePath) {
         try{
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Resources/maps/map02.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(mapFilePath)));
             for (int i = 0; i < gp.maxScreenRows; i++){
                 String line = br.readLine();
                 String numbers[] = line.split(" ");
