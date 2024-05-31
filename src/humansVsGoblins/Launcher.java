@@ -9,7 +9,8 @@ public class Launcher {
 
         //GamePanel panel = new GamePanel();
         //InventoryPanel invPanel = new InventoryPanel(panel, panel.getPlayer());
-        //window.add(invPanel);
+        //LootWindow loot = new LootWindow(panel, panel.getPlayer());
+        //window.add(loot);
 
         window.pack();
     }

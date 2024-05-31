@@ -33,18 +33,18 @@ import items.Potion;
  * equipping and using items.
  */
 public class InventoryPanel extends JFrame {
-    final int tileSize = 16;
-    final int scale = 3;
+    private final int tileSize = 16;
+    private final int scale = 3;
 
-    final int scaledTileSize = tileSize * scale;
-    final int maxScreenColumns = 3;
-    final int maxScreenRows = 4;
+    private final int scaledTileSize = tileSize * scale;
+    private final int maxScreenColumns = 3;
+    private final int maxScreenRows = 4;
 
-    Player player;
-    InventorySlot weapon;
-    InventorySlot armor;
-    ArrayList<InventorySlot> pouchItems;
-    GamePanel gPanel;
+    private Player player;
+    private InventorySlot weapon;
+    private InventorySlot armor;
+    private ArrayList<InventorySlot> pouchItems;
+    private GamePanel gPanel;
 
     // initializeInventorySlots() will create all the inventory slots
     // needed to display the player's items and additional empty slots
