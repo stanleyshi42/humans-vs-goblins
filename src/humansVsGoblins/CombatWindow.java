@@ -185,6 +185,8 @@ public class CombatWindow extends JFrame {
                     player.usePotion(potion);
                     appendToCombatLog("Player used " + potion.getName() + " to restore " + potion.healing + " HP.");
                     updateHealthBars(player.getHp(), enemy.getHp());
+                    playerTurn = false;
+                    enemyAttack();
                     break;
                 }
             }

@@ -4,15 +4,11 @@ import entities.Goblin;
 import entities.Player;
 import tile.TileResource;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.*;
-import java.awt.GridLayout;
 
 /**
  * GamePanel
@@ -60,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
 
-		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 1, 1));
+		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 0, 0));
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			JPanel panel = new JPanel();
 			String name = String.format("%d %d", i / maxScreenRows, i % maxScreenColumns);
@@ -82,14 +78,31 @@ public class GamePanel extends JPanel implements Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		tileResource.draw(g2);
-		player.draw(g2);
-		for (Goblin gob : goblins) {
-			gob.draw(g2);
-		}
-		possibleMove.draw(g2);
-		g2.dispose();
+		if (player.getHp()>0){
+            tileResource.draw(g2);
+			player.draw(g2);
+			for (Goblin gob : goblins) {
+				gob.draw(g2);
+			}
+			possibleMove.draw(g2);
+			g2.dispose();
 
+		}
+		else {
+			gameOver(g2);
+			g2.dispose();
+		}
+
+
+	}
+	public void gameOver(Graphics graphics) {
+		//game over screen
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0,0,screenWidth,screenHeight);
+		graphics.setColor(Color.red);
+		graphics.setFont(new Font("Sans serif", Font.ROMAN_BASELINE, 50));
+		FontMetrics metrics = getFontMetrics(graphics.getFont());
+		graphics.drawString("Game Over", (screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
 	}
 
 	public void startGameThread() {
