@@ -49,11 +49,11 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public GamePanel() {
 
-		// goblins.add(new Goblin(7, 7));
-		// goblins.add(new Goblin(1, 3));
 		spawnGoblin();
 		spawnGoblin();
-		spawnGoblin();
+		goblins.add(new Goblin(5, 5, 20, 5, 5,2));
+		goblins.add(new Goblin(7, 7, 20, 5, 5,1));
+		goblins.add(new Goblin(8, 8, 20, 5, 5,3));
 		setUpChest();
 
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
@@ -163,6 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void addGoblin(int randX, int randY) {
 		goblins.add(new Goblin(randX, randY));
 	}
+
 
 	public void openInventory() {
 		new InventoryPanel(this, player);

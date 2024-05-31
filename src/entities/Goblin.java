@@ -56,9 +56,10 @@ public class Goblin extends Entity {
 
 	public void draw(Graphics2D g2) {
 		if (spriteNum == 1){
-			g2.drawImage(image1, this.x,this.y,48, 48, null);
+			System.out.println(this.x);
+			g2.drawImage(image1, this.x*48,this.y*48,48, 48, null);
 		} else {
-			g2.drawImage(image2, this.x,this.y,48, 48, null);
+			g2.drawImage(image2, this.x*48,this.y*48,48, 48, null);
 		}
 
 	}
@@ -72,6 +73,7 @@ public class Goblin extends Entity {
 	public void move(int[][] mapTile) {
 		Random random = new Random();
 		Boolean moved = false;
+
 
 		while (!moved) {
 			switch (random.nextInt(6)) {
