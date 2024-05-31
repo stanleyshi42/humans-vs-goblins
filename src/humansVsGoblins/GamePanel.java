@@ -2,6 +2,7 @@ package humansVsGoblins;
 
 import entities.Goblin;
 import entities.Player;
+import entities.Treasure;
 import tile.TileResource;
 
 import java.awt.*;
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// Entities
 	Player player = new Player();
 	public static ArrayList<Goblin> goblins = new ArrayList<Goblin>();
+	public static ArrayList<Treasure> chests = new ArrayList<Treasure>();
 
 	ArrayList<Tile> mapTiles = new ArrayList<>();
 	TileResource tileResource = new TileResource(this);
@@ -50,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 		spawnGoblin();
 		spawnGoblin();
 		spawnGoblin();
+		setUpChest();
 
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			mapTiles.add(new Tile(scaledTileSize));
@@ -70,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
-    addListeners();
+    	addListeners();
 		possibleMove.createMoves();
 	}
 
@@ -82,6 +85,9 @@ public class GamePanel extends JPanel implements Runnable {
 			player.draw(g2);
 			for (Goblin gob : goblins) {
 				gob.draw(g2);
+			}
+			for (Treasure trea : chests){
+				trea.draw(g2);
 			}
 			possibleMove.draw(g2);
 			g2.dispose();
@@ -145,6 +151,34 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void openInventory() {
 		new InventoryPanel(this, player);
+	}
+
+	public void addChest(Treasure t) {
+		chests.add(t);
+	}
+	public void removeChest(Treasure t) {
+		chests.remove(t);
+	}
+
+	public void setUpChest(){
+		for (String ele : tileResource.getChest()){
+			System.out.println(ele);
+			String[] re = ele.split(" ");
+			addChest(new Treasure(Integer.parseInt(re[0]),Integer.parseInt(re[1]),Boolean.parseBoolean(re[2])));
+		}
+	}
+	public void checkChest() {
+		for (Treasure t : chests) {
+			if (t.getX() == player.getGX() && t.getY() == player.getGY()) {
+				System.out.println(t.getLocked());
+				this.removeMouseListener(mouse);
+				this.removeKeyListener(keyboard);
+				if (!t.getLocked()){
+					removeChest(t);
+				}
+				break;
+			}
+		}
 	}
 
     // Check if the player is in the same space as a goblin and start combat if needed

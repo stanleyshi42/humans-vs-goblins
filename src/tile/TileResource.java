@@ -6,7 +6,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
-
+import java.util.ArrayList;
 
 
 public class TileResource {
@@ -22,12 +22,14 @@ public class TileResource {
             "Resources/movement.png" // tile[4]
     };
     int mapTile[][];
+    ArrayList<String> chest;
 
     final int UNITSIZE = 48;
     
     public TileResource(GamePanel gp) {
         this.gp = gp;
         tile = new Tile[10];
+        chest = new ArrayList<>();
         mapTile = new int[gp.maxScreenColumns][gp.maxScreenRows];
         createTileImage();
         loadMap();
@@ -36,6 +38,10 @@ public class TileResource {
 
     public Tile[] getTile(){
         return tile;
+    }
+
+    public ArrayList<String> getChest(){
+        return chest;
     }
 
     public int[][] getMap(){
@@ -62,6 +68,12 @@ public class TileResource {
                 String numbers[] = line.split(" ");
                 for (int j = 0; j < gp.maxScreenColumns; j++){
                     mapTile[i][j] = Integer.parseInt(numbers[j]);
+                    if(Integer.parseInt(numbers[j]) == 2){
+                        chest.add(j + " " + i + " False");
+                    }
+                    else if(Integer.parseInt(numbers[j]) == 3){
+                        chest.add(j + " " + i + " True");
+                    }
                 }
             }
         } catch (Exception e){
@@ -78,7 +90,7 @@ public class TileResource {
                 x = UNITSIZE * j;
                 int tileNumber = mapTile[i][j];
                 g2.drawImage(tile[0].image, x,y,gp.scaledTileSize, gp.scaledTileSize, null);
-                if (tileNumber != 0){
+                if (tileNumber == 1){
                     g2.drawImage(tile[tileNumber].image, x,y,gp.scaledTileSize, gp.scaledTileSize, null);
                 }
 
