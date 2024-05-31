@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
 
-		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 1, 1));
+		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 0, 0));
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			JPanel panel = new JPanel();
 			String name = String.format("%d %d", i / maxScreenRows, i % maxScreenColumns);
@@ -84,16 +84,8 @@ public class GamePanel extends JPanel implements Runnable {
 			possibleMove.draw(g2);
 			g2.dispose();
 
-		} else if (player.curHp == 0){
-			tileResource.draw(g2);
-			player.curHp = -1;
-			g2.dispose();
-		}else {
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+		}
+		else {
 			gameOver(g2);
 			g2.dispose();
 		}
