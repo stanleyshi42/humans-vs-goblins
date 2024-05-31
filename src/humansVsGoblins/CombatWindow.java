@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,6 +38,14 @@ public class CombatWindow extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gPanel.unPauseGameThread();
+            }
+        });
+
 
         // Combat log setup
         combatLog = new JTextArea(5, 50);
@@ -201,5 +211,7 @@ public class CombatWindow extends JFrame {
         playerHealthBar.setValue(playerHp);
         enemyHealthBar.setValue(enemyHp);
     }
+
+    
 
 }
