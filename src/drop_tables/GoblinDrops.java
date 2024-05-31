@@ -13,27 +13,27 @@ public final class GoblinDrops {
 	}
 
 	// Return an item drop
-	public static ItemID roll() {
+	public static Item roll() {
 		Random random = new Random();
 		int rand = random.nextInt(100) + 1; // 1-100
 
 		if (isBetween(rand, 1, 20))
 			return null; // Rolled no drop
-		if (isBetween(rand, 21, 40))
-			return ItemID.IRON_SWORD;
+		if (isBetween(rand, 21, 40)) 
+			return new Weapon(ItemID.IRON_SWORD);
 		if (isBetween(rand, 41, 50))
-			return ItemID.BROAD_SWORD;
+			return new Weapon(ItemID.BROAD_SWORD);
 		if (isBetween(rand, 51, 90))
-			return ItemID.SMALL_POTION;
+			return new Potion(ItemID.SMALL_POTION);
 		if (isBetween(rand, 91, 100))
-			return ItemID.KEY;
+			return new Key(ItemID.KEY);
 		return null;
 
 	}
 
 	// Return multiple item drops
-	public static ArrayList<ItemID> rollMultiple(int x) {
-		ArrayList<ItemID> items = new ArrayList<>();
+	public static ArrayList<Item> rollMultiple(int x) {
+		ArrayList<Item> items = new ArrayList<>();
 
 		for (int i = 0; i < x; i++) {
 			items.add(roll());

@@ -183,6 +183,10 @@ public class Player extends Entity {
 		return inventory;
 	}
 
+	public void addItemToInventory(Item it) {
+		inventory.add(it);
+	}
+
 	public HashMap<String, Item> getEquipment() {
 		return equipment;
 	}
