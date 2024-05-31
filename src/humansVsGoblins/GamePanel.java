@@ -43,6 +43,10 @@ public class GamePanel extends JPanel implements Runnable {
 	// Game Loop Variables
 	Thread gameThread;
 	boolean paused = false;
+  
+  // Listeners
+	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
+  MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
 
@@ -69,10 +73,9 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
-		// this.addKeyListener(keyHandler);
 		this.setFocusable(true);
 		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
-		// this.addKeyListener(new MovementListener());
+    addListeners();
 		possibleMove.createMoves();
 	}
 
@@ -139,11 +142,15 @@ public class GamePanel extends JPanel implements Runnable {
 		goblins.add(new Goblin(randX, randY));
 	}
 
+	public void openInventory() {
+		new InventoryPanel(this, player);
+	}
+
+    // Check if the player is in the same space as a goblin and start combat if needed
 	public void removeGoblin(Goblin g) {
 		goblins.remove(g);
 	}
 
-	// Check if player is in the same space as a goblin and start combat if needed
 	public void checkCombat() {
 		for (Goblin g : getGoblins()) {
 			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
@@ -183,5 +190,18 @@ public class GamePanel extends JPanel implements Runnable {
 		} while (isOccopied);
 
 		addGoblin(randX, randY);
+	}
+
+	public void addListeners() {
+		this.addMouseListener(mouse);
+        this.addKeyListener(keyboard);
+	}
+
+	public KeyHandler getMouse() {
+		return mouse;
+	}
+
+	public MovementListener getKeyboard() {
+		return keyboard;
 	}
 }
