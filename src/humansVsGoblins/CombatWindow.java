@@ -53,7 +53,7 @@ public class CombatWindow extends JFrame {
 
         // Health bar panel setup
         JPanel healthBarPanel = new JPanel(new GridLayout(1, 2));
-        playerHealthBar = new JProgressBar(0, player.getHp());
+        playerHealthBar = new JProgressBar(0, player.getMaxHp());
         playerHealthBar.setValue(player.getHp());
         playerHealthBar.setStringPainted(true);
         playerHealthBar.setForeground(Color.BLUE);

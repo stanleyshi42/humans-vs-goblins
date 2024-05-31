@@ -6,6 +6,8 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+import humansVsGoblins.GamePanel;
+
 public class Goblin extends Entity {
 	int hp, attack, defense;
 	ImageIcon icon;
@@ -44,65 +46,76 @@ public class Goblin extends Entity {
 	}
 
 	// TODO implement movement algorithm
-	// Randomly move
+	// Randomly move, if the chosen move is invalid, try again
 	public void move(int[][] mapTile) {
 		Random random = new Random();
 		Boolean moved = false;
 
-		switch (random.nextInt(4)) {
-		case 0:
-			moveRight(mapTile);
-			break;
-		case 1:
-			moveLeft(mapTile);
-			break;
-		case 2:
-			moveUp(mapTile);
-			break;
-		case 3:
-			moveDown(mapTile);
-			break;
+		while (!moved) {
+			switch (random.nextInt(4)) {
+			case 0:
+				moved = moveRight(mapTile);
+				break;
+			case 1:
+				moved = moveLeft(mapTile);
+				break;
+			case 2:
+				moved = moveUp(mapTile);
+				break;
+			case 3:
+				moved = moveDown(mapTile);
+				break;
+			}
 		}
-
 	}
 
-	// Check if a tile is occupied by an obstacle (trees, chests, etc.)
+	// Check if a tile is occupied by something (goblins, trees, chests, etc.)
 	public boolean isOccupied(int[][] mapTile, int xCoord, int yCoord) {
-		if (mapTile[yCoord][xCoord] == 1) {
+		if (mapTile[yCoord][xCoord] >= 1) {
 			return true;
+		}
+		for (Goblin g : GamePanel.goblins) {
+			if (g.getX() == xCoord && g.getY() == yCoord)
+				return true;
 		}
 
 		return false;
 	}
 
-	public void moveRight(int[][] mapTile) {
+	public boolean moveRight(int[][] mapTile) {
 		int newX = x + 1;
 		if (x < 19 && !isOccupied(mapTile, newX, this.y)) {
 			x = newX;
+			return true;
 		}
-
+		return false;
 	}
 
-	public void moveLeft(int[][] mapTile) {
+	public boolean moveLeft(int[][] mapTile) {
 		int newX = this.x - 1;
 		if (this.x > 0 && !isOccupied(mapTile, newX, this.y)) {
 			this.x -= 1;
+			return true;
 		}
-
+		return false;
 	}
 
-	public void moveUp(int[][] mapTile) {
+	public boolean moveUp(int[][] mapTile) {
 		int newY = this.y - 1;
 		if (this.y > 0 && !isOccupied(mapTile, this.x, newY)) {
 			this.y -= 1;
+			return true;
 		}
+		return false;
 	}
 
-	public void moveDown(int[][] mapTile) {
+	public boolean moveDown(int[][] mapTile) {
 		int newY = this.y + 1;
 		if (this.y < 19 && !isOccupied(mapTile, this.x, newY)) {
 			this.y += 1;
+			return true;
 		}
+		return false;
 	}
 
 	public int getDefense() {
