@@ -129,7 +129,7 @@ public class CombatWindow extends JFrame {
                 appendToCombatLog("Enemy defeated!");
                 appendToCombatLog("Combat ended.");
                 updateHealthBars(player.getHp(), enemy.getHp());
-                gPanel.addListeners();
+                new LootWindow(gPanel, player);
                 dispose();
             } else {
                 playerTurn = false;
@@ -150,7 +150,6 @@ public class CombatWindow extends JFrame {
         if (player.getHp() <= 0) {
             appendToCombatLog("Player defeated!");
             appendToCombatLog("Combat ended.");
-            gPanel.addListeners();
             dispose();
         } else {
             playerTurn = true;
