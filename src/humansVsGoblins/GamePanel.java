@@ -1,12 +1,18 @@
 package humansVsGoblins;
 
+import entities.Goblin;
+import entities.Player;
+import tile.TileResource;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Random;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.GridLayout;
 
 /**
  * GamePanel
@@ -16,56 +22,159 @@ public class GamePanel extends JPanel implements Runnable {
     final int tileSize = 16;
     final int scale = 3;
 
-    final int scaledTileSize = tileSize * scale;
-    final int maxScreenColumns = 20;
-    final int maxScreenRows = 16;
+    public final int scaledTileSize = tileSize * scale;
+    public final int maxScreenColumns = 20;
+    public final int maxScreenRows = 20;
+
+    final Dimension UNITSIZE = new Dimension(48,48);
 
     final int screenWidth = scaledTileSize*maxScreenColumns;
     final int screenHeight = scaledTileSize*maxScreenRows;
-    
+
+    // Entities
+    Player player = new Player();
+    ArrayList<Goblin> goblins = new ArrayList<Goblin>();
+
     ArrayList<Tile> mapTiles = new ArrayList<>();
+    TileResource tileResource = new TileResource(this);
+
+    PossibleMove possibleMove = new PossibleMove(player,tileResource);
+
+    // Game Loop Variables
     Thread gameThread;
+    boolean paused = false;
 
-    GamePanel() {
-
+    public GamePanel() {
+    	
+    	goblins.add(new Goblin(19,5));
+    	goblins.add(new Goblin(10,1));
+    	
         for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
             mapTiles.add(new Tile(scaledTileSize));
+        }
+
+        setLayout(new GridLayout(maxScreenRows,maxScreenColumns,1,1));
+        for(int i = 0; i < maxScreenColumns*maxScreenRows; i++) {
+            JPanel panel = new JPanel();
+            String name = String.format("%d %d",
+                    i / maxScreenRows, i % maxScreenColumns);
+            panel.setName(name);
+            panel.setPreferredSize(UNITSIZE);
+            add(panel);
         }
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setVisible(true);
+        //this.addKeyListener(keyHandler);
+        this.setFocusable(true);
+        this.addMouseListener(new KeyHandler(this,player, tileResource, possibleMove));
+        //this.addKeyListener(new MovementListener());
+        possibleMove.createMoves();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        
-        Graphics2D g2 = (Graphics2D)g;
-        for(int i = 0; i < mapTiles.size(); i++) {
-            int row = i/maxScreenColumns;
-            int column = i%maxScreenColumns;
-            g2.setColor(Color.WHITE);
-            g2.fillRect(column*scaledTileSize, row*scaledTileSize, scaledTileSize, scaledTileSize);
-            g2.setColor(Color.BLACK);
-            g2.fillRect(column*scaledTileSize+2, row*scaledTileSize+2, scaledTileSize-4, scaledTileSize-4);
-        }
-        g2.dispose();
+	@Override
+	protected void paintComponent(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		tileResource.draw(g2);
+		player.draw(g2);
+		for (Goblin gob : goblins) {
+			gob.draw(g2);
+		}
+		possibleMove.draw(g2);
+		g2.dispose();
+
+	}
+
+	public void startGameThread() {
+		gameThread = new Thread(this);
+		gameThread.start();
+	}
+
+    public void pauseGameThread() {
+        paused = true;
     }
 
-    public void startGameThread(){
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-    @Override
-    public void run() {
-        while(gameThread != null){
-            update();
-            repaint();
-        }
+    public void unPauseGameThread() {
+        paused = false;
     }
 
-    public void update(){
-        // Update here idk
+	@Override
+	public void run() {
+		double drawInterval = (double) 1000000000 / 30;
+		double delta = 0;
+		long lastTime = System.nanoTime();
+		long currentTime;
+		while (gameThread != null) {
+            if(paused) continue;
+
+			currentTime = System.nanoTime();
+			delta += (currentTime - lastTime) / drawInterval;
+			lastTime = currentTime;
+			if (delta >= 1) {
+				update();
+				repaint();
+				delta--;
+			}
+		}
+	}
+
+	public void update() {
+
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+    
+    public ArrayList<Goblin> getGoblins() {
+        return goblins;
     }
+
+    public void addGoblin(int randX, int randY) {
+        goblins.add(new Goblin(randX, randY));
+    }
+
+    public void removeGoblin(Goblin g) {
+        goblins.remove(g);
+    }
+
+    // Check if the player is in the same space as a goblin and start combat if needed
+	public void checkCombat() {
+		for (Goblin g : getGoblins()) {
+			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
+				new CombatWindow((GamePanel) this, player, g);
+				removeGoblin(g);
+				spawnGoblin();
+				break;
+			}
+		}
+	}
+
+	// Spawn a goblin in an empty tile
+	public void spawnGoblin() {
+		Random random = new Random();
+		int randX = 0;
+		int randY = 0;
+		boolean collision = false;
+
+		// Generate random coordinates for an empty tile
+		do {
+			randX = random.nextInt(20);
+			randY = random.nextInt(20);
+
+			if (randX == player.getGX() && randY == player.getGY())
+				collision = true;
+
+			for (Goblin g : getGoblins()) {
+				if (randX == g.getX() && randY == g.getY()) {
+					collision = true;
+				}
+			}
+
+		} while (collision);
+
+		addGoblin(randX, randY);
+	}
 }
