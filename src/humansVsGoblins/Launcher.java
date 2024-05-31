@@ -3,7 +3,7 @@ package humansVsGoblins;
 public class Launcher {
     
     public static void main(String[] args) {
-        GameFrame window = new GameFrame();
+        //GameFrame window = new GameFrame();
 
         //InventoryPanel invPanel = new InventoryPanel(panel, panel.getPlayer());
 
@@ -12,7 +12,8 @@ public class Launcher {
         //LootWindow loot = new LootWindow(panel, panel.getPlayer());
         //window.add(loot);
 
-        window.pack();
+        //window.pack();
+        new InstructionsWindow();
     }
     
 }
