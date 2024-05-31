@@ -12,7 +12,6 @@ public class Armor extends Item {
 		case LEATHER_ARMOR:
 			this.name = "Leather Armor";
 			this.defense = 2;
-			// TODO set sprite
 			ImageIcon leatherArmor = new ImageIcon("Resources/leatherArmor.png");
 			this.setSprite(leatherArmor);
 			break;
