@@ -50,7 +50,7 @@ public class CombatWindow extends JFrame {
 
 
         // Combat log setup
-        combatLog = new JTextArea(8, 50);
+        combatLog = new JTextArea(11, 50);
         combatLog.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(combatLog);
 
@@ -124,9 +124,11 @@ public class CombatWindow extends JFrame {
         if (playerTurn) {
             int playerDamage = rand.nextInt(player.getAttack()+1);
             int enemyDefense = enemy.getDefense();
+            int totalDmg = (playerDamage - enemyDefense > 0) ? playerDamage - enemyDefense : 0;
             enemy.takeDamage(playerDamage);
             appendToCombatLog("*** Player attacks for " + playerDamage + " damage.");
             appendToCombatLog("*** Enemy blocked " + enemyDefense + " damage.");
+            appendToCombatLog("*** Enemy took " + totalDmg + " damage.");
             appendToCombatLog("---------------------");
             if (enemy.getHp() <= 0) {
                 appendToCombatLog("Enemy defeated!");
@@ -147,8 +149,10 @@ public class CombatWindow extends JFrame {
         int enemyDamage = rand.nextInt(enemy.getAttack()+1);
         player.takeDamage(enemyDamage);
         int playerDefense = player.getDefense();
+        int totalDmg = (enemyDamage - playerDefense > 0) ? enemyDamage - playerDefense : 0;
         appendToCombatLog("*** Enemy attacks for " + enemyDamage + " damage.");
         appendToCombatLog("*** Player blocked " + playerDefense + " damage.");
+        appendToCombatLog("*** Player took " + totalDmg + " damage.");
         appendToCombatLog("---------------------");
         updateHealthBars(player.getHp(), enemy.getHp());
         if (player.getHp() <= 0) {

@@ -9,22 +9,24 @@ import java.util.ArrayList;
 
 
 public class PossibleMove {
+    // Initializing variables for use
     private final int UNITSIZE = 48;
     private final Player player;
-    private final TileResource tile;
-
     private ArrayList<String> moves;
     private final int[][] mapTile;
     ImageIcon icon;
     Image image;
 
+    // Constructor
     public PossibleMove(Player player, TileResource tile) {
         this.player = player;
-        this.tile = tile;
         this.mapTile = tile.getMap();
+        this.icon = new ImageIcon("Resources/movement.png");
+        this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
+                icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
     }
 
-
+    // Check if player can move up,down,left,right based on player's location
     public void createMoves() {
         moves = new ArrayList<>();
         int[][] directions = {
@@ -50,7 +52,7 @@ public class PossibleMove {
             }
         }
     }
-
+    // Check if player is next to a tree or bound
     private boolean isValidMove(int x, int y) {
         return x >= 0 && x < 20 && y >= 0 && y < 20 && mapTile[y][x] != 1;
     }
@@ -58,10 +60,10 @@ public class PossibleMove {
     public ArrayList<String> getMoves(){
         return this.moves;
     }
-
+    // Draw blue area indicate they can move there
     public void draw(Graphics2D g2){
         for (String ele : moves){
-            g2.drawImage(tile.getTile()[4].image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
+            g2.drawImage(image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),
                     UNITSIZE*Integer.parseInt(ele.split(" ")[0]),UNITSIZE, UNITSIZE, null);
         }
 

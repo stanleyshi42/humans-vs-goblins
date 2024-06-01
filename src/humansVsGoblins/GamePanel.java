@@ -1,33 +1,29 @@
 package humansVsGoblins;
 
 import entities.Goblin;
+import entities.GoblinAttributes;
 import entities.Player;
 import entities.Treasure;
 import tile.TileResource;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
-import tile.TileResource;
-
 import javax.swing.*;
 
 /**
  * GamePanel
  */
 public class GamePanel extends JPanel implements Runnable {
-
+	// Tile and Screen Settings
 	final int tileSize = 16;
 	final int scale = 3;
-
 	public final int scaledTileSize = tileSize * scale;
 	public final int maxScreenColumns = 20;
 	public final int maxScreenRows = 20;
-
 	final Dimension UNITSIZE = new Dimension(48, 48);
-
 	final int screenWidth = scaledTileSize * maxScreenColumns;
 	final int screenHeight = scaledTileSize * maxScreenRows;
+
+	// Animation Setting
 	public int spriteNum = 1;
 	public int spriteCounter = 0;
 
@@ -36,9 +32,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public static ArrayList<Goblin> goblins = new ArrayList<Goblin>();
 	public static ArrayList<Treasure> chests = new ArrayList<Treasure>();
 
+	// Tiles
 	ArrayList<Tile> mapTiles = new ArrayList<>();
 	TileResource tileResource = new TileResource(this);
-
 	PossibleMove possibleMove = new PossibleMove(player, tileResource);
 
 	// Kept as variables for sprite updates
@@ -49,23 +45,20 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread;
   
   	// Listeners
+
+
 	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
-  	MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
+  MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
-		spawnGoblin();
-		goblins.add(new Goblin(5, 5, 20, 5, 5,2));
-		goblins.add(new Goblin(7, 7, 20, 5, 5,1));
-		goblins.add(new Goblin(8, 8, 20, 5, 5,3));
-		setUpChest();
-
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
-
+		// Set world into a grid system
 		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 0, 0));
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			JPanel panel = new JPanel();
+			// Name each square as the coordinate for usage
 			String name = String.format("%d %d", i / maxScreenRows, i % maxScreenColumns);
 			panel.setName(name);
 			panel.setPreferredSize(UNITSIZE);
@@ -80,14 +73,20 @@ public class GamePanel extends JPanel implements Runnable {
 		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
     	addListeners();
 		possibleMove.createMoves();
+		setUpChest();
+		spawnGoblin();
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		// If player hp > 0, continue game
 		if (player.getHp()>0){
+			// Draw tiles first
             tileResource.draw(g2);
+			// Draw player
 			player.draw(g2);
+			// Draw goblins and chest
 			for (Goblin gob : goblins) {
 				gob.draw(g2);
 			}
@@ -98,9 +97,11 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.dispose();
 
 		}
+		// If hp is 0, end game
 		else {
 			gameOver(g2);
 			g2.dispose();
+			gameThread = null;
 		}
 
 
@@ -114,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable {
 		FontMetrics metrics = getFontMetrics(graphics.getFont());
 		graphics.drawString("Game Over", (screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
 	}
-
+	// Create a game threat that will run the game
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -122,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+		// Refreshing system of 30 FPS
 		double drawInterval = (double) 1000000000 / 30;
 		double delta = 0;
 		long lastTime = System.nanoTime();
@@ -130,6 +132,8 @@ public class GamePanel extends JPanel implements Runnable {
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
+			// Delta is > 1 because it is frames per second
+			// Refreshes 30 times per seconds
 			if (delta >= 1) {
 				update();
 				repaint();
@@ -137,7 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
-
+	// this update the variable to let other classes know when to swap image to create an animation
 	public void update() {
 		spriteCounter++;
 
@@ -161,19 +165,6 @@ public class GamePanel extends JPanel implements Runnable {
 			spriteCounter = 0;
 		}
 	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public ArrayList<Goblin> getGoblins() {
-		return goblins;
-	}
-
-	public void addGoblin(int randX, int randY) {
-		goblins.add(new Goblin(randX, randY));
-	}
-
 
 	public void openInventory() {
 		inv = new InventoryPanel(this, player);
@@ -212,7 +203,13 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
+	public ArrayList<Goblin> getGoblins() {
+		return goblins;
+	}
 
+	public void addGoblin(Goblin g) {
+		goblins.add(g);
+	}
     // Check if the player is in the same space as a goblin and start combat if needed
 	public void removeGoblin(Goblin g) {
 		goblins.remove(g);
@@ -225,7 +222,6 @@ public class GamePanel extends JPanel implements Runnable {
 				this.removeMouseListener(mouse);
 				this.removeKeyListener(keyboard);
 				removeGoblin(g);
-				spawnGoblin();
 				break;
 			}
 		}
@@ -233,32 +229,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// Spawn a goblin in an empty tile
 	public void spawnGoblin() {
-		Random random = new Random();
-		int randX = 0;
-		int randY = 0;
-		boolean isOccopied = true;
-		int[][] mapTiles = tileResource.getMap();
-
-		// Generate random coordinates for an empty tile
-		do {
-			randX = random.nextInt(20);
-			randY = random.nextInt(20);
-
-			if (mapTiles[randY][randX] == 0)
-				isOccopied = false;
-
-			if (randX == player.getGX() && randY == player.getGY())
-				isOccopied = true;
-
-			for (Goblin g : getGoblins()) {
-				if (randX == g.getX() && randY == g.getY()) {
-					isOccopied = true;
-				}
-			}
-
-		} while (isOccopied);
-
-		addGoblin(randX, randY);
+		for (String ele : tileResource.getGoblin()){
+			String[] re = ele.split(" ");
+			int x = Integer.parseInt(re[0]);
+			int y = Integer.parseInt(re[1]);
+			int type = Integer.parseInt(re[2]);
+			int [] attributes = GoblinAttributes.getAttributes(type);
+			int hp = attributes[0];
+			int atk = attributes[1];
+			int def = attributes[2];
+			addGoblin(new Goblin(x,y,hp,atk,def,type));
+		}
 	}
 
 	public void addListeners() {
