@@ -3,29 +3,24 @@ package humansVsGoblins;
 import entities.Goblin;
 import entities.Player;
 import tile.TileResource;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Random;
-
 import javax.swing.JPanel;
 
 public class KeyHandler extends MouseAdapter {
+	// Initializing variable for use
 	private JPanel selectedPanel;
 	private final GamePanel gamePanel;
 	private final Player player;
-	private final TileResource tile;
 	private final PossibleMove moves;
 	int[][] mapTile;
 
 	public KeyHandler(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
+		// loads all the components needed into the constructor using reference
 		this.gamePanel = gamePanel;
 		this.player = player;
-		this.tile = tile;
 		this.moves = moves;
 		this.mapTile = tile.getMap();
-
 	}
 
 	@Override
@@ -34,28 +29,32 @@ public class KeyHandler extends MouseAdapter {
 		if (panel == null || panel == gamePanel) {
 			return;
 		}
+		// Set selected panel to the panel being clicked on
 		selectedPanel = panel;
+		// panel are named based on the grid coordinates
 		int coordX = Integer.parseInt(selectedPanel.getName().split(" ")[1]);
 		int coordY = Integer.parseInt(selectedPanel.getName().split(" ")[0]);
 		moves.createMoves();
-
+		// If there is a possible move player can move there
 		if (moves.getMoves().contains(selectedPanel.getName())) {
+			// If a tree is not there player can move
 			if (mapTile[coordY][coordX] != 1){
+				// move player
 				player.setGridY(coordY);
 				player.setGridX(coordX);
+				// Refresh the possible movement of player based on new location
 				moves.createMoves();
 
 				// Check if player moved into a goblin
 				gamePanel.checkCombat();
 				gamePanel.checkChest();
 
+				// After player moved, the goblin can move
 				for (Goblin g : gamePanel.getGoblins()) {
 					g.move(mapTile);
 				}
 				// Check if goblin moved into player
-
 				gamePanel.checkCombat();
-
 			}
 		}
 	}

@@ -5,30 +5,25 @@ import entities.GoblinAttributes;
 import entities.Player;
 import entities.Treasure;
 import tile.TileResource;
-
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
-import tile.TileResource;
-
 import javax.swing.*;
 
 /**
  * GamePanel
  */
 public class GamePanel extends JPanel implements Runnable {
-
+	// Tile and Screen Settings
 	final int tileSize = 16;
 	final int scale = 3;
-
 	public final int scaledTileSize = tileSize * scale;
 	public final int maxScreenColumns = 20;
 	public final int maxScreenRows = 20;
-
 	final Dimension UNITSIZE = new Dimension(48, 48);
-
 	final int screenWidth = scaledTileSize * maxScreenColumns;
 	final int screenHeight = scaledTileSize * maxScreenRows;
+
+	// Animation Setting
 	public int spriteNum = 1;
 	public int spriteCounter = 0;
 
@@ -37,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static ArrayList<Goblin> goblins = new ArrayList<Goblin>();
 	public static ArrayList<Treasure> chests = new ArrayList<Treasure>();
 
+	// Tiles
 	ArrayList<Tile> mapTiles = new ArrayList<>();
 	TileResource tileResource = new TileResource(this);
 	PossibleMove possibleMove = new PossibleMove(player, tileResource);
@@ -52,10 +48,11 @@ public class GamePanel extends JPanel implements Runnable {
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
-
+		// Set world into a grid system
 		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 0, 0));
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			JPanel panel = new JPanel();
+			// Name each square as the coordinate for usage
 			String name = String.format("%d %d", i / maxScreenRows, i % maxScreenColumns);
 			panel.setName(name);
 			panel.setPreferredSize(UNITSIZE);
@@ -77,9 +74,13 @@ public class GamePanel extends JPanel implements Runnable {
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		// If player hp > 0, continue game
 		if (player.getHp()>0){
+			// Draw tiles first
             tileResource.draw(g2);
+			// Draw player
 			player.draw(g2);
+			// Draw goblins and chest
 			for (Goblin gob : goblins) {
 				gob.draw(g2);
 			}
@@ -90,9 +91,11 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.dispose();
 
 		}
+		// If hp is 0, end game
 		else {
 			gameOver(g2);
 			g2.dispose();
+			gameThread = null;
 		}
 
 
@@ -106,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
 		FontMetrics metrics = getFontMetrics(graphics.getFont());
 		graphics.drawString("Game Over", (screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
 	}
-
+	// Create a game threat that will run the game
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -114,6 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+		// Refreshing system of 30 FPS
 		double drawInterval = (double) 1000000000 / 30;
 		double delta = 0;
 		long lastTime = System.nanoTime();
@@ -122,6 +126,8 @@ public class GamePanel extends JPanel implements Runnable {
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
+			// Delta is > 1 because it is frames per second
+			// Refreshes 30 times per seconds
 			if (delta >= 1) {
 				update();
 				repaint();
@@ -129,7 +135,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
-
+	// this update the variable to let other classes know when to swap image to create an animation
 	public void update() {
 		spriteCounter++;
 
