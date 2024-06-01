@@ -10,7 +10,6 @@ public class ChestDrops {
 	public static Item roll() {
 		Random random = new Random();
 		int rand = random.nextInt(100) + 1; // 1-100
-		System.out.println(rand);
 		if (isBetween(rand, 1, 20))
 			return null; // Rolled no drop
 		if (isBetween(rand, 21, 30))
