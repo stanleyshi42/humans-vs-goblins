@@ -29,6 +29,10 @@ public class Goblin extends Entity {
 
 	}
 
+	public ImageIcon getGoblinImg(){
+		return this.icon1;
+	}
+
 	public Goblin(int x, int y, int hp, int attack, int defense, int goblinNum) {
 		this.x = x;
 		this.y = y;
