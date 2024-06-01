@@ -44,7 +44,7 @@ public class LootWindow extends JFrame {
         this.player = p;
         this.gPanel = panel;
 
-        if(chest == false)
+        if(!chest)
             itemObjs = GoblinDrops.rollMultiple(3);
         else
             itemObjs = ChestDrops.rollMultiple(3);

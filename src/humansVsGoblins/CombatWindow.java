@@ -57,7 +57,7 @@ public class CombatWindow extends JFrame {
         // Character panel setup
         JPanel characterPanel = new JPanel(new GridLayout(1, 2));
         JLabel playerImageLabel = new JLabel(new ImageIcon(new ImageIcon("Resources/player.png").getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
-        JLabel enemyImageLabel = new JLabel(new ImageIcon(new ImageIcon("Resources/goblin.png").getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
+        JLabel enemyImageLabel = new JLabel(new ImageIcon(enemy.getGoblinImg().getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
      
         
         characterPanel.add(playerImageLabel);
