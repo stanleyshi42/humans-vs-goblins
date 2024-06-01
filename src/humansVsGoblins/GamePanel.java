@@ -37,12 +37,18 @@ public class GamePanel extends JPanel implements Runnable {
 	TileResource tileResource = new TileResource(this);
 	PossibleMove possibleMove = new PossibleMove(player, tileResource);
 
+	// Kept as variables for sprite updates
+	InventoryPanel inv;
+	LootWindow lootWin;
+
 	// Game Loop Variables
 	Thread gameThread;
   
   	// Listeners
-  	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
-  	MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
+
+
+	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
+  MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
@@ -139,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void update() {
 		spriteCounter++;
 
-		if (spriteCounter > 10){
+		if (spriteCounter > 15){
 			if (spriteNum == 1){
 				spriteNum = 2;
 			} else if (spriteNum == 2){
@@ -149,12 +155,23 @@ public class GamePanel extends JPanel implements Runnable {
 			for (Goblin gob: goblins){
 				gob.update(spriteNum);
 			}
+
+			if(inv != null)
+				inv.updateSprites(spriteNum);
+			
+			if(lootWin != null)
+				lootWin.updateSprites(spriteNum);
+			
 			spriteCounter = 0;
 		}
 	}
 
 	public void openInventory() {
-		new InventoryPanel(this, player);
+		inv = new InventoryPanel(this, player);
+	}
+
+	public void openLootWindow(boolean chest) {
+		lootWin = new LootWindow(this, player, chest);
 	}
 
 	public void addChest(Treasure t) {
@@ -174,12 +191,12 @@ public class GamePanel extends JPanel implements Runnable {
 		for (Treasure t : chests) {
 			if (t.getX() == player.getGX() && t.getY() == player.getGY()) {
 				if (!t.getLocked()) {
-					new LootWindow(this, player, true);
+					openLootWindow(true);
 					removeChest(t);
 				}
 				else if(player.hasKeyInInventory()) {
 					player.useKey();
-					new LootWindow(this, player, true);
+					openLootWindow(true);
 					removeChest(t);
 				}
 				break;

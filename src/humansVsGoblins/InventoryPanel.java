@@ -33,10 +33,7 @@ import items.Potion;
  * equipping and using items.
  */
 public class InventoryPanel extends JFrame {
-    private final int tileSize = 16;
-    private final int scale = 3;
 
-    private final int scaledTileSize = tileSize * scale;
     private final int maxScreenColumns = 3;
     private final int maxScreenRows = 4;
 
@@ -45,6 +42,17 @@ public class InventoryPanel extends JFrame {
     private InventorySlot armor;
     private ArrayList<InventorySlot> pouchItems;
     private GamePanel gPanel;
+
+    public void updateSprites(int spriteNum) {
+        weapon.update(spriteNum);
+        weapon.displayMajorItem();
+        armor.update(spriteNum);
+        armor.displayMajorItem();
+        for(InventorySlot is: pouchItems) {
+            is.update(spriteNum);
+            is.displayItem();
+        }
+    }
 
     // initializeInventorySlots() will create all the inventory slots
     // needed to display the player's items and additional empty slots
@@ -60,12 +68,11 @@ public class InventoryPanel extends JFrame {
 
         int i;
         for(i=0; i < player.getInventory().size(); i++) {
-            InventorySlot existingItems = new InventorySlot(scaledTileSize, player.getInventory().get(i));
+            InventorySlot existingItems = new InventorySlot(player.getInventory().get(i));
             if(existingItems.itemInSlot instanceof Potion) {
                 existingItems.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // TODO Auto-generated method stub
                         if(player.getHp() < player.getMaxHp()) {
                             player.usePotion((Potion) existingItems.itemInSlot);
                             initializeDisplay();
@@ -86,12 +93,12 @@ public class InventoryPanel extends JFrame {
             pouchItems.add(existingItems);
         }
         for(int j=i; j < maxScreenColumns*maxScreenRows; j++) {
-            pouchItems.add(new InventorySlot(scaledTileSize, null));
+            pouchItems.add(new InventorySlot(null));
         }
 
         // Grab the armor and sword the player has equipped.
-        weapon = new InventorySlot(scaledTileSize, player.getEquipment().get("weapon"));
-        armor = new InventorySlot(scaledTileSize, player.getEquipment().get("armor"));
+        weapon = new InventorySlot(player.getEquipment().get("weapon"));
+        armor = new InventorySlot(player.getEquipment().get("armor"));
         revalidate();
         repaint();
     }
@@ -121,8 +128,8 @@ public class InventoryPanel extends JFrame {
 
         // BACK BUTTON
         JPanel buttonCont = new JPanel();
-        buttonCont.setSize(new Dimension(400, 40));                      // 400 40
-        buttonCont.setPreferredSize(new Dimension(400, 40));
+        buttonCont.setSize(new Dimension(400, 30));                      // 400 40
+        buttonCont.setPreferredSize(new Dimension(400, 30));
         //buttonCont.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JButton backButton = new JButton("Return");
@@ -182,8 +189,6 @@ public class InventoryPanel extends JFrame {
         statsContainer.add(speedLabel);
         frameContainer.add(statsContainer);
 
-        frameContainer.add(Box.createRigidArea(new Dimension(40,10)));            // 40 10
-
         // EQUIPMENT AREA
         JPanel equipLabelCont = new JPanel();
         equipLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -202,11 +207,7 @@ public class InventoryPanel extends JFrame {
         equipContainer.setPreferredSize(new Dimension(400, 140));
 
         armor.displayMajorItem();
-        armor.setIconTextGap(15);
-        armor.setFont(new Font("Sans-serif", Font.BOLD, 18));
         weapon.displayMajorItem();
-        weapon.setIconTextGap(15);
-        weapon.setFont(new Font("Sans-serif", Font.BOLD, 18));
         equipContainer.add(armor);
         equipContainer.add(weapon);
         frameContainer.add(equipContainer);
@@ -227,8 +228,8 @@ public class InventoryPanel extends JFrame {
 
         JPanel pouchContainer = new JPanel();
         pouchContainer.setLayout(new GridLayout(4, 3, 10, 5));
-        pouchContainer.setSize(new Dimension(300, 420));                 // 300 420
-        pouchContainer.setPreferredSize(new Dimension(300, 420));
+        pouchContainer.setSize(new Dimension(300, 440));                 // 300 440
+        pouchContainer.setPreferredSize(new Dimension(300, 440));
 
         for(InventorySlot t: pouchItems) {
             t.displayItem();

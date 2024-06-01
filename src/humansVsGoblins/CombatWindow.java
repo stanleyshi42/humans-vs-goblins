@@ -134,7 +134,7 @@ public class CombatWindow extends JFrame {
                 appendToCombatLog("Enemy defeated!");
                 appendToCombatLog("Combat ended.");
                 updateHealthBars(player.getHp(), enemy.getHp());
-                new LootWindow(gPanel, player, false);
+                gPanel.openLootWindow(false);
                 dispose();
             } else {
                 playerTurn = false;
