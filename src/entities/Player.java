@@ -20,8 +20,6 @@ public class Player extends Entity {
 
 	int spriteNum;
 
-
-
 	// Starting stats
 	public Player() {
 		this.setGridX(1);
@@ -35,13 +33,8 @@ public class Player extends Entity {
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
 		this.equipment.put("armor", new Armor(ItemID.LEATHER_ARMOR));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
-		this.inventory.add(new Potion(ItemID.MEDIUM_POTION));
-		this.inventory.add(new Potion(ItemID.LARGE_POTION));
-		this.inventory.add(new Armor(ItemID.DIAMOND_ARMOR));
-		this.inventory.add(new Weapon(ItemID.DIAMOND_SWORD));
-		this.inventory.add(new Armor(ItemID.IRON_ARMOR));
-		this.inventory.add(new Key(ItemID.KEY));
-		this.inventory.add(new Weapon(ItemID.BROAD_SWORD));
+		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		
 		this.icon = new ImageIcon("Resources/player-1.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
