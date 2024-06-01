@@ -9,7 +9,9 @@ public class Key extends Item {
 		switch(itemId) {
 			case KEY:
 				ImageIcon key = new ImageIcon("Resources/key.png");
-				this.setSprite(key);
+				this.setSprite1(key);
+				ImageIcon key2 = new ImageIcon("Resources/key2.png");
+				this.setSprite2(key2);
 				break;
 			default:
 				break;

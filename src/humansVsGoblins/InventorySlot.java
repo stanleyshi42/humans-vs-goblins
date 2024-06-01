@@ -1,6 +1,7 @@
 package humansVsGoblins;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 
@@ -17,12 +18,16 @@ import items.Weapon;
 public class InventorySlot extends JButton {
 
     Item itemInSlot;
+    int spriteNum;
     
-    InventorySlot(int scaledSize, Item item) {
+    InventorySlot(Item item) {
+        spriteNum = 1;
+        this.setSize(new Dimension(100, 150));
+        this.setPreferredSize(new Dimension(100, 150));
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.BOTTOM);
-        this.setFont(new Font("Sans-serif", Font.BOLD, 16));
+        this.setFont(new Font("Sans-serif", Font.BOLD, 15));
         this.setBackground(Color.WHITE);
         this.setVisible(true);
         this.setFocusable(false);
@@ -52,7 +57,12 @@ public class InventorySlot extends JButton {
     public void displayItem() {
         if(itemInSlot == null) return;
 
-        ImageIcon sprite = itemInSlot.getSprite();
+        ImageIcon sprite;
+        if(spriteNum == 1)
+            sprite = itemInSlot.getSprite1();
+        else
+            sprite = itemInSlot.getSprite2();
+
         if(sprite != null) {
             Image unScaled = sprite.getImage();
             Image scaledImg = unScaled.getScaledInstance(sprite.getIconWidth()*3,
@@ -65,7 +75,15 @@ public class InventorySlot extends JButton {
     public void displayMajorItem() {
         if(itemInSlot == null) return;
 
-        ImageIcon sprite = itemInSlot.getSprite();
+        this.setIconTextGap(8);
+        this.setFont(new Font("Sans-serif", Font.BOLD, 17));
+
+        ImageIcon sprite;
+        if(spriteNum == 1)
+            sprite = itemInSlot.getSprite1();
+        else
+            sprite = itemInSlot.getSprite2();
+
         if(sprite != null) {
             Image unScaled = sprite.getImage();
             Image scaledImg = unScaled.getScaledInstance(sprite.getIconWidth()*5,
@@ -73,6 +91,14 @@ public class InventorySlot extends JButton {
             this.setIcon(new ImageIcon(scaledImg));
         }
         displayStatsOfItem();
+    }
+
+    public void update(int spriteNum) {
+        this.spriteNum = spriteNum;
+    }
+
+    public int getSpriteNum() {
+        return spriteNum;
     }
     
 }

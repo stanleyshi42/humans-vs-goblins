@@ -67,8 +67,8 @@ public class LootWindow extends JFrame {
         
         this.setTitle("Loot Window");
         this.setUndecorated(true);
-        this.setPreferredSize(new Dimension(500, 700));
-        this.setSize(new Dimension(500, 700));
+        this.setPreferredSize(new Dimension(500, 750));
+        this.setSize(new Dimension(500, 750));
         //this.setDoubleBuffered(true);
         this.setVisible(true);
         this.setResizable(false);
@@ -87,6 +87,17 @@ public class LootWindow extends JFrame {
         }
     }
 
+    public void updateSprites(int spriteNum) {
+        for(InventorySlot ls: lootItems) {
+            ls.update(spriteNum);
+            ls.displayItem();
+        }
+        for(InventorySlot is: pouchItems) {
+            is.update(spriteNum);
+            is.displayItem();
+        }
+    }
+
     public void initializeLootSlots() {
         lootItems = new ArrayList<>();
 
@@ -97,7 +108,7 @@ public class LootWindow extends JFrame {
                 i--;
                 continue;
             }
-            InventorySlot lootItem = new InventorySlot(scaledTileSize, itemObjs.get(i));
+            InventorySlot lootItem = new InventorySlot(itemObjs.get(i));
             {
                 LootWindow l = this;
                 lootItem.addActionListener(new ActionListener() {
@@ -127,7 +138,7 @@ public class LootWindow extends JFrame {
             lootItems.add(lootItem);
         }
         for(int j=i; j < maxScreenColumns; j++) {
-            lootItems.add(new InventorySlot(scaledTileSize, null));
+            lootItems.add(new InventorySlot(null));
         }
 
         revalidate();
@@ -139,11 +150,11 @@ public class LootWindow extends JFrame {
 
         int i;
         for(i=0; i < player.getInventory().size(); i++) {
-            InventorySlot existingItems = new InventorySlot(scaledTileSize, player.getInventory().get(i));
+            InventorySlot existingItems = new InventorySlot(player.getInventory().get(i));
             pouchItems.add(existingItems);
         }
         for(int j=i; j < maxScreenColumns*maxScreenRows; j++) {
-            pouchItems.add(new InventorySlot(scaledTileSize, null));
+            pouchItems.add(new InventorySlot(null));
         }
 
         revalidate();
@@ -162,8 +173,8 @@ public class LootWindow extends JFrame {
 
         // BACK BUTTON
         JPanel buttonCont = new JPanel();
-        buttonCont.setSize(new Dimension(400, 40));                      // 400 40
-        buttonCont.setPreferredSize(new Dimension(400, 40));
+        buttonCont.setSize(new Dimension(400, 30));                      // 400 30
+        buttonCont.setPreferredSize(new Dimension(400, 30));
         //buttonCont.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JButton backButton = new JButton("Return");
@@ -197,8 +208,8 @@ public class LootWindow extends JFrame {
 
         JPanel lootContainer = new JPanel();
         lootContainer.setLayout(new GridLayout(1, 3, 10, 5));
-        lootContainer.setSize(new Dimension(300, 420));                 // 300 420
-        lootContainer.setPreferredSize(new Dimension(300, 420));
+        lootContainer.setSize(new Dimension(300, 360));                 // 300 400
+        lootContainer.setPreferredSize(new Dimension(300, 360));
 
         for(InventorySlot t: lootItems) {
             t.displayItem();
@@ -220,8 +231,8 @@ public class LootWindow extends JFrame {
 
         JPanel pouchContainer = new JPanel();
         pouchContainer.setLayout(new GridLayout(4, 3, 10, 5));
-        pouchContainer.setSize(new Dimension(300, 420));                 // 300 420
-        pouchContainer.setPreferredSize(new Dimension(300, 420));
+        pouchContainer.setSize(new Dimension(300, 600));                 // 300 460
+        pouchContainer.setPreferredSize(new Dimension(300, 600));
 
         for(InventorySlot t: pouchItems) {
             t.displayItem();
