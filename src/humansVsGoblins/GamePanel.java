@@ -13,6 +13,7 @@ import javax.swing.*;
  * GamePanel
  */
 public class GamePanel extends JPanel implements Runnable {
+	
 	// Tile and Screen Settings
 	final int tileSize = 16;
 	final int scale = 3;
@@ -45,10 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread;
   
   	// Listeners
-
-
 	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
-  MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
+  	MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
@@ -242,15 +241,18 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
+	// Add the listeners needed for this panel.
 	public void addListeners() {
 		this.addMouseListener(mouse);
         this.addKeyListener(keyboard);
 	}
 
+	// Get the MouseListener connected to this panel.
 	public KeyHandler getMouse() {
 		return mouse;
 	}
 
+	// Get the KeyListener connected to this panel.
 	public MovementListener getKeyboard() {
 		return keyboard;
 	}

@@ -34,15 +34,20 @@ import items.Potion;
  */
 public class InventoryPanel extends JFrame {
 
+    // Max amount of InventorySlots representing pouch
     private final int maxScreenColumns = 3;
     private final int maxScreenRows = 4;
 
-    private Player player;
-    private InventorySlot weapon;
-    private InventorySlot armor;
-    private ArrayList<InventorySlot> pouchItems;
-    private GamePanel gPanel;
+    private Player player;                          // Player object needed to grab inventory
+    private InventorySlot weapon;                   // InventorySlot representing equipped weapon
+    private InventorySlot armor;                    // InventorySlot representing equipped armor
+    private ArrayList<InventorySlot> pouchItems;    // List of InventorySlots representing player's inventory.
+    private GamePanel gPanel;                       // GamePanel that calls the InventoryPanel.
 
+    // updateSprites() will call the InventorySlot.update()
+    // methods to change the sprite that needs to be shown 
+    // on that current tick of the game. This method allows
+    // for animation throughout all items in the InventoryPanel.
     public void updateSprites(int spriteNum) {
         weapon.update(spriteNum);
         weapon.displayMajorItem();
@@ -105,9 +110,10 @@ public class InventoryPanel extends JFrame {
 
     // initializeDisplay() is used to create all the JPanels, JLabels, etc
     // needed to display the inventory screen. This class is recalled on every
-    // inventory change allowing for a GUI refresh. 
+    // inventory change and sprite update allowing for a GUI refresh.
     public void initializeDisplay() {
 
+        // Refresh GUI
         this.getContentPane().removeAll();
         initializeInventorySlots();
 
@@ -117,7 +123,7 @@ public class InventoryPanel extends JFrame {
         
         // INVENTORY TITLE
         JPanel titleCont = new JPanel();
-        titleCont.setSize(new Dimension(400, 40));                      // 400 30
+        titleCont.setSize(new Dimension(400, 40));                      // 400 40
         titleCont.setPreferredSize(new Dimension(400, 40));
 
         JLabel title = new JLabel("INVENTORY");
@@ -128,7 +134,7 @@ public class InventoryPanel extends JFrame {
 
         // BACK BUTTON
         JPanel buttonCont = new JPanel();
-        buttonCont.setSize(new Dimension(400, 30));                      // 400 40
+        buttonCont.setSize(new Dimension(400, 30));                      // 400 30
         buttonCont.setPreferredSize(new Dimension(400, 30));
         //buttonCont.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -192,7 +198,7 @@ public class InventoryPanel extends JFrame {
         // EQUIPMENT AREA
         JPanel equipLabelCont = new JPanel();
         equipLabelCont.setLayout(new FlowLayout(FlowLayout.LEFT));
-        equipLabelCont.setSize(new Dimension(400, 30));
+        equipLabelCont.setSize(new Dimension(400, 30));                 // 400 30
         equipLabelCont.setPreferredSize(new Dimension(400, 30));
 
         JLabel equipLabel = new JLabel("Equipment:");
@@ -240,6 +246,11 @@ public class InventoryPanel extends JFrame {
         this.pack();
     }
 
+    // Constructor that removes the Key and Mouse listeners
+    // for the panel that calls it. Initializes many settings
+    // such as size, starting position, and a FrameDragListener
+    // for the InventoryPanel. Finally, calls initializeDisplay
+    // to begin creating the GUI components.
     InventoryPanel(GamePanel panel, Player p) {
 
         // Grab all the items the player has in its inventory.
@@ -273,6 +284,10 @@ public class InventoryPanel extends JFrame {
         initializeDisplay();
     }
 
+    // FrameDragListener enables the ability to move the
+    // frame around with your mouse during runtime. Since
+    // the frame is set as undecorated, this is needed for
+    // movement.
     public static class FrameDragListener extends MouseAdapter {
 
         private final JFrame frame;

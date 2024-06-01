@@ -15,11 +15,21 @@ import items.Item;
 import items.Potion;
 import items.Weapon;
 
+/*
+ * InventorySlot represents an Item object with JButton functionality.
+ * Used with the LootWindow and InventoryPanel frames to equip items,
+ * insert items into your inventory from chests or goblins, or use items
+ * such as potions.
+ */
+
 public class InventorySlot extends JButton {
 
-    Item itemInSlot;
-    int spriteNum;
+    Item itemInSlot;    // The Item that the InventorySlot is representing.
+    int spriteNum;      // A sprite counter to keep track of which sprite of the item
+                        // to display.
     
+    // Constructor which initializes the functionality and
+    // and look of a InventorySlot
     InventorySlot(Item item) {
         spriteNum = 1;
         this.setSize(new Dimension(100, 150));
@@ -35,6 +45,12 @@ public class InventorySlot extends JButton {
         
     }
 
+    // displayStatsOfItem() will display the name and stats
+    // of the item that is occupying this InventorySlot.
+    // Ex: A weapon item will now show it's attack stat
+    // and it's name in the GUI.
+    // If an Item has no stat such as a Key, then only
+    // only the name will display.
     private void displayStatsOfItem() {
         if(itemInSlot instanceof Potion) {
             this.setText("<html>"+itemInSlot.getName()+" <br /><center>Healing: "
@@ -54,6 +70,12 @@ public class InventorySlot extends JButton {
 
     }
 
+    // displayItem() will insert the sprite into
+    // the inventorySlot dedicated to the specific
+    // item the inventorySlot represents.
+    // It scales the sprite image by 3.
+    // Used for minor inventorySlots like loot slots
+    // and pouch slots.
     public void displayItem() {
         if(itemInSlot == null) return;
 
@@ -72,6 +94,12 @@ public class InventorySlot extends JButton {
         displayStatsOfItem();
     }
 
+    // displayMajorItem() will insert the sprite into
+    // the inventorySlot dedicated to the specific
+    // item the inventorySlot represents.
+    // It scales the sprite image by 5.
+    // Used for major inventorySlots like currently
+    // equipped items.
     public void displayMajorItem() {
         if(itemInSlot == null) return;
 
@@ -93,10 +121,15 @@ public class InventorySlot extends JButton {
         displayStatsOfItem();
     }
 
+    // update() is given a spriteNum and
+    // updates the spriteNum variable.
+    // Used to alter which sprite will be
+    // shown during runtime (animation)
     public void update(int spriteNum) {
         this.spriteNum = spriteNum;
     }
 
+    // Simple getter
     public int getSpriteNum() {
         return spriteNum;
     }
