@@ -6,25 +6,24 @@ import java.util.Random;
 import items.*;
 
 public class ChestDrops {
-	//TODO
 	public static Item roll() {
 		Random random = new Random();
 		int rand = random.nextInt(100) + 1; // 1-100
-		if (isBetween(rand, 1, 20))
+		if (isBetween(rand, 1, 30))
 			return null; // Rolled no drop
-		if (isBetween(rand, 21, 30))
+		if (isBetween(rand, 31, 35))
 			return new Weapon(ItemID.DIAMOND_SWORD);
-		if (isBetween(rand, 31, 33))
+		if (isBetween(rand, 35, 38))
 			return new Weapon(ItemID.GREAT_SWORD);
-		if (isBetween(rand, 34, 50))
+		if (isBetween(rand, 39, 44))
 			return new Armor(ItemID.DIAMOND_ARMOR);
-		if (isBetween(rand, 51, 65))
+		if (isBetween(rand, 45, 60))
 			return new Potion(ItemID.MEDIUM_POTION);
-		if (isBetween(rand, 66, 75))
+		if (isBetween(rand, 61, 75))
 			return new Potion(ItemID.LARGE_POTION);
-		if (isBetween(rand, 76, 85))
+		if (isBetween(rand, 76, 90))
 			return new Key(ItemID.KEY);
-		if (isBetween(rand, 86, 100))
+		if (isBetween(rand, 91, 100))
 			return new Potion(ItemID.SMALL_POTION);
 		return null;
 

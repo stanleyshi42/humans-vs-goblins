@@ -8,9 +8,10 @@ import items.*;
 import javax.swing.*;
 
 public class Player extends Entity {
-	public int maxHp, curHp, attack, defense, speed;
-	public HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
-	public ArrayList<Item> inventory = new ArrayList<>();
+	private final int maxHp,speed;
+    private int curHp,defense,attack;
+	private final HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
+	private final ArrayList<Item> inventory = new ArrayList<>();
 
 
 	ImageIcon icon;
@@ -35,6 +36,7 @@ public class Player extends Entity {
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
+		this.inventory.add(new Key(ItemID.KEY));
 		
 		this.icon = new ImageIcon("Resources/player-1.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
@@ -152,6 +154,9 @@ public class Player extends Entity {
 
 	public int getMaxHp() {
 		return maxHp;
+	}
+	public void setHp(int hp){
+		this.curHp = hp;
 	}
 
 	public int getAttack() {
