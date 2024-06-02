@@ -37,7 +37,7 @@ public class PossibleMove {
         };
         boolean[] canMove = {true, true, true, true};
 
-        for (int i = 1; i <= player.speed; i++) {
+        for (int i = 1; i <= player.getSpeed(); i++) {
             for (int d = 0; d < directions.length; d++) {
                 if (canMove[d]) {
                     int newX = player.getGX() + directions[d][0] * i;
