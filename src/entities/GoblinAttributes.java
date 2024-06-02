@@ -12,7 +12,7 @@ public class GoblinAttributes {
         // Red Cap Goblin (Stronger)
         goblinAttributes.put(1, new int[]{10, 7,2}); // type 1: hp 10, atk 7, def 2
         // Orcs ( Tanky and Boss Type )
-        goblinAttributes.put(2, new int[]{30, 12,6});  // type 2: hp 30, atk 12, def 6
+        goblinAttributes.put(2, new int[]{35, 9, 5});  // type 2: hp 30, atk 12, def 6
         // Hoarders (Week and Tanky )
         goblinAttributes.put(3, new int[]{50, 3,5});  // type 3: hp 50, atk 3, def 5
 

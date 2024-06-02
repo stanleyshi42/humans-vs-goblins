@@ -27,7 +27,7 @@ public class Player extends Entity {
 
 		this.maxHp = 16;
 		this.curHp = this.maxHp;
-		this.attack = 5;
+		this.attack = 6;
 		this.defense = 2;
 		this.speed = 1;
 		this.equipment.put("weapon", new Weapon(ItemID.WOODEN_SWORD));
