@@ -7,8 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-
+/*
+ * PossibleMove generates the valid moves that the player object can
+ * make and draws blue squares to represent them on the GamePanel screen.
+ */
 public class PossibleMove {
+
     // Initializing variables for use
     private final int UNITSIZE = 48;
     private final Player player;
@@ -26,7 +30,7 @@ public class PossibleMove {
                 icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
     }
 
-    // Check if player can move up,down,left,right based on player's location
+    // Check if the player can move up, down, left, and right based on player's location
     public void createMoves() {
         moves = new ArrayList<>();
         int[][] directions = {
@@ -57,10 +61,11 @@ public class PossibleMove {
         return x >= 0 && x < 20 && y >= 0 && y < 20 && mapTile[y][x] != 1;
     }
 
+    // Return the list of possible moves.
     public ArrayList<String> getMoves(){
         return this.moves;
     }
-    // Draw blue area indicate they can move there
+    // Draw the blue squares that indicate where the player can move.
     public void draw(Graphics2D g2){
         for (String ele : moves){
             g2.drawImage(image, UNITSIZE*Integer.parseInt(ele.split(" ")[1]),

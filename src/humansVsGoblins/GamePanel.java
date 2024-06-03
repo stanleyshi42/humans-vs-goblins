@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * GamePanel
+ * GamePanel represents the game screen/world that the player will interact with.
+ * This panel will spawn goblins, chests, the player and call the inventory, loot windows,
+ * and the combat windows. This class is the heart of the program where sprite updates,
+ * player turns, goblins turns, and painting entities is managed.
  */
 public class GamePanel extends JPanel implements Runnable {
 	
@@ -46,13 +49,15 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread;
   
   	// Listeners
-	KeyHandler mouse = new KeyHandler(this, player, tileResource, possibleMove);
-  	MovementListener keyboard = new MovementListener(this, player, tileResource, possibleMove);
+	MouseHandler mouse = new MouseHandler(this, player, tileResource, possibleMove);
+  	KeyBoardHandler keyboard = new KeyBoardHandler(this, player, tileResource, possibleMove);
 
 	public GamePanel() {
+
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
 			mapTiles.add(new Tile(scaledTileSize));
 		}
+
 		// Set world into a grid system
 		setLayout(new GridLayout(maxScreenRows, maxScreenColumns, 0, 0));
 		for (int i = 0; i < maxScreenColumns * maxScreenRows; i++) {
@@ -64,16 +69,18 @@ public class GamePanel extends JPanel implements Runnable {
 			add(panel);
 		}
 
+		// Initialize basic JPanel settings
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);
 		this.setVisible(true);
 		this.setFocusable(true);
-		this.addMouseListener(new KeyHandler(this, player, tileResource, possibleMove));
-    	addListeners();
-		possibleMove.createMoves();
-		setUpChest();
-		spawnGoblin();
+		this.addMouseListener(new MouseHandler(this, player, tileResource, possibleMove));
+
+    	addListeners(); 			// Add listeners needed for movement
+		possibleMove.createMoves();	// Show all the possible moves the player can make
+		setUpChest();				// Setup the chests on the screen
+		spawnGoblin();				// Spawn the goblins on the screen
 	}
 
 	@Override
@@ -105,8 +112,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 	}
+
+	// gameOver() will draw the game over screen upon player death.
 	public void gameOver(Graphics graphics) {
-		//game over screen
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(0,0,screenWidth,screenHeight);
 		graphics.setColor(Color.red);
@@ -114,7 +122,8 @@ public class GamePanel extends JPanel implements Runnable {
 		FontMetrics metrics = getFontMetrics(graphics.getFont());
 		graphics.drawString("Game Over", (screenWidth - metrics.stringWidth("Game Over")) / 2, screenHeight / 2);
 	}
-	// Create a game threat that will run the game
+
+	// Create a game thread that will run the game
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -140,7 +149,9 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
-	// this update the variable to let other classes know when to swap image to create an animation
+	// update() updates the spriteNum variable on every tick to let the other classes 
+	// know when to swap images to create an animation in the LootWindow, InventoryPanel
+	// and this GamePanel itself
 	public void update() {
 		spriteCounter++;
 
@@ -165,27 +176,39 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
+	// Create an inventory window.
 	public void openInventory() {
 		inv = new InventoryPanel(this, player);
 	}
 
+	// Create a loot window for a goblin or chest based on boolean received.
 	public void openLootWindow(boolean chest) {
 		lootWin = new LootWindow(this, player, chest);
 	}
 
+	// Add a new chest object to the list.
 	public void addChest(Treasure t) {
 		chests.add(t);
 	}
+
+	// Remove a chest object from the list.
 	public void removeChest(Treasure t) {
 		chests.remove(t);
 	}
 
+	// Create chests via Treasure class and add them
+	// to the list of chests.
 	public void setUpChest(){
 		for (String ele : tileResource.getChest()){
 			String[] re = ele.split(" ");
 			addChest(new Treasure(Integer.parseInt(re[0]),Integer.parseInt(re[1]),Boolean.parseBoolean(re[2])));
 		}
 	}
+
+	// Check if the player has collided with a chest,
+	// if so and the chest is unlocked create a loot Window,
+	// if the chest is locked and the player has a key,
+	// create a loot window.
 	public void checkChest() {
 		for (Treasure t : chests) {
 			if (t.getX() == player.getGX() && t.getY() == player.getGY()) {
@@ -202,18 +225,23 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 	}
+
+	// Get the list of goblins.
 	public ArrayList<Goblin> getGoblins() {
 		return goblins;
 	}
 
+	// Add a goblin to the list of goblins.
 	public void addGoblin(Goblin g) {
 		goblins.add(g);
 	}
-    // Check if the player is in the same space as a goblin and start combat if needed
+
+	// Check if the player is in the same space as a goblin and start combat if needed.
 	public void removeGoblin(Goblin g) {
 		goblins.remove(g);
 	}
 
+	// Check if there is collision with a goblin, if so call a combat window.
 	public void checkCombat() {
 		for (Goblin g : getGoblins()) {
 			if (g.getX() == player.getGX() && g.getY() == player.getGY()) {
@@ -226,7 +254,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
-	// Spawn a goblin in an empty tile
+	// Spawn a goblin in an empty tile.
 	public void spawnGoblin() {
 		for (String ele : tileResource.getGoblin()){
 			String[] re = ele.split(" ");
@@ -248,12 +276,12 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	// Get the MouseListener connected to this panel.
-	public KeyHandler getMouse() {
+	public MouseHandler getMouse() {
 		return mouse;
 	}
 
 	// Get the KeyListener connected to this panel.
-	public MovementListener getKeyboard() {
+	public KeyBoardHandler getKeyboard() {
 		return keyboard;
 	}
 }

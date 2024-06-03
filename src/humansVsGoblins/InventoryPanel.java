@@ -34,13 +34,13 @@ import items.Potion;
  */
 public class InventoryPanel extends JFrame {
 
-    // Max amount of InventorySlots representing pouch
+    // Max amount of InventorySlots representing pouch | 15 Slots
     private final int maxScreenColumns = 3;
-    private final int maxScreenRows = 4;
+    private final int maxScreenRows = 5;
 
-    private Player player;                          // Player object needed to grab inventory
-    private InventorySlot weapon;                   // InventorySlot representing equipped weapon
-    private InventorySlot armor;                    // InventorySlot representing equipped armor
+    private Player player;                          // Player object whose inventory is being represented.
+    private InventorySlot weapon;                   // InventorySlot representing equipped weapon.
+    private InventorySlot armor;                    // InventorySlot representing equipped armor.
     private ArrayList<InventorySlot> pouchItems;    // List of InventorySlots representing player's inventory.
     private GamePanel gPanel;                       // GamePanel that calls the InventoryPanel.
 
@@ -233,9 +233,9 @@ public class InventoryPanel extends JFrame {
         frameContainer.add(pouchLabelCont);
 
         JPanel pouchContainer = new JPanel();
-        pouchContainer.setLayout(new GridLayout(4, 3, 10, 5));
-        pouchContainer.setSize(new Dimension(300, 440));                 // 300 440
-        pouchContainer.setPreferredSize(new Dimension(300, 440));
+        pouchContainer.setLayout(new GridLayout(5, 3, 10, 5));
+        pouchContainer.setSize(new Dimension(300, 540));                 // 300 540
+        pouchContainer.setPreferredSize(new Dimension(300, 540));
 
         for(InventorySlot t: pouchItems) {
             t.displayItem();
@@ -265,18 +265,20 @@ public class InventoryPanel extends JFrame {
                 gPanel.addListeners();
             }
         });
-        
+
+        // Initialize basic JFrame settings.
         this.setTitle("Inventory");
         this.setUndecorated(true);
-        this.setPreferredSize(new Dimension(500, 940));
-        this.setSize(new Dimension(500, 940));
-        //this.setDoubleBuffered(true);
+        this.setPreferredSize(new Dimension(500, 1040));
+        this.setSize(new Dimension(500, 1040));
         this.setVisible(true);
         this.setResizable(false);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.setLocationRelativeTo(null);
         this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+        // Insert framedraglistener allowing movement
+        // for loot window.
         FrameDragListener fdl = new FrameDragListener(this);
         this.addMouseListener(fdl);
         this.addMouseMotionListener(fdl);

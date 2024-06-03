@@ -11,12 +11,12 @@ import entities.Player;
 import tile.TileResource;
 
 /*
- * MovementListener is used to gather keyboard inputs from the player.
+ * KeyBoardHandler is used to gather keyboard inputs from the player.
  * This class will move players where they request to on the board (if valid)
  * and call events to occur if collision occurs such as combat and loot windows.
  */
 
-public class MovementListener implements KeyListener {
+public class KeyBoardHandler implements KeyListener {
 
 	private int key;						// Key that was pressed.
 	private JPanel selectedPanel;			// The panel that the player wants to move to.
@@ -27,7 +27,7 @@ public class MovementListener implements KeyListener {
 
 	// Simple constructor, grab the panel, player, tile,
 	// and possible moves that the player can make
-	public MovementListener(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
+	public KeyBoardHandler(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
 		this.gamePanel = gamePanel;
 		this.player = player;
 		this.moves = moves;

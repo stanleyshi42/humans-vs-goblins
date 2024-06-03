@@ -2,13 +2,23 @@ package items;
 
 import javax.swing.ImageIcon;
 
+/*
+ * Weapon class that represents an Item object that does damage in the game.
+ * Uses the ItemID enum to gather the specific sprites and names for the 
+ * weapon that is requested. Specifically, boosts the player's attack stat
+ * while the weapon is equipped.
+ */
+
 public class Weapon extends Item {
-	public int attack;
+	public int attack;	// Attack stat of the item. Boosts player's attack stat
 
 	public Weapon(ItemID itemId) {
 		super("", itemId, null);
 
 		switch (itemId) {
+
+		// Wooden Sword Weapon
+		// Attack: 2
 		case WOODEN_SWORD:
 			this.setName("Wooden Sword");
 			this.attack = 2;
@@ -17,6 +27,8 @@ public class Weapon extends Item {
 			ImageIcon woodSword2 = new ImageIcon("Resources/woodenSword2.png");
 			this.setSprite2(woodSword2);
 			break;
+		// Iron Sword Weapon
+		// Attack: 4
 		case IRON_SWORD:
 			this.setName("Iron Sword");
 			this.attack = 4;
@@ -25,6 +37,8 @@ public class Weapon extends Item {
 			ImageIcon ironSword2 = new ImageIcon("Resources/ironSword2.png");
 			this.setSprite2(ironSword2);
 			break;
+		// Diamond Sword Weapon
+		// Attack: 6
 		case DIAMOND_SWORD:
 			this.setName("Diamond Sword");
 			this.attack = 6;
@@ -33,6 +47,8 @@ public class Weapon extends Item {
 			ImageIcon diamondSword2 = new ImageIcon("Resources/diamondSword2.png");
 			this.setSprite2(diamondSword2);
 			break;
+		// Broad Sword Weapon
+		// Attack: 5
 		case BROAD_SWORD:
 			this.setName("Broad Sword");
 			this.attack = 5;
@@ -41,6 +57,8 @@ public class Weapon extends Item {
 			ImageIcon broadSword2 = new ImageIcon("Resources/broadSword2.png");
 			this.setSprite2(broadSword2);
 			break;
+		// Great Sword Weapon
+		// Attack: 10
 		case GREAT_SWORD:
 			this.setName("Great Sword");
 			this.attack = 10;

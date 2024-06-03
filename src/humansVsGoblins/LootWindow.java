@@ -25,21 +25,40 @@ import entities.Player;
 import humansVsGoblins.InventoryPanel.FrameDragListener;
 import items.Item;
 
+/*
+ * LootWindow represents a Loot Drop Screen for the HumanVsPlayers game.
+ * Uses Java Swing for a GUI representation and communicates directly with the
+ * Player class to display stats and the items that the Player has. Communicates
+ * with the GoblinDrops and ChestDrops classes to gather the items dropped from
+ * their specific loot rolls. The LootWindow only allows for players to gather
+ * loot from drops, no equipping or using of items.
+ */
+
 public class LootWindow extends JFrame {
     
+    // Tile Size and Scale modifier
     final int tileSize = 16;
     final int scale = 3;
 
+    // Tile Size after scale
     final int scaledTileSize = tileSize * scale;
+    
+    // Max amount of slots for inventory space | 15 slots
     final int maxScreenColumns = 3;
-    final int maxScreenRows = 4;
+    final int maxScreenRows = 5;
 
-    Player player;
-    GamePanel gPanel;
-    ArrayList<InventorySlot> lootItems;
-    ArrayList<InventorySlot> pouchItems;
-    ArrayList<Item> itemObjs;
+    Player player;                          // Player object that is interacting with the lootwindow.
+    GamePanel gPanel;                       // Panel that callled the loot window.
+    ArrayList<InventorySlot> lootItems;     // The list of slots for the loot rolled.
+    ArrayList<InventorySlot> pouchItems;    // The list of slots that represent the player's inventory.
+    ArrayList<Item> itemObjs;               // The list of items that have been rolled from GoblinDrops or ChestDrops.
 
+
+    // Constructor that calls loot rolls for the items that
+    // can be inserted into the player's inventory in this
+    // window. Closes the Key and Mouse listeners for the
+    // game panel while the lootwindow is open. Initializes
+    // basic JFrame settings and calls initializeDisplay().
     LootWindow(GamePanel panel, Player p, boolean chest) {
         this.player = p;
         this.gPanel = panel;
@@ -57,37 +76,49 @@ public class LootWindow extends JFrame {
             if(i != null) allNull = false;
         }
 
+        // Remove the keyboard and mouse listeners
+        // from the panel during lootwindow runtime.
         gPanel.removeKeyListener(gPanel.getKeyboard());
         gPanel.removeMouseListener(gPanel.getMouse());
         addWindowListener(new WindowAdapter() {
+            // If window closed, return the listeners to the panel.
             @Override
             public void windowClosing(WindowEvent e) {
                 gPanel.addListeners();
             }
         });
         
+        // Initialize basic JFrame settings.
         this.setTitle("Loot Window");
         this.setUndecorated(true);
-        this.setPreferredSize(new Dimension(500, 750));
-        this.setSize(new Dimension(500, 750));
-        //this.setDoubleBuffered(true);
+        this.setPreferredSize(new Dimension(500, 850));
+        this.setSize(new Dimension(500, 850));
         this.setVisible(true);
         this.setResizable(false);
         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.setLocationRelativeTo(null);
         this.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+        // Insert framedraglistener allowing movement
+        // for loot window.
         FrameDragListener fdl = new FrameDragListener(this);
         this.addMouseListener(fdl);
         this.addMouseMotionListener(fdl);
         
         initializeDisplay();
+        
+        // If the loot drops result in no items close
+        // the loot window and return to the game.
         if(allNull) {
             gPanel.addListeners();
             this.dispose();
         }
     }
 
+    // updateSprites() will call the InventorySlot.update()
+    // methods to change the sprite that needs to be shown 
+    // on that current tick of the game. This method allows
+    // for animation throughout all items in the LootWindow.
     public void updateSprites(int spriteNum) {
         for(InventorySlot ls: lootItems) {
             ls.update(spriteNum);
@@ -99,6 +130,9 @@ public class LootWindow extends JFrame {
         }
     }
 
+    // initializeLootSlots() will create all the Loot slots needed
+    // to display the chest or goblin drops and additional empty slots
+    // if they dropped nothing on the roll.
     public void initializeLootSlots() {
         lootItems = new ArrayList<>();
 
@@ -113,11 +147,13 @@ public class LootWindow extends JFrame {
             {
                 LootWindow l = this;
                 lootItem.addActionListener(new ActionListener() {
+                    // Loot item slots have an ActionListener that
+                    // will insert the looted item into the player's
+                    // inventory as long as the player's inventory is not
+                    // full.
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // TODO Auto-generated method stub
                         if(player.getInventory().size() < maxScreenColumns*maxScreenRows) {
-                            System.out.println(lootItem.itemInSlot.getName()+" "+lootItem.itemInSlot.getId());
                             lootItems.remove(lootItem);
                             itemObjs.remove(lootItem.itemInSlot);
                             player.addItemToInventory(lootItem.itemInSlot);
@@ -125,7 +161,6 @@ public class LootWindow extends JFrame {
 
                             boolean allNull = true;
                             for(Item i: itemObjs){
-                                System.out.println(i.getName()+" "+i.getId());
                                 if(i != null) allNull = false;
                             }
                             if(allNull) {
@@ -146,6 +181,9 @@ public class LootWindow extends JFrame {
         repaint();
     }
 
+    // initializeInventorySlots() will create all the inventory slots
+    // needed to display the player's items and additional empty slots
+    // to be filled when the player acquires more items.
     public void initializeInventorySlots() {
         pouchItems = new ArrayList<>();
 
@@ -162,6 +200,9 @@ public class LootWindow extends JFrame {
         repaint();
     }
 
+    // initializeDisplay() is used to create all the JPanels, JLabels, etc
+    // needed to display the inventory screen. This class is recalled on every
+    // inventory change and sprite update allowing for a GUI refresh.
     public void initializeDisplay() {
 
         this.getContentPane().removeAll();
@@ -176,7 +217,6 @@ public class LootWindow extends JFrame {
         JPanel buttonCont = new JPanel();
         buttonCont.setSize(new Dimension(400, 30));                      // 400 30
         buttonCont.setPreferredSize(new Dimension(400, 30));
-        //buttonCont.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JButton backButton = new JButton("Return");
         backButton.setFont(new Font("Sans-serif", Font.BOLD, 16));
@@ -186,7 +226,7 @@ public class LootWindow extends JFrame {
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // TODO Auto-generated method stub
+                    // If window closed, return listeners to panel.
                     gPanel.addListeners();
                     p.dispose();
                 }
@@ -231,7 +271,7 @@ public class LootWindow extends JFrame {
         frameContainer.add(pouchLabelCont);
 
         JPanel pouchContainer = new JPanel();
-        pouchContainer.setLayout(new GridLayout(4, 3, 10, 5));
+        pouchContainer.setLayout(new GridLayout(5, 3, 10, 5));
         pouchContainer.setSize(new Dimension(300, 600));                 // 300 460
         pouchContainer.setPreferredSize(new Dimension(300, 600));
 
@@ -243,6 +283,5 @@ public class LootWindow extends JFrame {
         this.add(frameContainer, BorderLayout.CENTER);
         this.pack();
     }
-
 
 }

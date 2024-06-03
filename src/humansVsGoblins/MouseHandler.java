@@ -7,7 +7,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
-public class KeyHandler extends MouseAdapter {
+/*
+ * MouseHandler is used to gather mouse inputs from the player.
+ * This class will move players where they request to on the board (if valid)
+ * and call events to occur if collision occurs such as combat and loot windows.
+ */
+
+public class MouseHandler extends MouseAdapter {
 	// Initializing variable for use
 	private JPanel selectedPanel;
 	private final GamePanel gamePanel;
@@ -15,7 +21,7 @@ public class KeyHandler extends MouseAdapter {
 	private final PossibleMove moves;
 	int[][] mapTile;
 
-	public KeyHandler(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
+	public MouseHandler(GamePanel gamePanel, Player player, TileResource tile, PossibleMove moves) {
 		// loads all the components needed into the constructor using reference
 		this.gamePanel = gamePanel;
 		this.player = player;
