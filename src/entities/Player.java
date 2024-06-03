@@ -7,25 +7,39 @@ import items.*;
 
 import javax.swing.*;
 
+/*
+ * Player class represents the user and the actions that the user
+ * can take throughout the game such as using potions, using keys,
+ * equipping armor, and equipping weapons. Contains the stats of
+ * the player such as hp, attack, defense and also contains the
+ * sprites used to represent the player on the game world.
+ */
+
 public class Player extends Entity {
+
+	// Player Stats.
 	private final int maxHp,speed;
-    private int curHp,defense,attack;
-	private final HashMap<String, Item> equipment = new HashMap<>(); // Equipped items, such as weapons, armor, etc.
-	private final ArrayList<Item> inventory = new ArrayList<>();
+    private int curHp, defense, attack;
+	private final HashMap<String, Item> equipment = new HashMap<>(); 	// Equipped items, such as weapons, armor, etc.
+	private final ArrayList<Item> inventory = new ArrayList<>();		// Player's list of items in their inventory
 
 
-	ImageIcon icon;
-	ImageIcon icon2;
+	// Sprite related.
+	ImageIcon icon;		// Sprite 1.
 	Image image;
+	ImageIcon icon2;	// Sprite 2.
 	Image image2;
 
-	int spriteNum;
+	int spriteNum;		// Sprite counter used to change sprites during runtime.
 
-	// Starting stats
+	// Starting stats.
 	public Player() {
+
+		// Initializing starting position.
 		this.setGridX(1);
 		this.setGridY(1);
 
+		// Initializing stats and starting inventory/equipment.
 		this.maxHp = 16;
 		this.curHp = this.maxHp;
 		this.attack = 6;
@@ -38,6 +52,7 @@ public class Player extends Entity {
 		this.inventory.add(new Potion(ItemID.SMALL_POTION));
 		this.inventory.add(new Key(ItemID.KEY));
 		
+		// Initializing sprites.
 		this.icon = new ImageIcon("Resources/player-1.png");
 		this.image = icon.getImage().getScaledInstance(icon.getIconWidth()*3,
 				icon.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
@@ -46,6 +61,7 @@ public class Player extends Entity {
 				icon2.getIconHeight()*3, java.awt.Image.SCALE_SMOOTH);
 	}
 
+	// Drawing the player on the GamePanel.
 	public void draw(Graphics2D g2){
 
 		if (spriteNum == 1){
@@ -56,6 +72,7 @@ public class Player extends Entity {
 
 	}
 
+	// Updating the sprite counter for animation.
 	public void update(int spriteNum){
 		this.spriteNum = spriteNum;
 	}
@@ -97,7 +114,7 @@ public class Player extends Entity {
 			curHp = maxHp;
 	}
 
-	// Equips an item from inventory and adjust player's stats
+	// Equip an item from inventory and adjust player's stats accordingly.
 	public void equipItem(Item item) {
 		if (item instanceof Weapon) {
 			equipWeapon((Weapon) item);
@@ -106,8 +123,8 @@ public class Player extends Entity {
 		}
 	}
 
-	// Equip a new weapon and return the previously equipped
-	// weapon to the player's inventory.
+	// Equip a new weapon and return the previously
+	// equipped weapon to the player's inventory.
 	private void equipWeapon(Weapon newWeapon) {
 		Weapon currentWeapon = (Weapon) equipment.get("weapon");
 
@@ -120,11 +137,10 @@ public class Player extends Entity {
 		inventory.remove(index);
 		attack += newWeapon.attack;
 		inventory.add(index, currentWeapon);
-		System.out.println(attack);
 	}
 
-	// Equip a new armor and return the previously equipped
-	// armor to the player's inventory.
+	// Equip a new armor piece and return the previously
+	// equipped armor to the player's inventory.
 	private void equipArmor(Armor newArmor) {
 		Armor currentArmor = (Armor) equipment.get("armor");
 
@@ -139,6 +155,7 @@ public class Player extends Entity {
 		defense += newArmor.defense;
 	}
 
+	// Reduce hp by variable "damage" amount.
 	public void takeDamage(int damage) {
 		damage -= defense;
 		if (damage < 0) {
@@ -152,54 +169,69 @@ public class Player extends Entity {
 		}
 	}
 
+	// Get MaxHP.
 	public int getMaxHp() {
 		return maxHp;
 	}
+
+	// Get Current HP
+	public int getHp() {
+		return curHp;
+	}
+
+	// Set Current HP.
 	public void setHp(int hp){
 		this.curHp = hp;
 	}
 
+	// Get attack stat.
 	public int getAttack() {
 		return attack;
 	}
 
+	// Get defense stat.
 	public int getDefense() {
 		return defense;
 	}
 
+	// Get speed stat.
 	public int getSpeed() {
 		return speed;
 	}
 
+	// Get GridX position.
 	public int getGX() {
 		return gX;
 	}
 
+	// Get GridY position.
+	public int getGY() {
+		return gY;
+	}
+
+	// Set GridX position.
 	public void setGridX(int x){
 		this.gX = x;
 		this.x = x * 48;
 	}
+
+	// Set GridY position.
 	public void setGridY(int y){
 		this.gY = y;
 		this.y = y * 48;
 	}
 
-	public int getGY() {
-		return gY;
-	}
-
-	public int getHp() {
-		return curHp;
-	}
-
+	// Get the list of Items in player inventory.
 	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
 
+	// Add a new item to player inventory.
 	public void addItemToInventory(Item it) {
 		inventory.add(it);
 	}
 
+	// Get items currently equipped by player.
 	public HashMap<String, Item> getEquipment() {
 		return equipment;
 	}

@@ -2,6 +2,7 @@ package entities;
 
 import java.util.HashMap;
 import java.util.Map;
+
 // Class holds the attributes of goblin based on the type
 public class GoblinAttributes {
     private static final Map<Integer, int[]> goblinAttributes = new HashMap<>();

@@ -144,9 +144,9 @@ public class InventoryPanel extends JFrame {
         {
             InventoryPanel p = this;
             backButton.addActionListener(new ActionListener() {
+                // If window closed, return the listeners to the panel.
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // TODO Auto-generated method stub
                     gPanel.addListeners();
                     p.dispose();
                 }
